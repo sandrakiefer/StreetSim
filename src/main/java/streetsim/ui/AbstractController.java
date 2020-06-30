@@ -13,14 +13,12 @@ public abstract class AbstractController<T> {
     protected Pane rootView;
     protected T app;
 
-    public AbstractController(Strassennetz netz, Pane rootView, T app) {
+    public AbstractController(Strassennetz netz, T app) {
         this.netz = netz;
-        this.rootView = rootView;
         this.app = app;
     }
 
-    public AbstractController(Pane rootView, T app) {
-        this.rootView = rootView;
+    public AbstractController(T app) {
         this.app = app;
     }
 

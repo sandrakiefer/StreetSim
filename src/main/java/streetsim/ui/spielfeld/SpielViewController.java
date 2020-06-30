@@ -1,7 +1,9 @@
-package streetsim.ui;
+package streetsim.ui.spielfeld;
 
 import javafx.scene.layout.Pane;
 import streetsim.business.Strassennetz;
+import streetsim.ui.AbstractController;
+import streetsim.ui.StreetSimApp;
 
 /**
  * Verwaltung der folgenden drei Controller:
@@ -9,8 +11,8 @@ import streetsim.business.Strassennetz;
  */
 public class SpielViewController extends AbstractController<StreetSimApp> {
 
-    public SpielViewController(Strassennetz netz, Pane rootView, StreetSimApp app) {
-        super(netz, rootView, app);
+    public SpielViewController(Strassennetz netz, StreetSimApp app) {
+        super(netz, app);
     }
 
     @Override

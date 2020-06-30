@@ -1,7 +1,9 @@
-package streetsim.ui;
+package streetsim.ui.spielfeld;
 
 import javafx.scene.layout.Pane;
 import streetsim.business.Strassennetz;
+import streetsim.ui.AbstractController;
+import streetsim.ui.StreetSimApp;
 
 /**
  * Verwaltung von Aktionen in der Navigationsleiste
@@ -9,8 +11,8 @@ import streetsim.business.Strassennetz;
 public class NavigationController extends AbstractController<StreetSimApp> {
 
 
-    public NavigationController(Strassennetz netz, Pane rootView, StreetSimApp app) {
-        super(netz, rootView, app);
+    public NavigationController(Strassennetz netz, StreetSimApp app) {
+        super(netz, app);
     }
 
     @Override

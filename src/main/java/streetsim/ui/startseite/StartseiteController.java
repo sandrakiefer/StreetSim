@@ -1,14 +1,17 @@
-package streetsim.ui;
+package streetsim.ui.startseite;
 
 import javafx.scene.layout.Pane;
+import streetsim.ui.AbstractController;
+import streetsim.ui.StreetSimApp;
 
 /**
  * Verwaltung von Aktionen auf der Startseite
  */
 public class StartseiteController extends AbstractController<StreetSimApp> {
 
-    public StartseiteController(Pane rootView, StreetSimApp app) {
-        super(rootView, app);
+
+    public StartseiteController(StreetSimApp app) {
+        super(app);
     }
 
     /**
