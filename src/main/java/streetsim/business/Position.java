@@ -9,10 +9,11 @@ public class Position {
 
     private final int positionX;
     private final int positionY;
+    private static final int KACHELGROESSE = 100;
 
     public Position(int positionX, int positionY) {
-        this.positionX = positionX;
-        this.positionY = positionY;
+        this.positionX = positionX - (positionX % KACHELGROESSE);
+        this.positionY = positionY - (positionY % KACHELGROESSE);
     }
 
     @Override

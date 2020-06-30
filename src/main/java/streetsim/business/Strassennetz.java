@@ -1,5 +1,9 @@
 package streetsim.business;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import streetsim.business.exceptions.DateiParseException;
 import streetsim.business.exceptions.FalschRotiertException;
 import streetsim.business.exceptions.SchonBelegtException;
@@ -23,6 +27,8 @@ public class Strassennetz {
     private DatenService datenService;
 
     public Strassennetz() {
+        abschnitte = new SimpleMapProperty<>();
+        autos = new SimpleMapProperty<>();
         // TODO: init ObservableMap abschnitte
         // TODO: init ObservableMap autos (und ArrayList autos)
     }
@@ -55,7 +61,15 @@ public class Strassennetz {
      * @throws SchonBelegtException wenn ein Auto auf dem Strassennetz mit selber Position und Richtung existiert
      */
     public void autoAdden(Auto a) throws SchonBelegtException {
-
+        Position p = new Position(a.getPositionX(), a.getPositionY());
+        // TODO: kein Strassenabschnitt an der Stelle (? Exception)
+        if (abschnitte.containsKey(p)) {
+            if (posBelegt(a)) {
+                throw new SchonBelegtException();
+            } else {
+                autos.get(p).add(a);
+            }
+        }
     }
 
     /**
@@ -76,6 +90,12 @@ public class Strassennetz {
      * @return schon belegt oder nicht
      */
     public boolean posBelegt(Auto a) {
+        Position p = new Position(a.getPositionX(), a.getPositionY());
+        for (Auto brum: autos.get(p)) {
+            if (a.getRectangle().intersects(brum.getRectangle().getLayoutBounds())) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -86,7 +106,8 @@ public class Strassennetz {
      * @return schon belegt oder nicht
      */
     public boolean posBelegt(Strassenabschnitt s) {
-        return false;
+        Position p = new Position(s.getPositionX(), s.getPositionY());
+        return abschnitte.containsKey(p);
     }
 
     /**
@@ -106,7 +127,10 @@ public class Strassennetz {
      * @param a Autos
      */
     public void entfAuto(Auto[] a) {
-
+        for (Auto brum: a) {
+            Position p = new Position(brum.getPositionX(), brum.getPositionY());
+            autos.get(p).remove(brum);
+        }
     }
 
     /**

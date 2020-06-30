@@ -30,13 +30,43 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     /**
      * aktiviert alle Ampeln der Liste und startet die "zeitSchalt"-Methode
      */
-    public abstract void ampelnAktivieren();
+    public void ampelnAktivieren() {
+        for (Ampel a : ampeln) {
+            if (a.getRichtung().getX() == 0) {
+                a.setGruenTrue();
+            }
+        }
+        ampelAktiv.setValue(true);
+        zeitSchalte();
+    }
 
     @Override
-    public abstract void schalte();
+    public void schalte() {
+        for (Ampel a: ampeln) {
+            a.schalte();
+        }
+    }
 
     @Override
-    public abstract void zeitSchalte();
+    public void zeitSchalte() {
+        // TODO: Zeit-Intervall festlegen
+        int millisek = 10000;
+        new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    if (ampelAktiv.get()) {
+                        schalte();
+                        Thread.sleep(millisek - 100);
+                    } else {
+                        Thread.currentThread().interrupt();
+                    }
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 
     public ArrayList<Himmelsrichtung> getRichtungen() {
         return richtungen;

@@ -1,6 +1,7 @@
 package streetsim.business;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.shape.Rectangle;
 
 /**
  * In eine Himmelsrichtung sich fortbewegendes Objekt
@@ -16,6 +17,7 @@ public class Auto {
     private int laenge;
     private String farbe;
     private final Strassennetz strassennetz;
+    private Rectangle rectangle;
 
     public Auto(SimpleIntegerProperty geschwindigkeit, Himmelsrichtung richtung, SimpleIntegerProperty positionX,
                 SimpleIntegerProperty positionY, int breite, int laenge, String farbe, Strassennetz strassennetz) {
@@ -27,6 +29,9 @@ public class Auto {
         this.laenge = laenge;
         this.farbe = farbe;
         this.strassennetz = strassennetz;
+        rectangle = new Rectangle(positionX.get(),positionY.get(),breite,laenge);
+        rectangle.xProperty().bind(positionX);
+        rectangle.yProperty().bind(positionY);
     }
 
     /**
@@ -94,5 +99,9 @@ public class Auto {
 
     public void setLaenge(int laenge) {
         this.laenge = laenge;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 }
