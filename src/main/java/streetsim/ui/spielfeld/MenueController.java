@@ -10,8 +10,9 @@ import streetsim.ui.StreetSimApp;
  */
 public class MenueController extends AbstractController<StreetSimApp> {
 
-    public MenueController(Strassennetz netz, Pane rootView, StreetSimApp app) {
-        super(netz, rootView, app);
+
+    public MenueController(Strassennetz netz, StreetSimApp app) {
+        super(netz, app);
     }
 
     @Override

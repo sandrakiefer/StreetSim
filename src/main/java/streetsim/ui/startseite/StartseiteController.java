@@ -9,8 +9,9 @@ import streetsim.ui.StreetSimApp;
  */
 public class StartseiteController extends AbstractController<StreetSimApp> {
 
-    public StartseiteController(Pane rootView, StreetSimApp app) {
-        super(rootView, app);
+
+    public StartseiteController(StreetSimApp app) {
+        super(app);
     }
 
     /**

@@ -11,8 +11,8 @@ import streetsim.ui.StreetSimApp;
 public class NavigationController extends AbstractController<StreetSimApp> {
 
 
-    public NavigationController(Strassennetz netz, Pane rootView, StreetSimApp app) {
-        super(netz, rootView, app);
+    public NavigationController(Strassennetz netz, StreetSimApp app) {
+        super(netz, app);
     }
 
     @Override

@@ -12,8 +12,8 @@ import streetsim.ui.StreetSimApp;
  */
 public class SpielfeldController extends AbstractController<StreetSimApp> {
 
-    public SpielfeldController(Strassennetz netz, Pane rootView, StreetSimApp app) {
-        super(netz, rootView, app);
+    public SpielfeldController(Strassennetz netz, StreetSimApp app) {
+        super(netz, app);
     }
 
     @Override
