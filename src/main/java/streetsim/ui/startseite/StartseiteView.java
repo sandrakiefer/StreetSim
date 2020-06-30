@@ -39,10 +39,10 @@ public class StartseiteView extends BorderPane {
 
         // GESAMT
         ResourceAssist resourceAssist = ResourceAssist.getInstance();
-        Image hintergrund = new Image(resourceAssist.holeRessourceAusOrdnern(File.separator, "assets", "bilder", "bg.jpg"));
+        Image hintergrund = new Image(resourceAssist.holeRessourceAusOrdnern("assets", "bilder", "bg.jpg"));
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
         setBackground(new Background(new BackgroundImage(hintergrund, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bSize)));
-        setBottom(kontrollPane);
+        setCenter(kontrollPane);
     }
 
 

@@ -31,8 +31,6 @@ public class ResourceAssist {
      * </code>
      * (erzeugt unter Windows entsprechend intern "assets\bilder\foto.png")
      *
-     * Wenn ein führendes "/" oder "\" erwünscht ist, muss dieses an erster Stelle
-     * der pfadteile durch <code>File.separator</code> angegeben werden.
      *
      * @param pfadteile einzelne Ordner des Pfades
      * @return InputStream
@@ -40,9 +38,9 @@ public class ResourceAssist {
     public InputStream holeRessourceAusOrdnern(String... pfadteile) {
         StringBuilder sb = new StringBuilder();
         for (String pfad : pfadteile) {
-            sb.append(pfad).append(File.separator);
+            sb.append(File.separator).append(pfad);
         }
-        String path = sb.substring(0, sb.length() - 1);
-        return ResourceAssist.class.getResourceAsStream(path);
+        String path = sb.toString();
+        return getClass().getResourceAsStream(path);
     }
 }
