@@ -1,4 +1,4 @@
-package StreetSim.business.exceptions;
+package streetsim.business.exceptions;
 
 /**
  * wird beim Hinzufügen eines Strassenabschnitts oder Autos

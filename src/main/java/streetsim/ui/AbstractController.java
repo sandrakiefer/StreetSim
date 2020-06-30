@@ -1,6 +1,6 @@
-package StreetSim.ui;
+package streetsim.ui;
 
-import StreetSim.business.Strassennetz;
+import streetsim.business.Strassennetz;
 import javafx.scene.layout.Pane;
 
 /**
@@ -13,16 +13,23 @@ public abstract class AbstractController<T> {
     protected Pane rootView;
     protected T app;
 
-    public AbstractController() {
+    public AbstractController(Strassennetz netz, Pane rootView, T app) {
+        this.netz = netz;
+        this.rootView = rootView;
+        this.app = app;
+    }
 
+    public AbstractController(Pane rootView, T app) {
+        this.rootView = rootView;
+        this.app = app;
     }
 
     /**
      * entsprechende Methoden die durch GUI-Interaktion entstehen
      * stoßen über die Strassennetz-Instanz gleichnamige Methoden im Model an
      */
-    public void handlerAnmelden() {
+    public abstract void handlerAnmelden();
 
-    }
+
 
 }

@@ -1,4 +1,4 @@
-package StreetSim.ui;
+package streetsim.ui;
 
 /**
  * Aufzählungstyp der möglich Ansichten

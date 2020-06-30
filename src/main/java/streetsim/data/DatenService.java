@@ -1,4 +1,4 @@
-package StreetSim.data;
+package streetsim.data;
 
 import java.io.File;
 

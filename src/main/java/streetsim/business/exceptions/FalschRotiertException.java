@@ -1,4 +1,4 @@
-package StreetSim.business.exceptions;
+package streetsim.business.exceptions;
 
 /**
  * wird beim Rotieren eines Strassenabschnitts geworfen,

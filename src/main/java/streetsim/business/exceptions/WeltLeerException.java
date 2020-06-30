@@ -1,4 +1,4 @@
-package StreetSim.business.exceptions;
+package streetsim.business.exceptions;
 
 /**
  * wird beim Speichern eines Entwurfs oder beim Straten einer Simulation geworfen,

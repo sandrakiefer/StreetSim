@@ -1,4 +1,4 @@
-package StreetSim.business;
+package streetsim.business;
 
 /**
  * Abbildung der Himmelsrichtungen

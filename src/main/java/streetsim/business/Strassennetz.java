@@ -1,13 +1,11 @@
-package StreetSim.business;
+package streetsim.business;
 
-import StreetSim.business.exceptions.DateiParseException;
-import StreetSim.business.exceptions.FalschRotiertException;
-import StreetSim.business.exceptions.SchonBelegtException;
-import StreetSim.business.exceptions.WeltLeerException;
-import StreetSim.data.DatenService;
-import javafx.beans.InvalidationListener;
+import streetsim.business.exceptions.DateiParseException;
+import streetsim.business.exceptions.FalschRotiertException;
+import streetsim.business.exceptions.SchonBelegtException;
+import streetsim.business.exceptions.WeltLeerException;
+import streetsim.data.DatenService;
 import javafx.beans.property.BooleanProperty;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 
 import java.util.*;
@@ -234,4 +232,23 @@ public class Strassennetz {
 
     }
 
+    public boolean isSimuliert() {
+        return simuliert.get();
+    }
+
+    public BooleanProperty simuliertProperty() {
+        return simuliert;
+    }
+
+    public void setSimuliert(boolean simuliert) {
+        this.simuliert.set(simuliert);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

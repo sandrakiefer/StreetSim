@@ -1,13 +1,23 @@
-package StreetSim.ui;
+package streetsim.ui;
 
-import StreetSim.business.Auto;
-import StreetSim.business.Strassenabschnitt;
-import StreetSim.ui.AbstractController;
+import javafx.scene.layout.Pane;
+import streetsim.business.Auto;
+import streetsim.business.Strassenabschnitt;
+import streetsim.business.Strassennetz;
 
 /**
  * Verwaltung von Aktionen auf dem Spielfeld
  */
-public class SpielfeldController extends AbstractController<SpielfeldController> {
+public class SpielfeldController extends AbstractController<StreetSimApp> {
+
+    public SpielfeldController(Strassennetz netz, Pane rootView, StreetSimApp app) {
+        super(netz, rootView, app);
+    }
+
+    @Override
+    public void handlerAnmelden() {
+
+    }
 
     /**
      * Auto einem Strassenabschnitt hinzufügen

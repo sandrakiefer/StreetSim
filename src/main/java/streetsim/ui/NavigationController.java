@@ -1,11 +1,22 @@
-package StreetSim.ui;
+package streetsim.ui;
 
-import StreetSim.ui.AbstractController;
+import javafx.scene.layout.Pane;
+import streetsim.business.Strassennetz;
 
 /**
  * Verwaltung von Aktionen in der Navigationsleiste
  */
-public class NavigationController extends AbstractController<NavigationController> {
+public class NavigationController extends AbstractController<StreetSimApp> {
+
+
+    public NavigationController(Strassennetz netz, Pane rootView, StreetSimApp app) {
+        super(netz, rootView, app);
+    }
+
+    @Override
+    public void handlerAnmelden() {
+
+    }
 
     /**
      * Straten der Simulatiom

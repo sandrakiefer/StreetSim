@@ -1,11 +1,11 @@
-package StreetSim.ui;
+package streetsim.ui;
 
-import StreetSim.business.Strassennetz;
+import streetsim.business.Strassennetz;
 import javafx.application.Application;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Verwaltung der gesamten Applikation
@@ -14,7 +14,7 @@ public class StreetSimApp extends Application {
 
     private Strassennetz netz;
     private Pane rootView;
-    private HashMap<Szenen, Pane> szenen;
+    private Map<streetsim.ui.Szenen, Pane> szenen;
 
     @Override
     public void init() throws Exception {
@@ -36,7 +36,7 @@ public class StreetSimApp extends Application {
      *
      * @param s Szene
      */
-    public void wechsleSzene(Szenen s) {
+    public void wechsleSzene(streetsim.ui.Szenen s) {
 
     }
 

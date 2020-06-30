@@ -1,9 +1,15 @@
-package StreetSim.ui;
+package streetsim.ui;
+
+import javafx.scene.layout.Pane;
 
 /**
  * Verwaltung von Aktionen auf der Startseite
  */
-public class StartseiteController extends AbstractController<StartseiteController> {
+public class StartseiteController extends AbstractController<StreetSimApp> {
+
+    public StartseiteController(Pane rootView, StreetSimApp app) {
+        super(rootView, app);
+    }
 
     /**
      * stößt gleichnamige Methode in der Business-Schicht an
@@ -21,4 +27,8 @@ public class StartseiteController extends AbstractController<StartseiteControlle
 
     }
 
+    @Override
+    public void handlerAnmelden() {
+
+    }
 }

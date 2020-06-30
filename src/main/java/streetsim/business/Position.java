@@ -1,4 +1,4 @@
-package StreetSim.business;
+package streetsim.business;
 
 import java.util.Objects;
 
@@ -7,14 +7,15 @@ import java.util.Objects;
  */
 public class Position {
 
-    private int positionX;
-    private int positionY;
+    private final int positionX;
+    private final int positionY;
 
-    public Position() {
 
+    public Position(int positionX, int positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 
-    // TODO: Anpassung der equals und hash Methoden
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -29,4 +30,11 @@ public class Position {
         return Objects.hash(positionX, positionY);
     }
 
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
+    }
 }
