@@ -12,24 +12,9 @@ import java.util.ArrayList;
  * drei mögliche Strassenrichtungen
  */
 public class TStueck extends Strassenabschnitt {
-
-
+    
     public TStueck(int positionX, int positionY, ArrayList<Himmelsrichtung> richtungen, int groesse, ArrayList<Ampel> ampeln) {
         super(positionX, positionY, richtungen, groesse, ampeln);
     }
 
-    @Override
-    public void ampelnAktivieren() {
-
-    }
-
-    @Override
-    public void schalte() {
-
-    }
-
-    @Override
-    public void zeitSchalte() {
-
-    }
 }

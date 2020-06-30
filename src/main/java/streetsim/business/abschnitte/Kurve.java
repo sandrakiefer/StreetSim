@@ -13,23 +13,8 @@ import java.util.ArrayList;
  */
 public class Kurve extends Strassenabschnitt {
 
-
     public Kurve(int positionX, int positionY, ArrayList<Himmelsrichtung> richtungen, int groesse, ArrayList<Ampel> ampeln) {
         super(positionX, positionY, richtungen, groesse, ampeln);
     }
 
-    @Override
-    public void ampelnAktivieren() {
-
-    }
-
-    @Override
-    public void schalte() {
-
-    }
-
-    @Override
-    public void zeitSchalte() {
-
-    }
 }

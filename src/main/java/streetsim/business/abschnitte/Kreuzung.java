@@ -17,18 +17,4 @@ public class Kreuzung extends Strassenabschnitt {
         super(positionX, positionY, richtungen, groesse, ampeln);
     }
 
-    @Override
-    public void ampelnAktivieren() {
-
-    }
-
-    @Override
-    public void schalte() {
-
-    }
-
-    @Override
-    public void zeitSchalte() {
-
-    }
 }

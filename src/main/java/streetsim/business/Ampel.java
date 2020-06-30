@@ -29,6 +29,11 @@ public class Ampel {
             if (rot.get() && !gelb.get() && !gruen.get()) {
                 schaltet = true;
                 new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     gelb.set(true);
                     try {
                         Thread.sleep(1000);
@@ -73,6 +78,12 @@ public class Ampel {
 
     public boolean isGruen() {
         return gruen.get();
+    }
+
+    public void setGruenTrue() {
+        rot.set(false);
+        gelb.set(false);
+        gruen.set(true);
     }
 
 }
