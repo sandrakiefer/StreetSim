@@ -10,7 +10,6 @@ public class Position {
     private final int positionX;
     private final int positionY;
 
-
     public Position(int positionX, int positionY) {
         this.positionX = positionX;
         this.positionY = positionY;
@@ -37,4 +36,5 @@ public class Position {
     public int getPositionY() {
         return positionY;
     }
+
 }
