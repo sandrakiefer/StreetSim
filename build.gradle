@@ -7,22 +7,20 @@
  */
 
 plugins {
-    // Apply the java plugin to add support for Java
-    id 'java'
-
     // Apply the application plugin to add support for building a CLI application.
     id 'application'
-
     id 'org.openjfx.javafxplugin' version '0.0.8'
 
 }
+mainClassName = 'streetsim.ui.StreetSimApp'
 
 group 'de.hsrm.mi.swt.01'
 version '1.0-SNAPSHOT'
 
+
 javafx {
     version = "11.0.2"
-    modules = [ 'javafx.controls' ]
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 sourceCompatibility = 11
@@ -31,22 +29,15 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
-    mavenCentral()
-
 }
 
 dependencies {
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 }
 
-application {
-    // Define the main class for the application.
-    mainClassName = 'streetsim.ui.StreetSimApp'
-}
 
 test {
     // Use junit platform for unit tests
