@@ -32,7 +32,7 @@ public class StreetSimApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        szenen.put(Szenen.STARTSEITE, new StartseiteController(this).getRootView());
+        szenen.put(Szenen.STARTSEITE, new StartseiteController(netz, this).getRootView());
         szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());
 
         aktuelleSzene = new Scene(szenen.get(Szenen.STARTSEITE));

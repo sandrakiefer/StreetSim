@@ -8,9 +8,9 @@ import streetsim.ui.utils.ResourceAssist;
 
 public class StartseiteView extends BorderPane {
 
-    Button fortfahren, starten, laden;
-    StackPane kontrollPane;
-    VBox fortfahrPane, startPane;
+    final Button fortfahren, starten, laden;
+    final StackPane kontrollPane;
+    final VBox fortfahrPane, startPane;
 
     StartseiteView(){
         super();

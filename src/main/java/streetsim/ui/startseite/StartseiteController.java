@@ -13,9 +13,9 @@ import streetsim.ui.utils.FadeAssist;
  */
 public class StartseiteController extends AbstractController<StreetSimApp> {
 
-    private Button fortfahren, starten, laden;
-    private VBox fortfahrPane, startPane;
-    private FadeAssist fadeAssist;
+    private final Button fortfahren, starten, laden;
+    private final VBox fortfahrPane, startPane;
+    private final FadeAssist fadeAssist;
 
     public StartseiteController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
