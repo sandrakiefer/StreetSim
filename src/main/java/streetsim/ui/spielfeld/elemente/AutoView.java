@@ -10,6 +10,6 @@ public class AutoView extends ImageView {
         super();
 
         ResourceAssist assist = ResourceAssist.getInstance();
-        Image image = new Image(assist.holeRessourceAusOrdnern("assets", "straßenabschnitte", "polizeiauto.png"));
+        Image image = new Image(assist.holeRessourceAusOrdnern("assets", "autos", "straßenabschnitte", "polizeiAuto.png"));
     }
 }
