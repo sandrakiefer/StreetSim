@@ -3,31 +3,28 @@ package streetsim.ui.startseite;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import streetsim.ui.utils.ResourceAssist;
-
-import java.io.File;
 
 public class StartseiteView extends BorderPane {
 
     Button fortfahren, starten, laden;
     StackPane kontrollPane;
-    HBox fortfahrPane, startPane;
+    VBox fortfahrPane, startPane;
 
     StartseiteView(){
         super();
 
         // Erste Ansicht
         fortfahren = new Button("Drücke eine beliebige Taste um fortzufahren");
-        fortfahrPane = new HBox();
+        fortfahrPane = new VBox();
         fortfahrPane.setAlignment(Pos.CENTER);
         fortfahrPane.getChildren().add(fortfahren);
 
         // Zweite Ansicht
         starten = new Button("Neues Spiel starten");
         laden = new Button("Spiel laden");
-        startPane = new HBox();
+        startPane = new VBox();
         startPane.getChildren().addAll(starten, laden);
         startPane.setAlignment(Pos.CENTER);
 
