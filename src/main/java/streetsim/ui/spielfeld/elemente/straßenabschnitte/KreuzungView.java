@@ -11,5 +11,6 @@ public class KreuzungView extends ImageView {
 
         ResourceAssist assist = ResourceAssist.getInstance();
         Image image = new Image(assist.holeRessourceAusOrdnern("assets", "straßenabschnitte", "kreuzung.png"));
+        this.setImage(image);
     }
 }
