@@ -7,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import streetsim.ui.spielfeld.SpielViewController;
 import streetsim.ui.startseite.StartseiteController;
-import streetsim.ui.startseite.StartseiteView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,32 +16,36 @@ import java.util.Map;
  */
 public class StreetSimApp extends Application {
 
-    private Strassennetz netz;
-    private Map<Szenen, Pane> szenen;
-    private Scene aktuelleSzene;
+    //TODO: before release: change back to private
+    protected Strassennetz netz;
+    protected Map<Szenen, Pane> szenen;
+    protected Scene aktuelleSzene;
+    private Stage hauptStage;
 
     @Override
     public void init() throws Exception {
         super.init();
 
         szenen = new HashMap<>();
-        netz = new Strassennetz();
+        netz = Strassennetz.getInstance();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        this.hauptStage = primaryStage;
 
         szenen.put(Szenen.STARTSEITE, new StartseiteController(netz, this).getRootView());
         szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());
 
         aktuelleSzene = new Scene(szenen.get(Szenen.STARTSEITE));
 
-        primaryStage.setScene(aktuelleSzene);
-        primaryStage.setTitle("StreetSim");
-        primaryStage.setHeight(1080);
-        primaryStage.setWidth(1920);
-        primaryStage.show();
-        primaryStage.setOnHidden(e -> {
+        this.hauptStage.setScene(aktuelleSzene);
+        this.hauptStage.setTitle("StreetSim");
+        this.hauptStage.setHeight(1080);
+        this.hauptStage.setWidth(1920);
+        this.hauptStage.show();
+        this.hauptStage.setOnHidden(e -> {
             System.exit(0);
         });
 
@@ -61,6 +64,10 @@ public class StreetSimApp extends Application {
         if (szenen.containsKey(s)) {
             aktuelleSzene.setRoot(szenen.get(s));
         }
+    }
+
+    public Stage getHauptStage() {
+        return hauptStage;
     }
 
 }

@@ -3,11 +3,14 @@ package streetsim.ui.startseite;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 import streetsim.ui.Szenen;
 import streetsim.ui.utils.FadeAssist;
+
+import java.io.File;
 
 /**
  * Verwaltung von Aktionen auf der Startseite
@@ -38,6 +41,13 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
      */
     private void ladeNetz() {
         //TODO: init Spielstand an netz-Instanz
+        FileChooser fileChooser = new FileChooser();
+//        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+        File file = fileChooser.showOpenDialog(app.getHauptStage().getOwner());
+        netz.setName("Rudolf");
+        System.out.println(netz.getName());
+        if (file != null) netz.ladeNetz(file);
+        System.out.println(netz.getName());
         app.wechsleSzene(Szenen.SPIEL_VIEW);
     }
 
