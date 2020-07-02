@@ -40,7 +40,6 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
             }
         }
         ampelAktiv.setValue(true);
-        schalteAlleAmpeln();
     }
 
     /**
@@ -68,31 +67,6 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
         for (Ampel a: ampeln) {
             a.schalte();
         }
-    }
-
-    @Override
-    public void schalteAlleAmpeln() {
-        // TODO: Zeit-Intervall festlegen
-        // TODO: brauchen wir das? (wird in einem Thread im Strassennetz gelöst)
-        /*int millisek = 10000;
-        new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    if (ampelAktiv.get()) {
-                        schalte();
-                        Thread.sleep(millisek - 100);
-                    } else {
-                        Thread.currentThread().interrupt();
-                        for (Ampel a: ampeln) {
-                            a.ausschalten();
-                        }
-                    }
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();*/
     }
 
     public List<Himmelsrichtung> getRichtungen() {

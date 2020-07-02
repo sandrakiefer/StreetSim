@@ -1,11 +1,7 @@
 package streetsim.business;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleMapProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
-import javafx.geometry.Pos;
 import streetsim.business.exceptions.DateiParseException;
 import streetsim.business.exceptions.FalschRotiertException;
 import streetsim.business.exceptions.SchonBelegtException;
@@ -167,7 +163,7 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void speicherNetz() throws WeltLeerException {
-
+        // TODO: speichern
     }
 
     /**
@@ -176,7 +172,7 @@ public class Strassennetz {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz() throws DateiParseException {
-
+        // TODO: laden
     }
 
     /**
@@ -186,7 +182,7 @@ public class Strassennetz {
      * @throws FalschRotiertException keine Verknüpfung zu einem anderen Strassenabschnitt
      */
     public void rotiereStrasse(Strassenabschnitt s) throws FalschRotiertException {
-        // TODO FlaschRotiertException sinvoll? (wie überprüfen, beschränkt Benutzer, lose Enden = Sackgasse)
+        // TODO: FlaschRotiertException sinvoll? (wie überprüfen, beschränkt Benutzer, lose Enden = Sackgasse)
         s.rotiere();
     }
 
@@ -273,15 +269,19 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void starteSimulation() throws WeltLeerException {
+        if (abschnitte.isEmpty()) {
+            throw new WeltLeerException();
+        }
         simuliert.setValue(true);
         // TODO: Zeit-Intervall festlegen
+        // Ampelschaltung
         int millisek = 10000;
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (simuliert.get()) {
                     for (Strassenabschnitt s : abschnitte.values()) {
                         if (s.isAmpelAktiv()) {
-                            s.schalteAlleAmpeln();
+                            s.schalte();
                         }
                     }
                     try {
@@ -294,6 +294,21 @@ public class Strassennetz {
                     alleAmpelnDeaktivieren();
                 }
 
+            }
+        }).start();
+        // Autos fahren
+        new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                if (simuliert.get()) {
+                    for (Map.Entry<Position, ArrayList<Auto>> entry : autos.entrySet()) {
+                        for (Auto a : entry.getValue()) {
+                            a.fahre();
+                            // TODO: wann wird auto in andere Liste verschoben?
+                        }
+                    }
+                } else {
+                    Thread.currentThread().interrupt();
+                }
             }
         }).start();
     }
