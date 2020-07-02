@@ -324,4 +324,12 @@ public class Strassennetz {
     public void setName(String name) {
         this.name = name;
     }
+
+    public ObservableMap<Position, Strassenabschnitt> getAbschnitte() {
+        return abschnitte;
+    }
+
+    public ObservableMap<Position, ArrayList<Auto>> getAutos() {
+        return autos;
+    }
 }
