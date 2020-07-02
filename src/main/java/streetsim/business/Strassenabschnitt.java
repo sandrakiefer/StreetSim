@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Verwaltung der Richtungen in welche ein Strassenabschnitt führt,
@@ -13,17 +14,17 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
 
     private int positionX;
     private int positionY;
-    private ArrayList<Himmelsrichtung> richtungen;
+    private List<Himmelsrichtung> richtungen;
     private int groesse;
-    private ArrayList<Ampel> ampeln;
+    private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
 
-    public Strassenabschnitt(int positionX, int positionY, ArrayList<Himmelsrichtung> richtungen, int groesse, ArrayList<Ampel> ampeln) {
+    public Strassenabschnitt(int positionX, int positionY, List<Himmelsrichtung> richtungen, int groesse) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.richtungen = richtungen;
         this.groesse = groesse;
-        this.ampeln = ampeln;
+        this.ampeln = baueAmpeln(richtungen);
         ampelAktiv = new SimpleBooleanProperty();
     }
 
@@ -33,11 +34,33 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     public void ampelnAktivieren() {
         for (Ampel a : ampeln) {
             if (a.getRichtung().getX() == 0) {
-                a.setGruenTrue();
+                a.setGruenPhase();
+            } else {
+                a.setRotPhase();
             }
         }
         ampelAktiv.setValue(true);
         zeitSchalte();
+    }
+
+    /**
+     * rotiert den Strassenabschnitt um 90° im Uhrzeigersinn
+     */
+    public void rotiere() {
+        for (Himmelsrichtung r: richtungen) {
+            r = r.next();
+        }
+        for (Ampel a: ampeln) {
+            a.rotiere();
+        }
+    }
+
+    public static List<Ampel> baueAmpeln(List<Himmelsrichtung> richtungen) {
+        List<Ampel> ampeln = new ArrayList();
+        for (Himmelsrichtung r: richtungen) {
+            ampeln.add(new Ampel(r));
+        }
+        return ampeln;
     }
 
     @Override
@@ -59,6 +82,9 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
                         Thread.sleep(millisek - 100);
                     } else {
                         Thread.currentThread().interrupt();
+                        for (Ampel a: ampeln) {
+                            a.ausschalten();
+                        }
                     }
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -68,7 +94,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
         }).start();
     }
 
-    public ArrayList<Himmelsrichtung> getRichtungen() {
+    public List<Himmelsrichtung> getRichtungen() {
         return richtungen;
     }
 
@@ -76,7 +102,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
         return groesse;
     }
 
-    public ArrayList<Ampel> getAmpeln() {
+    public List<Ampel> getAmpeln() {
         return ampeln;
     }
 

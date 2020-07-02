@@ -5,6 +5,7 @@ import streetsim.business.Himmelsrichtung;
 import streetsim.business.Strassenabschnitt;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Realisierung eines Strassenabschnitts
@@ -13,8 +14,16 @@ import java.util.ArrayList;
  */
 public class Gerade extends Strassenabschnitt {
 
-    public Gerade(int positionX, int positionY, ArrayList<Himmelsrichtung> richtungen, int groesse, ArrayList<Ampel> ampeln) {
-        super(positionX, positionY, richtungen, groesse, ampeln);
+    public Gerade(int positionX, int positionY, int groesse) {
+        // TODO groesse bleibt doch immer gleich?
+        super(positionX, positionY, definiereRichtungen(), groesse);
+    }
+
+    public static List<Himmelsrichtung> definiereRichtungen() {
+        List<Himmelsrichtung> richtungen = new ArrayList();
+        richtungen.add(Himmelsrichtung.NORDEN);
+        richtungen.add(Himmelsrichtung.SUEDEN);
+        return richtungen;
     }
 
 }

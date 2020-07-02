@@ -1,5 +1,6 @@
 package streetsim.business;
 
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.shape.Rectangle;
 
@@ -9,7 +10,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Auto {
 
-    private SimpleIntegerProperty geschwindigkeit;
+    private SimpleFloatProperty geschwindigkeit;
     private Himmelsrichtung richtung;
     private SimpleIntegerProperty positionX;
     private SimpleIntegerProperty positionY;
@@ -19,7 +20,7 @@ public class Auto {
     private final Strassennetz strassennetz;
     private Rectangle rectangle;
 
-    public Auto(SimpleIntegerProperty geschwindigkeit, Himmelsrichtung richtung, SimpleIntegerProperty positionX,
+    public Auto(SimpleFloatProperty geschwindigkeit, Himmelsrichtung richtung, SimpleIntegerProperty positionX,
                 SimpleIntegerProperty positionY, int breite, int laenge, String farbe, Strassennetz strassennetz) {
         this.geschwindigkeit = geschwindigkeit;
         this.richtung = richtung;
@@ -41,15 +42,15 @@ public class Auto {
 
     }
 
-    public int getGeschwindigkeit() {
+    public float getGeschwindigkeit() {
         return geschwindigkeit.get();
     }
 
-    public SimpleIntegerProperty geschwindigkeitProperty() {
+    public SimpleFloatProperty geschwindigkeitProperty() {
         return geschwindigkeit;
     }
 
-    public void setGeschwindigkeit(int geschwindigkeit) {
+    public void setGeschwindigkeit(float geschwindigkeit) {
         this.geschwindigkeit.set(geschwindigkeit);
     }
 

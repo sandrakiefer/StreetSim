@@ -1,9 +1,11 @@
 package streetsim.business;
 
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
+import javafx.geometry.Pos;
 import streetsim.business.exceptions.DateiParseException;
 import streetsim.business.exceptions.FalschRotiertException;
 import streetsim.business.exceptions.SchonBelegtException;
@@ -29,8 +31,7 @@ public class Strassennetz {
     public Strassennetz() {
         abschnitte = new SimpleMapProperty<>();
         autos = new SimpleMapProperty<>();
-        // TODO: init ObservableMap abschnitte
-        // TODO: init ObservableMap autos (und ArrayList autos)
+        simuliert = new SimpleBooleanProperty();
     }
 
     /**
@@ -67,6 +68,9 @@ public class Strassennetz {
             if (posBelegt(a)) {
                 throw new SchonBelegtException();
             } else {
+                if (!autos.containsKey(p)) {
+                    autos.put(p,new ArrayList());
+                }
                 autos.get(p).add(a);
             }
         }
@@ -80,7 +84,12 @@ public class Strassennetz {
      * @throws FalschRotiertException kein Strassenfluss möglich
      */
     public void strasseAdden(Strassenabschnitt s) throws SchonBelegtException, FalschRotiertException {
-
+        Position p = new Position(s.getPositionX(), s.getPositionY());
+        if (abschnitte.containsKey(p)) {
+            throw new SchonBelegtException();
+        } else {
+            abschnitte.put(p,s);
+        }
     }
 
     /**
@@ -126,7 +135,7 @@ public class Strassennetz {
      *
      * @param a Autos
      */
-    public void entfAuto(Auto[] a) {
+    public void entfAuto(Auto ... a) {
         for (Auto brum: a) {
             Position p = new Position(brum.getPositionX(), brum.getPositionY());
             autos.get(p).remove(brum);
@@ -140,7 +149,7 @@ public class Strassennetz {
      * @param s Strassenabschnitt
      */
     public void ampelnAktivieren(Strassenabschnitt s) {
-
+        s.ampelnAktivieren();
     }
 
     /**
@@ -149,7 +158,7 @@ public class Strassennetz {
      * @param s Strassenabschnitt
      */
     public void ampelnDeaktivieren(Strassenabschnitt s) {
-
+        s.ampelAktivProperty().setValue(false);
     }
 
     /**
@@ -177,7 +186,8 @@ public class Strassennetz {
      * @throws FalschRotiertException keine Verknüpfung zu einem anderen Strassenabschnitt
      */
     public void rotiereStrasse(Strassenabschnitt s) throws FalschRotiertException {
-
+        // TODO FlaschRotiertException sinvoll? (wie überprüfen, beschränkt Benutzer, lose Enden = Sackgasse)
+        s.rotiere();
     }
 
     /**
@@ -186,20 +196,33 @@ public class Strassennetz {
      *
      * @param s Strassenabschnitte
      */
-    public void entfStrasse(Strassenabschnitt[] s) {
-
+    public void entfStrasse(Strassenabschnitt ... s) {
+        for (Strassenabschnitt stra: s) {
+            Position p = new Position(stra.getPositionX(), stra.getPositionY());
+            abschnitte.remove(p);
+        }
     }
 
     /**
-     * versucht beliebig viele Strassenabschnitt zu verschieben
+     * versucht Strassenabschnitt zu verschieben
      * eventuell darauf befindliche Autos werden mit verschoben
      *
-     * @param s Strassenabschnitte
-     * @param xOff zu verschiebener Wert (Offset) der X-Koordinate
-     * @param yOff zu verschiebener Wert (Offset) der Y-Koordinate
+     * @param s Strassenabschnitt
+     * @param x X-Koordinate
+     * @param y Y-Koordinate
      */
-    public void bewegeStrasse(Strassenabschnitt[] s, int xOff, int yOff) {
-
+    public void bewegeStrasse(Strassenabschnitt s, int x, int y) {
+        Position oldP = new Position(s.getPositionX(), s.getPositionY());
+        Position newP = new Position(x,y);
+        int xOff = newP.getPositionX() - oldP.getPositionX();
+        int yOff = newP.getPositionY() - oldP.getPositionY();
+        for (Auto a: autos.get(oldP)) {
+            a.setPositionX(a.getPositionX() + xOff);
+            a.setPositionY(a.getPositionY() + yOff);
+        }
+        autos.put(newP,autos.remove(oldP));
+        entfStrasse(s);
+        abschnitte.put(newP,s);
     }
 
     /**
@@ -209,35 +232,39 @@ public class Strassennetz {
      * @param geschwindigkeit Geschwindigkeit (Intervall zwischen 0 und 1)
      */
     public void geschwindigkeitAnpassen(Auto a, float geschwindigkeit) {
-
+        a.setGeschwindigkeit(geschwindigkeit);
     }
 
     /**
      * entfernt alle Autos vom Strassennetz
      */
     public void entfAlleAutos() {
-
+        autos.clear();
     }
 
     /**
      * entfernt alle Strassen vom Strassennetz
      */
     public void entfAlleStrassen() {
-
+        entfAlleAutos();
+        abschnitte.clear();
     }
 
+    // TODO Ändernung von entfAlleAmpeln zu alleAmpelnDeaktivieren
     /**
-     * entfernt alle Ampeln vom Strassennetz
+     * deaktiviert alle Ampeln vom Strassennetz
      */
-    public void entfAlleAmpeln() {
-
+    public void alleAmpelnDeaktivieren() {
+        for (Map.Entry<Position,Strassenabschnitt> entry: abschnitte.entrySet()) {
+            ampelnDeaktivieren(entry.getValue());
+        }
     }
 
     /**
      * setzt die geladene Welt in den Ausgangszustand
      */
     public void reset() {
-
+        // TODO unnötig? (gleich mit entfAlleStrassen)
     }
 
     /**
@@ -246,14 +273,14 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void starteSimulation() throws WeltLeerException {
-
+        simuliert.setValue(true);
     }
 
     /**
      * Pausieren der Simulation
      */
     public void pausiereSimulation() {
-
+        simuliert.setValue(false);
     }
 
     public boolean isSimuliert() {
