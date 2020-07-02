@@ -13,6 +13,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
 
     public NavigationController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
+        rootView = new NavigationView();
     }
 
     @Override
