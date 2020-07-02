@@ -9,11 +9,20 @@ public class Position {
 
     private final int positionX;
     private final int positionY;
+    // TODO: Kachelgröße an GUI anpassen
     private static final int KACHELGROESSE = 100;
 
     public Position(int positionX, int positionY) {
         this.positionX = positionX - (positionX % KACHELGROESSE);
         this.positionY = positionY - (positionY % KACHELGROESSE);
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
     }
 
     @Override
@@ -28,14 +37,6 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(positionX, positionY);
-    }
-
-    public int getPositionX() {
-        return positionX;
-    }
-
-    public int getPositionY() {
-        return positionY;
     }
 
 }

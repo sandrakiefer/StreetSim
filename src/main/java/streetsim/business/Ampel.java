@@ -64,12 +64,44 @@ public class Ampel {
         }
     }
 
-    public Himmelsrichtung getRichtung() {
-        return richtung;
+    /**
+     * setzt die Ampel auf grün
+     */
+    public void setGruenPhase() {
+        rot.set(false);
+        gelb.set(false);
+        gruen.set(true);
     }
 
+    /**
+     * setzt die Ampel auf rot
+     */
+    public void setRotPhase() {
+        rot.set(true);
+        gelb.set(false);
+        gruen.set(false);
+    }
+
+    /**
+     * schaltet die Ampel aus
+     * (nichts leuchtet)
+     */
+    public void ausschalten() {
+        rot.set(false);
+        gelb.set(false);
+        gruen.set(false);
+    }
+
+    /**
+     * rotiert die Ampel um 90° im Uhrzeigersinn
+     * (Himmelsrichtung änder sich)
+     */
     public void rotiere() {
         this.richtung = richtung.next();
+    }
+
+    public Himmelsrichtung getRichtung() {
+        return richtung;
     }
 
     public boolean isRot() {
@@ -82,24 +114,6 @@ public class Ampel {
 
     public boolean isGruen() {
         return gruen.get();
-    }
-
-    public void setGruenPhase() {
-        rot.set(false);
-        gelb.set(false);
-        gruen.set(true);
-    }
-    
-    public void setRotPhase() {
-        rot.set(true);
-        gelb.set(false);
-        gruen.set(false);
-    }
-    
-    public void ausschalten() {
-        rot.set(false);
-        gelb.set(false);
-        gruen.set(false);
     }
 
 }

@@ -1,7 +1,10 @@
 package streetsim.business;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.FXCollections;
+import streetsim.business.abschnitte.TStueck;
 import streetsim.business.exceptions.DateiParseException;
 import streetsim.business.exceptions.FalschRotiertException;
 import streetsim.business.exceptions.SchonBelegtException;
@@ -10,23 +13,26 @@ import streetsim.data.DatenService;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableMap;
 
+import javax.swing.*;
+import java.io.*;
 import java.util.*;
 
 /**
  * Verwaltung aller Strassenabschnitte und Autos sowie Großteil
  * der Anwendungslogik und Schnittstelle für obere Schicht (UI)
  */
-public class Strassennetz {
+public class Strassennetz implements Serializable {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
     private ObservableMap<Position, ArrayList<Auto>> autos;
     private BooleanProperty simuliert;
     private String name;
     private DatenService datenService;
+    private transient String test;
 
     public Strassennetz() {
-        abschnitte = new SimpleMapProperty<>();
-        autos = new SimpleMapProperty<>();
+        abschnitte = FXCollections.observableHashMap();
+        autos = FXCollections.observableHashMap();
         simuliert = new SimpleBooleanProperty();
     }
 
@@ -38,6 +44,7 @@ public class Strassennetz {
      * @return Strassenabschnitt
      */
     public Optional<Strassenabschnitt> stehtAnKreuzung(Auto a) {
+        // TODO: Lösungsansatz Distanz vom Auto zum Mittelpunkt (ACHTUNG: Referenzpunkt Auto konsistent)
         return null;
     }
 
@@ -48,6 +55,7 @@ public class Strassennetz {
      * @return steht das Ampel an einer Ampel oder nicht
      */
     public boolean stehtAnAmpel(Auto a, Strassenabschnitt s) {
+        // TODO: Lösungsansatz stehtAnKruezug() aufrufen und wenn ja Ampel überprüfen (ACHTUNG: Referenzpunkt Auto konsistent)
         return false;
     }
 
@@ -61,12 +69,12 @@ public class Strassennetz {
         Position p = new Position(a.getPositionX(), a.getPositionY());
         // TODO: kein Strassenabschnitt an der Stelle (? Exception)
         if (abschnitte.containsKey(p)) {
+            if (!autos.containsKey(p)) {
+                autos.put(p,new ArrayList());
+            }
             if (posBelegt(a)) {
                 throw new SchonBelegtException();
             } else {
-                if (!autos.containsKey(p)) {
-                    autos.put(p,new ArrayList());
-                }
                 autos.get(p).add(a);
             }
         }
@@ -80,6 +88,7 @@ public class Strassennetz {
      * @throws FalschRotiertException kein Strassenfluss möglich
      */
     public void strasseAdden(Strassenabschnitt s) throws SchonBelegtException, FalschRotiertException {
+        // TODO: ? FalschRotiertException unnötig
         Position p = new Position(s.getPositionX(), s.getPositionY());
         if (abschnitte.containsKey(p)) {
             throw new SchonBelegtException();
@@ -123,6 +132,7 @@ public class Strassennetz {
      * @return schon belegt oder nicht
      */
     public boolean posBelegt(int x, int y) {
+        // TODO: macht keinen Sinn (nicht aussagekräftiger Rückgabewert)
         return false;
     }
 
@@ -164,6 +174,28 @@ public class Strassennetz {
      */
     public void speicherNetz() throws WeltLeerException {
         // TODO: speichern
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("StreetSim - Strassennetz speichern");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int rueckgabewert = chooser.showSaveDialog(null);
+        File file = chooser.getSelectedFile();
+        if (rueckgabewert == JFileChooser.APPROVE_OPTION) {
+            name = file.getName();
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                // TODO: Rekursion unterbinden
+                String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+                System.out.println(jsonResult);
+                FileWriter f = new FileWriter(file.getPath() + ".txt");
+                f.write(jsonResult);
+                f.flush();
+                f.close();
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -347,4 +379,18 @@ public class Strassennetz {
     public ObservableMap<Position, ArrayList<Auto>> getAutos() {
         return autos;
     }
+
+    public static void main(String[] args) {
+        Strassennetz s = new Strassennetz();
+        Strassenabschnitt str = new TStueck(100,100,800);
+        s.strasseAdden(str);
+        //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
+        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN,100,100,10,20,"geln",s);
+        //s.autoAdden(brumbrum);
+        //s.autoAdden(brum);
+        s.speicherNetz();
+    }
+
 }
+
+

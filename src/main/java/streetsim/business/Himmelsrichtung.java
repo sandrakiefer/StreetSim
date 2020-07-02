@@ -23,6 +23,12 @@ public enum Himmelsrichtung {
         return y;
     }
 
+    /**
+     * gibt nächste Himmelsrichtung
+     * (90° im Uhrzeigersinn)
+     *
+     * @return Himmelsrichtung
+     */
     public Himmelsrichtung next() {
         return Himmelsrichtung.values()[(this.ordinal() + 1) % 4];
     }

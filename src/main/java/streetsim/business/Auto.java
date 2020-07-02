@@ -1,5 +1,8 @@
 package streetsim.business;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.shape.Rectangle;
@@ -10,48 +13,50 @@ import javafx.scene.shape.Rectangle;
  */
 public class Auto {
 
-    private SimpleFloatProperty geschwindigkeit;
+    private float geschwindigkeit;
     private Himmelsrichtung richtung;
     private SimpleIntegerProperty positionX;
     private SimpleIntegerProperty positionY;
     private int breite;
     private int laenge;
     private String farbe;
+    @JsonBackReference
     private final Strassennetz strassennetz;
     private Rectangle rectangle;
 
-    public Auto(SimpleFloatProperty geschwindigkeit, Himmelsrichtung richtung, SimpleIntegerProperty positionX,
-                SimpleIntegerProperty positionY, int breite, int laenge, String farbe, Strassennetz strassennetz) {
+    public Auto(float geschwindigkeit, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge, String farbe, Strassennetz strassennetz) {
         this.geschwindigkeit = geschwindigkeit;
         this.richtung = richtung;
-        this.positionX = positionX;
-        this.positionY = positionY;
+        this.positionX = new SimpleIntegerProperty(positionX);
+        this.positionY = new SimpleIntegerProperty(positionY);
         this.breite = breite;
         this.laenge = laenge;
         this.farbe = farbe;
         this.strassennetz = strassennetz;
-        rectangle = new Rectangle(positionX.get(),positionY.get(),breite,laenge);
-        rectangle.xProperty().bind(positionX);
-        rectangle.yProperty().bind(positionY);
+        rectangle = new Rectangle(positionX,positionY,breite,laenge);
+        rectangle.xProperty().bind(this.positionX);
+        rectangle.yProperty().bind(this.positionY);
     }
 
     /**
-     * eigenständiges Fahren der Autos (durch Thread)
+     * eigenständiges Fahren der Autos
      */
     public void fahre() {
-
+        // TODO: Darstellung (linke oder rechte Seite)
+        // TODO: um Geschwindigkeit in aktueller Richtung fahren
+        // TODO: Kreuzung und Ampeln checken
+        Position p = new Position(positionX.get(), positionY.get());
+        Strassenabschnitt s = strassennetz.getAbschnitte().get(p);
+        int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
+        int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
     }
 
     public float getGeschwindigkeit() {
-        return geschwindigkeit.get();
-    }
-
-    public SimpleFloatProperty geschwindigkeitProperty() {
         return geschwindigkeit;
     }
 
     public void setGeschwindigkeit(float geschwindigkeit) {
-        this.geschwindigkeit.set(geschwindigkeit);
+        this.geschwindigkeit = geschwindigkeit;
     }
 
     public Himmelsrichtung getRichtung() {
@@ -105,4 +110,5 @@ public class Auto {
     public Rectangle getRectangle() {
         return rectangle;
     }
+
 }
