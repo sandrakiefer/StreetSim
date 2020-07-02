@@ -14,6 +14,6 @@ public interface Ampelschaltung {
      * schaltet alle Ampeln auf dem aktuellen Strassenabschnitt
      * nach einem festgelegtem Intervall um
      */
-    void zeitSchalte();
+    void schalteAlleAmpeln();
 
 }
