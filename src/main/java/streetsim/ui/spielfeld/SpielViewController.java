@@ -19,4 +19,9 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
 
     }
+
+    /*
+    //TODO:
+    Im Pausemenü sobald gedragged wird soll das Seitenmenü eingeklappt werden und erst nach bearbeiten wieder eingeblendet
+     */
 }
