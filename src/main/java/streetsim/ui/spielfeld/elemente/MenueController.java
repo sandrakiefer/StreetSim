@@ -1,4 +1,4 @@
-package streetsim.ui.spielfeld;
+package streetsim.ui.spielfeld.elemente;
 
 import javafx.scene.layout.Pane;
 import streetsim.business.Strassennetz;

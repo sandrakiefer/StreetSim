@@ -28,6 +28,7 @@ public abstract class AbstractController<T> {
      */
     public abstract void handlerAnmelden();
 
-
-
+    public Pane getRootView() {
+        return rootView;
+    }
 }

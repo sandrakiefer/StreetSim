@@ -3,48 +3,44 @@ package streetsim.ui.startseite;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import streetsim.ui.utils.ResourceAssist;
 
 public class StartseiteView extends BorderPane {
 
-    Button fortfahren, starten, laden;
-    StackPane kontrollPane;
-    HBox fortfahrPane, startPane;
+    final Button fortfahren, starten, laden;
+    final StackPane kontrollPane;
+    final VBox fortfahrPane, startPane;
 
     StartseiteView(){
         super();
 
-        // OBERER TEIL
-        Image logo = new Image(getClass().getResourceAsStream("/assets/logo.png"));
-        ImageView logoAnsicht = new ImageView(logo);
-        VBox logoPane = new VBox();
-        logoPane.getChildren().add(logoAnsicht);
-        logoPane.setAlignment(Pos.CENTER);
-
-        // UNTERER TEIL
+        // Erste Ansicht
         fortfahren = new Button("Drücke eine beliebige Taste um fortzufahren");
-        fortfahrPane = new HBox();
+        fortfahrPane = new VBox();
         fortfahrPane.setAlignment(Pos.CENTER);
         fortfahrPane.getChildren().add(fortfahren);
 
+        // Zweite Ansicht
         starten = new Button("Neues Spiel starten");
         laden = new Button("Spiel laden");
-        startPane = new HBox();
+        startPane = new VBox();
         startPane.getChildren().addAll(starten, laden);
         startPane.setAlignment(Pos.CENTER);
 
+        // Fläche für beide Ansichten (auswechselbar)
         kontrollPane = new StackPane();
         startPane.setOpacity(0);
-        kontrollPane.getChildren().addAll(startPane, kontrollPane);
-
+        kontrollPane.getChildren().addAll(startPane, fortfahrPane);
+        kontrollPane.setAlignment(Pos.TOP_CENTER);
 
         // GESAMT
-        Image hintegrund = new Image(getClass().getResourceAsStream("/assets/bg.jpg"));
+        ResourceAssist resourceAssist = ResourceAssist.getInstance();
+        System.out.println(resourceAssist.holeRessourceAusOrdnern("assets", "bilder", "bg.jpg"));
+        Image hintergrund = new Image(resourceAssist.holeRessourceAusOrdnern("assets", "bilder", "bg.jpg"));
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, false);
-        setBackground(new Background(new BackgroundImage(hintegrund, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bSize)));
-        setCenter(logoAnsicht);
-        setBottom(kontrollPane);
+        setBackground(new Background(new BackgroundImage(hintergrund, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, bSize)));
+        setCenter(kontrollPane);
     }
 
 
