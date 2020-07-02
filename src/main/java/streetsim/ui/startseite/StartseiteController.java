@@ -21,7 +21,7 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         super(netz, app);
         rootView = new StartseiteView();
         fortfahren = ((StartseiteView) rootView).fortfahren;
-        starten = ((StartseiteView) rootView).fortfahren;
+        starten = ((StartseiteView) rootView).starten;
         laden = ((StartseiteView) rootView).laden;
         fortfahrPane = ((StartseiteView) rootView).fortfahrPane;
         startPane = ((StartseiteView) rootView).startPane;
