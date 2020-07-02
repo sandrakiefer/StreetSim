@@ -158,7 +158,7 @@ public class Strassennetz {
      * @param s Strassenabschnitt
      */
     public void ampelnDeaktivieren(Strassenabschnitt s) {
-        s.ampelAktivProperty().setValue(false);
+        s.setAmpelAktiv(false);
     }
 
     /**
@@ -274,6 +274,28 @@ public class Strassennetz {
      */
     public void starteSimulation() throws WeltLeerException {
         simuliert.setValue(true);
+        // TODO: Zeit-Intervall festlegen
+        int millisek = 10000;
+        new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) {
+                if (simuliert.get()) {
+                    for (Strassenabschnitt s : abschnitte.values()) {
+                        if (s.isAmpelAktiv()) {
+                            s.schalteAlleAmpeln();
+                        }
+                    }
+                    try {
+                        Thread.sleep(millisek);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Thread.currentThread().interrupt();
+                    alleAmpelnDeaktivieren();
+                }
+
+            }
+        }).start();
     }
 
     /**
@@ -301,5 +323,13 @@ public class Strassennetz {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ObservableMap<Position, Strassenabschnitt> getAbschnitte() {
+        return abschnitte;
+    }
+
+    public ObservableMap<Position, ArrayList<Auto>> getAutos() {
+        return autos;
     }
 }
