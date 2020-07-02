@@ -15,6 +15,8 @@ import javafx.collections.ObservableMap;
 
 import javax.swing.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -203,8 +205,24 @@ public class Strassennetz implements Serializable {
      *
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
-    public void ladeNetz() throws DateiParseException {
-        // TODO: laden
+    public static Strassennetz ladeNetz() throws DateiParseException {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("StreetSim - Strassennetz auswählen");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int rueckgabewert = chooser.showOpenDialog(null);
+        File file = chooser.getSelectedFile();
+        if (rueckgabewert == JFileChooser.APPROVE_OPTION) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                // TODO: dezerialise Position
+                return mapper.readValue(Files.readString(Path.of(file.getPath())), Strassennetz.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            throw new DateiParseException();
+        }
+        return null;
     }
 
     /**
@@ -389,6 +407,7 @@ public class Strassennetz implements Serializable {
         //s.autoAdden(brumbrum);
         //s.autoAdden(brum);
         s.speicherNetz();
+        Strassennetz.ladeNetz();
     }
 
 }
