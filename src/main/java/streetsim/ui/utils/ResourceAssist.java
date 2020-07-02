@@ -38,7 +38,7 @@ public class ResourceAssist {
     public InputStream holeRessourceAusOrdnern(String... pfadteile) {
         StringBuilder sb = new StringBuilder();
         for (String pfad : pfadteile) {
-            sb.append(File.separator).append(pfad);
+            sb.append("/").append(pfad);
         }
         String path = sb.toString();
         return getClass().getResourceAsStream(path);

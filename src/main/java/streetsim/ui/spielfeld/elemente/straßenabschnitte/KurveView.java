@@ -11,5 +11,6 @@ public class KurveView extends ImageView {
 
         ResourceAssist assist = ResourceAssist.getInstance();
         Image image = new Image(assist.holeRessourceAusOrdnern("assets", "straßenabschnitte", "kurve.png"));
+        this.setImage(image);
     }
 }

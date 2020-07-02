@@ -6,10 +6,9 @@ import streetsim.ui.utils.ResourceAssist;
 
 public class AutoView extends ImageView {
 
-    public AutoView(){
+    public AutoView(Image image){
         super();
-
         ResourceAssist assist = ResourceAssist.getInstance();
-        Image image = new Image(assist.holeRessourceAusOrdnern("assets", "autos", "straßenabschnitte", "polizeiAuto.png"));
+        this.setImage(image);
     }
 }
