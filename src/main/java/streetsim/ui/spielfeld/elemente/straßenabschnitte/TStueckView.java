@@ -10,7 +10,7 @@ public class TStueckView extends ImageView {
         super();
 
         ResourceAssist assist = ResourceAssist.getInstance();
-        Image image = new Image(assist.holeRessourceAusOrdnern("assets", "straßenabschnitte", "tstueck.png"));
+        Image image = new Image(assist.holeRessourceAusOrdnern("assets", "strassenabschnitte", "tstueck.png"));
         this.setImage(image);
     }
 }

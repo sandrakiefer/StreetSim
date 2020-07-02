@@ -10,7 +10,7 @@ public class GeradeView extends ImageView {
         super();
 
         ResourceAssist assist = ResourceAssist.getInstance();
-        Image image = new Image(assist.holeRessourceAusOrdnern("assets", "straßenabschnitte", "gerade.png"));
+        Image image = new Image(assist.holeRessourceAusOrdnern("assets", "strassenabschnitte", "gerade.png"));
         this.setImage(image);
     }
 }

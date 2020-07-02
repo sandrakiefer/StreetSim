@@ -1,10 +1,8 @@
 package streetsim.ui.spielfeld.elemente;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import streetsim.business.Auto;
 import streetsim.business.Position;
 import streetsim.business.Strassenabschnitt;
@@ -12,15 +10,24 @@ import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 
+import java.util.ArrayList;
+
 /**
  * Verwaltung von Aktionen auf dem Spielfeld
  */
 public class SpielfeldController extends AbstractController<StreetSimApp> {
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
+    ObservableMap<Position, ArrayList<Auto>> autos;
+
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
+
+        rootView = new StackPane();
+
+
         abschnitte = netz.getAbschnitte();
+        autos = netz.getAutos();
     }
 
     @Override
