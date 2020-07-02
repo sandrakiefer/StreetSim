@@ -5,6 +5,8 @@ import streetsim.business.Himmelsrichtung;
 import streetsim.business.Strassenabschnitt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Realisierung eines Strassenabschnitts
@@ -13,8 +15,14 @@ import java.util.ArrayList;
  */
 public class Kreuzung extends Strassenabschnitt {
 
-    public Kreuzung(int positionX, int positionY, ArrayList<Himmelsrichtung> richtungen, int groesse, ArrayList<Ampel> ampeln) {
-        super(positionX, positionY, richtungen, groesse, ampeln);
+    public Kreuzung(int positionX, int positionY, int groesse) {
+        // TODO groesse bleibt doch immer gleich?
+        super(positionX, positionY, definiereRichtungen(), groesse);
+    }
+
+    public static List<Himmelsrichtung> definiereRichtungen() {
+        List<Himmelsrichtung> richtungen = Arrays.asList(Himmelsrichtung.values());
+        return richtungen;
     }
 
 }

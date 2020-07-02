@@ -23,4 +23,8 @@ public enum Himmelsrichtung {
         return y;
     }
 
+    public Himmelsrichtung next() {
+        return Himmelsrichtung.values()[(this.ordinal() + 1) % 4];
+    }
+
 }

@@ -11,7 +11,7 @@ public class Ampel {
     private SimpleBooleanProperty rot;
     private SimpleBooleanProperty gelb;
     private SimpleBooleanProperty gruen;
-    private final Himmelsrichtung richtung;
+    private Himmelsrichtung richtung;
     private boolean schaltet = false;
 
     public Ampel(Himmelsrichtung richtung) {
@@ -68,6 +68,10 @@ public class Ampel {
         return richtung;
     }
 
+    public void rotiere() {
+        this.richtung = richtung.next();
+    }
+
     public boolean isRot() {
         return rot.get();
     }
@@ -80,10 +84,22 @@ public class Ampel {
         return gruen.get();
     }
 
-    public void setGruenTrue() {
+    public void setGruenPhase() {
         rot.set(false);
         gelb.set(false);
         gruen.set(true);
+    }
+    
+    public void setRotPhase() {
+        rot.set(true);
+        gelb.set(false);
+        gruen.set(false);
+    }
+    
+    public void ausschalten() {
+        rot.set(false);
+        gelb.set(false);
+        gruen.set(false);
     }
 
 }
