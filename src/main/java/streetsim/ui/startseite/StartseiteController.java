@@ -1,6 +1,7 @@
 package streetsim.ui.startseite;
 
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
@@ -15,6 +16,7 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
 
     private final Button fortfahren, starten, laden;
     private final VBox fortfahrPane, startPane;
+    private final StackPane kontrollPane;
     private final FadeAssist fadeAssist;
 
     public StartseiteController(Strassennetz netz, StreetSimApp app) {
@@ -25,6 +27,7 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         laden = ((StartseiteView) rootView).laden;
         fortfahrPane = ((StartseiteView) rootView).fortfahrPane;
         startPane = ((StartseiteView) rootView).startPane;
+        kontrollPane = ((StartseiteView) rootView).kontrollPane;
         fadeAssist = FadeAssist.getInstance();
         handlerAnmelden();
     }
@@ -49,7 +52,10 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
     @Override
     public void handlerAnmelden() {
         rootView.setOnKeyPressed(e -> fortfahren.fire());
-        fortfahren.setOnAction(e -> fadeAssist.crossFade(fortfahrPane, startPane));
+        fortfahren.setOnAction(e -> {
+            fadeAssist.crossFade(fortfahrPane, startPane);
+            kontrollPane.getChildren().remove(fortfahrPane);
+        });
         starten.setOnAction(e -> erstelle());
         laden.setOnAction(e -> ladeNetz());
     }
