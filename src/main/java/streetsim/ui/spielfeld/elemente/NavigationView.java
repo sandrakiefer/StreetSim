@@ -10,7 +10,7 @@ class NavigationView extends HBox {
 
     Button startPause, beende;
     MenuButton entferne;
-    MenuItem ampeln, autos, straßen, alles;
+    MenuItem ampeln, autos, strassen, alles;
 
     NavigationView() {
         super();
@@ -18,10 +18,10 @@ class NavigationView extends HBox {
         startPause = new Button();
         ampeln = new MenuItem("Ampeln zurücksetzen");
         autos = new MenuItem("Autos zurücksetzen");
-        straßen = new MenuItem("Straßen zurücksetzen");
+        strassen = new MenuItem("Straßen zurücksetzen");
         alles = new MenuItem("Alles zurücksetzen");
         entferne = new MenuButton();
-        entferne.getItems().addAll(ampeln, autos, straßen, alles);
+        entferne.getItems().addAll(ampeln, autos, strassen, alles);
         beende = new Button();
 
         //styling über css
