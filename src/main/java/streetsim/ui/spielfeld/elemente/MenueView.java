@@ -20,32 +20,36 @@ class MenueView extends VBox {
     MenueView(List<AutoView> autoViews){
         super();
 
-        HBox auswahlAbschnitte = new HBox();
+        VBox auswahlAbschnitte = new VBox();
         Label abschnitte = new Label("Straßenabschnitte");
+        VBox abschnittBox = new VBox();
         GeradeView gerade = new GeradeView();
         KreuzungView kreuzung = new KreuzungView();
         KurveView kurve = new KurveView();
         TStueckView tstueck = new TStueckView();
-        auswahlAbschnitte.getChildren().addAll(abschnitte, gerade, kreuzung, kurve, tstueck);
+        abschnittBox.getChildren().addAll(gerade, kreuzung, kurve, tstueck);
+        auswahlAbschnitte.getChildren().addAll(abschnitte, abschnittBox);
         auswahlAbschnitte.setAlignment(Pos.TOP_LEFT);
 
-        VBox autoBox = new VBox();
+        HBox autoAuswahl = new HBox();
         Label autos = new Label("Autos");
+        HBox autoBox = new HBox();
         autoBox.getChildren().add(autos);
         autoBox.getChildren().addAll(autoViews);
         autoBox.setAlignment(Pos.TOP_LEFT);
         ScrollPane auswahlAutos = new ScrollPane();
-        auswahlAutos.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        auswahlAutos.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        auswahlAutos.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        auswahlAutos.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         auswahlAutos.setContent(autoBox);
+        autoAuswahl.getChildren().addAll(autos, auswahlAutos);
 
-        HBox auswahlAmpeln = new HBox();
+        VBox auswahlAmpeln = new VBox();
         Label ampeln = new Label("Ampeln");
         AmpelView ampelView = new AmpelView();
         auswahlAmpeln.getChildren().addAll(ampeln, ampelView);
         auswahlAmpeln.setAlignment(Pos.TOP_LEFT);
-        getChildren().addAll(auswahlAbschnitte, auswahlAutos, auswahlAmpeln);
-        setAlignment(Pos.CENTER);
+        getChildren().addAll(auswahlAbschnitte, autoAuswahl, auswahlAmpeln);
+        setAlignment(Pos.TOP_CENTER);
 
     }
 }

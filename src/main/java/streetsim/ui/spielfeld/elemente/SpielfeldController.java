@@ -1,7 +1,12 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.scene.layout.Pane;
 import streetsim.business.Auto;
+import streetsim.business.Position;
 import streetsim.business.Strassenabschnitt;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
@@ -12,13 +17,21 @@ import streetsim.ui.StreetSimApp;
  */
 public class SpielfeldController extends AbstractController<StreetSimApp> {
 
+    ObservableMap<Position, Strassenabschnitt> abschnitte;
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
+        abschnitte = netz.getAbschnitte();
     }
 
     @Override
     public void handlerAnmelden() {
-
+        abschnitte.addListener((MapChangeListener<Position, Strassenabschnitt>) change -> {
+            if (change.wasAdded()) {
+                //TODO: do stuff
+            } else if (change.wasRemoved()) {
+                //TODO: do stuff
+            }
+        });
     }
 
     /**

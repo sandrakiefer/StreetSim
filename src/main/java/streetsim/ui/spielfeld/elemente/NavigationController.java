@@ -1,5 +1,7 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 import javafx.scene.layout.Pane;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
@@ -10,9 +12,15 @@ import streetsim.ui.StreetSimApp;
  */
 public class NavigationController extends AbstractController<StreetSimApp> {
 
+    private final Button startPause, beende;
+    private final MenuButton entferne;
 
     public NavigationController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
+        rootView = new NavigationView();
+        startPause = ((NavigationView) rootView).startPause;
+        entferne = ((NavigationView) rootView).entferne;
+        beende = ((NavigationView) rootView).beende;
     }
 
     @Override
