@@ -42,6 +42,8 @@ public class MenueController extends AbstractController<StreetSimApp> {
         super(netz, app);
 
         rootView = new MenueView(AutoModelle.getAllViews());
+
+        handlerAnmelden();
     }
 
     @Override
