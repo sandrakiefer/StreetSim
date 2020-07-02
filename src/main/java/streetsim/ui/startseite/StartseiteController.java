@@ -69,6 +69,4 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         starten.setOnAction(e -> erstelle());
         laden.setOnAction(e -> ladeNetz());
     }
-
-
 }
