@@ -12,7 +12,7 @@ import streetsim.ui.spielfeld.elemente.SpielfeldController;
 
 /**
  * Verwaltung der folgenden drei Controller:
- * SpielviewController, Spielfeldcontroller, MenueController
+ * Spielfeldcontroller, NavigationsController, MenueController
  */
 public class SpielViewController extends AbstractController<StreetSimApp> {
     private BorderPane spielView;
