@@ -97,7 +97,7 @@ public class Ampel {
      * (Himmelsrichtung änder sich)
      */
     public void rotiere() {
-        this.richtung = richtung.next();
+        this.richtung = richtung.naechstes();
     }
 
     public Himmelsrichtung getRichtung() {

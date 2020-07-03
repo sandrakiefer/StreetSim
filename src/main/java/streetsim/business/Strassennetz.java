@@ -1,10 +1,7 @@
 package streetsim.business;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javafx.collections.ObservableMapWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import streetsim.business.abschnitte.TStueck;
 import streetsim.business.exceptions.DateiParseException;
@@ -79,7 +76,7 @@ public class Strassennetz {
     public boolean stehtAnAmpel(Auto a, Strassenabschnitt s) {
         // TODO: Lösungsansatz stehtAnKruezug() aufrufen und wenn ja Ampel überprüfen (ACHTUNG: Referenzpunkt Auto konsistent)
         // Beispiel Auto fährt nach Norden aber steht an Ampel Süden
-        Himmelsrichtung h = a.getRichtung().next().next();
+        Himmelsrichtung h = a.getRichtung().gegenueber();
         for (Ampel ampel : s.getAmpeln()) {
             if (ampel.getRichtung().equals(h)) {
                 return ampel.isRot();

@@ -1,15 +1,14 @@
 package streetsim.business;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * In eine Himmelsrichtung sich fortbewegendes Objekt
@@ -20,6 +19,11 @@ public class Auto {
     // TODO: Anpassung des Wertebereichs der Geschwindigkeit (so maximale Geschwindigkeit = 1 Pixel)
     private float geschwindigkeit;
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
+
+    private Himmelsrichtung abbiegerichtung;
+    private int abbiegePunktX;
+    private int abbiegePunktY;
+
     private SimpleIntegerProperty positionX;
     private SimpleIntegerProperty positionY;
     private int breite;
@@ -41,11 +45,11 @@ public class Auto {
         initRectangle();
         // vertikal Auto richtig positionieren
         if (richtung.getX() == 0) {
-            positionX = (int) (positionX - (positionX % Strassenabschnitt.GROESSE) + (positionX / 2) + (richtung.next().getX() * breite * 0.5));
+            positionX = (int) (positionX - (positionX % Strassenabschnitt.GROESSE) + (positionX / 2) + (richtung.naechstes().getX() * breite * 0.5));
         }
         // horizontal Auto richtig positionieren
         else {
-            positionY = (int) (positionY - (positionY % Strassenabschnitt.GROESSE) + (positionY / 2) + (richtung.next().getY() * breite * 0.5));
+            positionY = (int) (positionY - (positionY % Strassenabschnitt.GROESSE) + (positionY / 2) + (richtung.naechstes().getY() * breite * 0.5));
         }
     }
 
@@ -67,6 +71,7 @@ public class Auto {
         // TODO: um Geschwindigkeit in aktueller Richtung fahren
         // TODO: Kreuzung und Ampeln checken
         // TODO: Kollision
+        // TODO: Linksabbieger muss andere beachten
 
         // Kollisions-Überprüfung (wenn fahren Kollision hervorruft stoppt das Auto)
         Position p = new Position(positionX.get(), positionY.get());
@@ -96,17 +101,43 @@ public class Auto {
         // Kruezungs- und Ampel-Überprüfung
         Optional<Strassenabschnitt> kreuzung = strassennetz.stehtAnKreuzung(this);
         if (kreuzung.isPresent()) {
+            // Neue Richtung bestimmen
+            List<Himmelsrichtung> r = kreuzung.get().getRichtungen();
+            if(r.contains(this.getRichtung().gegenueber())){
+                r.remove(this.getRichtung().gegenueber());
+            }
+            abbiegerichtung = r.get(new Random().nextInt(r.size()));
+            int mittelpunktX = kreuzung.get().getPositionX() + kreuzung.get().getGroesse() / 2;
+            int mittelpunktY = kreuzung.get().getPositionY() + kreuzung.get().getGroesse() / 2;
+
+            // TODO TODO TODO TODO noch mal nachdenken lol
+            if(abbiegerichtung.equals(this.richtung.get().naechstes())){
+                // rechtsabbieger
+                // TODO Allegmeinbehandlung möglich? :((((((
+                this.abbiegePunktY = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
+                this.abbiegePunktX = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
+            } else if(abbiegerichtung.naechstes().equals(this.richtung.get())){
+                // linksabbieger
+                this.abbiegePunktY = mittelpunktY - ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
+                this.abbiegePunktX = mittelpunktX - ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
+            }
+
             if (kreuzung.get().isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, kreuzung.get())) {
                     return;
                 }
             } else {
+                // Abbiegerichtung beachten
                 // TODO: STVO
             }
         }
 
+        // Fahren!
+            //if weg > position -> wendepunkt
 
-        if (strassennetz == null) strassennetz = Strassennetz.getInstance();
+
+
+        //if (strassennetz == null) strassennetz = Strassennetz.getInstance();
 
     }
 

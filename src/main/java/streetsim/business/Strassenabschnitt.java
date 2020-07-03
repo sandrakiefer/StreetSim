@@ -46,7 +46,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
      */
     public void rotiere() {
         for (Himmelsrichtung r: richtungen) {
-            r = r.next();
+            r = r.naechstes();
         }
         for (Ampel a: ampeln) {
             a.rotiere();
