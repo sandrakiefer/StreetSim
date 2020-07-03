@@ -19,11 +19,10 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
 
-    public Strassenabschnitt(int positionX, int positionY, List<Himmelsrichtung> richtungen, int groesse) {
+    public Strassenabschnitt(int positionX, int positionY, List<Himmelsrichtung> richtungen) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.richtungen = richtungen;
-        this.groesse = groesse;
         this.ampeln = baueAmpeln(richtungen);
         ampelAktiv = new SimpleBooleanProperty();
     }

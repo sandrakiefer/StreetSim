@@ -9,8 +9,7 @@ public class Position {
 
     private final int positionX;
     private final int positionY;
-    // TODO: Kachelgröße an GUI anpassen
-    private static final int KACHELGROESSE = 100;
+    private static final int KACHELGROESSE = 128;
 
     public Position(int positionX, int positionY) {
         this.positionX = positionX - (positionX % KACHELGROESSE);

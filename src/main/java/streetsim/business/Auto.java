@@ -20,7 +20,6 @@ public class Auto {
     private int breite;
     private int laenge;
     private String farbe;
-    @JsonBackReference
     private final Strassennetz strassennetz;
     private Rectangle rectangle;
 
@@ -45,6 +44,7 @@ public class Auto {
         // TODO: Darstellung (linke oder rechte Seite)
         // TODO: um Geschwindigkeit in aktueller Richtung fahren
         // TODO: Kreuzung und Ampeln checken
+        // TODO: kollision
         Position p = new Position(positionX.get(), positionY.get());
         Strassenabschnitt s = strassennetz.getAbschnitte().get(p);
         int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;

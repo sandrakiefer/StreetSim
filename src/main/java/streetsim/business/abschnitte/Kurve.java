@@ -14,9 +14,8 @@ import java.util.List;
  */
 public class Kurve extends Strassenabschnitt {
 
-    public Kurve(int positionX, int positionY, int groesse) {
-        // TODO groesse bleibt doch immer gleich?
-        super(positionX, positionY, definiereRichtungen(), groesse);
+    public Kurve(int positionX, int positionY) {
+        super(positionX, positionY, definiereRichtungen());
     }
 
     public static List<Himmelsrichtung> definiereRichtungen() {
