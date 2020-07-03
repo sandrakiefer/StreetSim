@@ -2,6 +2,7 @@ package streetsim.ui.spielfeld.elemente;
 
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
+import javafx.scene.input.Dragboard;
 import javafx.scene.layout.StackPane;
 import streetsim.business.Auto;
 import streetsim.business.Position;
@@ -10,7 +11,10 @@ import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 
+import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -20,16 +24,17 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
     ObservableMap<Position, ArrayList<Auto>> autos;
-
+    List<ImageView> alleAbschnitte;
 
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
 
         rootView = new StackPane();
 
-
         abschnitte = netz.getAbschnitte();
         autos = netz.getAutos();
+
+        alleAbschnitte = new LinkedList<>();
     }
 
     @Override
@@ -41,6 +46,20 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
                 //TODO: do stuff
             }
         });
+
+        rootView.setOnDragOver(event -> {
+            boolean dropSupported = true;
+            Dragboard dragboard = event.getDragboard();
+
+            if(!dragboard.hasImage()){
+                dropSupported = false;
+            } else {
+                if(dragboard.getImage()){
+
+                }
+            }
+        });
+
     }
 
     /**

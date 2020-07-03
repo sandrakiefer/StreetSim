@@ -1,8 +1,11 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import streetsim.business.Auto;
@@ -16,6 +19,7 @@ import streetsim.ui.spielfeld.elemente.straßenabschnitte.TStueckView;
 import streetsim.ui.utils.ResourceAssist;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +54,7 @@ public class MenueController extends AbstractController<StreetSimApp> {
     KurveView kurve;
     TStueckView tstueck;
     List<AutoView> autoViews;
+    List<ImageView> alleViews;
     AmpelView ampelView;
 
     public MenueController(Strassennetz netz, StreetSimApp app) {
@@ -64,19 +69,25 @@ public class MenueController extends AbstractController<StreetSimApp> {
         autoViews = ((MenueView) rootView).autoViews;
         ampelView = ((MenueView) rootView).ampelView;
 
+        alleViews = List.of(gerade, kreuzung, kurve, tstueck, ampelView);
+        autoViews.forEach(e -> { alleViews.add(e); });
+
         handlerAnmelden();
     }
 
     @Override
     public void handlerAnmelden() {
-        rootView.onDragDetectedProperty(event -> {
+        alleViews.forEach(e -> {
+            e.setOnDragDetected(event -> {
 
-            Dragboard dragboard = rootView.startDragAndDrop(TransferMode.COPY);
+                Dragboard dragboard = e.startDragAndDrop(TransferMode.COPY);
 
-            ClipboardContent content = new ClipboardContent();
-            content.putImage();
-            dragboard.setContent(content);
+                ClipboardContent content = new ClipboardContent();
+                content.putImage(e.getImage());
+                dragboard.setContent(content);
 
+                event.consume();
+            });
         });
     }
 }

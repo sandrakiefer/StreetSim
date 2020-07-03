@@ -51,11 +51,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
     }
 
-    public void dragnDropHandler(){
-
-
-    }
-
     /*
     //TODO:
     Im Pausemenü sobald gedragged wird soll das Seitenmenü eingeklappt werden und erst nach bearbeiten wieder eingeblendet
