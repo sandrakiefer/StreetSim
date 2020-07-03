@@ -15,7 +15,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     private int positionX;
     private int positionY;
     private List<Himmelsrichtung> richtungen;
-    private int groesse;
+    public static final int GROESSE = 128;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
 
@@ -73,7 +73,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     }
 
     public int getGroesse() {
-        return groesse;
+        return GROESSE;
     }
 
     public List<Ampel> getAmpeln() {

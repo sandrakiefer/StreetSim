@@ -9,7 +9,7 @@ public class Position {
 
     private final int positionX;
     private final int positionY;
-    private static final int KACHELGROESSE = 128;
+    private static final int KACHELGROESSE = Strassenabschnitt.GROESSE;
 
     public Position(int positionX, int positionY) {
         this.positionX = positionX - (positionX % KACHELGROESSE);
