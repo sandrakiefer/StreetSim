@@ -35,6 +35,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         spielView.setLeft(navView);
 
         rootView.getChildren().addAll(spielfeldView, spielView);
+        handlerAnmelden();
     }
 
     @Override
