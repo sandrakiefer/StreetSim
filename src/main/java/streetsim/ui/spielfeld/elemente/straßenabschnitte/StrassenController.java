@@ -1,5 +1,6 @@
 package streetsim.ui.spielfeld.elemente.straßenabschnitte;
 
+import javafx.application.Platform;
 import javafx.scene.image.ImageView;
 import streetsim.business.Strassenabschnitt;
 import streetsim.business.abschnitte.Gerade;
@@ -16,6 +17,14 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
 
     @Override
     public void handlerAnmelden() {
+
+        model.positionXProperty().addListener(c -> {
+            Platform.runLater(() -> rootView.setLayoutX(model.getPositionX()));
+        });
+
+        model.positionYProperty().addListener(c -> {
+            Platform.runLater(() -> rootView.setLayoutY(model.getPositionY()));
+        });
 
     }
 }

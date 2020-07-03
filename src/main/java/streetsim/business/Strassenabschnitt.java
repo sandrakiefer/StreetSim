@@ -2,6 +2,7 @@ package streetsim.business;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +13,16 @@ import java.util.List;
  */
 public abstract class Strassenabschnitt implements Ampelschaltung {
 
-    private int positionX;
-    private int positionY;
+    private SimpleIntegerProperty positionX = new SimpleIntegerProperty(this, "positionX");
+    private SimpleIntegerProperty positionY = new SimpleIntegerProperty(this, "positionY");
     private List<Himmelsrichtung> richtungen;
     public static final int GROESSE = 128;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
 
     public Strassenabschnitt(int positionX, int positionY, List<Himmelsrichtung> richtungen) {
-        this.positionX = positionX;
-        this.positionY = positionY;
+        this.positionX.set(positionX);
+        this.positionY.set(positionY);
         this.richtungen = richtungen;
         this.ampeln = baueAmpeln(richtungen);
         ampelAktiv = new SimpleBooleanProperty();
@@ -89,18 +90,26 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     }
 
     public int getPositionX() {
-        return positionX;
+        return positionX.get();
     }
 
     public void setPositionX(int positionX) {
-        this.positionX = positionX;
+        this.positionX.set(positionX);
     }
 
     public int getPositionY() {
-        return positionY;
+        return positionY.get();
     }
 
     public void setPositionY(int positionY) {
-        this.positionY = positionY;
+        this.positionY.set(positionY);
+    }
+
+    public SimpleIntegerProperty positionXProperty() {
+        return positionX;
+    }
+
+    public SimpleIntegerProperty positionYProperty() {
+        return positionY;
     }
 }

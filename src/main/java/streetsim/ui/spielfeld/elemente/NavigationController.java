@@ -97,10 +97,10 @@ public class NavigationController extends AbstractController<StreetSimApp> {
     public void speicherNetz() {
         //tmp init of netz for save test
 
-        Strassenabschnitt str = new TStueck(100, 100);
-        netz.strasseAdden(str);
-        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
-        netz.autoAdden(brum);
+//        Strassenabschnitt str = new TStueck(100, 100);
+//        netz.strasseAdden(str);
+//        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
+//        netz.autoAdden(brum);
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));

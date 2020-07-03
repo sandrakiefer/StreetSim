@@ -1,27 +1,22 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.input.DataFormat;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.StackPane;
-import streetsim.business.Auto;
-import streetsim.business.Position;
-import streetsim.business.Strassenabschnitt;
-import streetsim.business.Strassennetz;
+import streetsim.business.*;
 import streetsim.business.abschnitte.Gerade;
 import streetsim.business.abschnitte.Kreuzung;
 import streetsim.business.abschnitte.Kurve;
 import streetsim.business.abschnitte.TStueck;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
+import streetsim.ui.spielfeld.elemente.straßenabschnitte.*;
 
-import javax.imageio.ImageIO;
-import javax.swing.text.html.ImageView;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,6 +24,10 @@ import java.util.stream.Collectors;
  * Verwaltung von Aktionen auf dem Spielfeld
  */
 public class SpielfeldController extends AbstractController<StreetSimApp> {
+
+    Map<Strassenabschnitt, StrassenController> strassenController;
+    Map<Auto, AutoController> autoController;
+    Map<Ampel, AmpelController> ampelController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
     ObservableMap<Position, ArrayList<Auto>> autos;
@@ -39,87 +38,45 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         rootView = new SpielfeldView();
 
+        strassenController = new HashMap<>();
+        autoController = new HashMap<>();
+        ampelController = new HashMap<>();
+
         abschnitte = netz.getAbschnitte();
         autos = netz.getAutos();
 
         alleAbschnitte = new LinkedList<>();
+        handlerAnmelden();
     }
 
     @Override
     public void handlerAnmelden() {
         abschnitte.addListener((MapChangeListener<Position, Strassenabschnitt>) change -> {
             if (change.wasAdded()) {
+                Strassenabschnitt s = change.getValueAdded();
+                ImageView strassenView;
 
+                if (s instanceof Gerade) strassenView = new GeradeView();
+                else if (s instanceof Kreuzung) strassenView = new KreuzungView();
+                else if (s instanceof Kurve) strassenView = new KurveView();
+                else strassenView = new TStueckView();
+
+                Platform.runLater(() -> {
+                    strassenView.setLayoutX(s.getPositionX());
+                    strassenView.setLayoutY(s.getPositionY());
+                });
+
+                StrassenController sc = new StrassenController(s, strassenView);
+                strassenController.put(s, sc);
+                ((SpielfeldView) rootView).addAbschnitt(strassenView);
             } else if (change.wasRemoved()) {
                 //TODO: do stuff
             }
         });
 
-        rootView.setOnDragOver(event -> {
-            boolean dropSupported = true;
-            Dragboard dragboard = event.getDragboard();
+        app.getHauptStage().widthProperty().addListener(c -> ((SpielfeldView)rootView).setBreite(app.getHauptStage().getWidth()));
 
-            if (event.getTransferMode() != TransferMode.COPY) dropSupported = false;
-
-            if (!dragboard.hasString()) dropSupported = false;
-            else {
-                String dataString = dragboard.getString();
-                if (!ViewDataFormats.DATA_FORMATS.contains(dataString)) dropSupported = false;
-
-                Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                switch (dataString) {
-                    case ViewDataFormats.AMPEL_FORMAT:
-                        if (s == null || s.isAmpelAktiv()) dropSupported = false;
-                        break;
-                    case ViewDataFormats.AUTO_FORMAT:
-
-                        if (s == null) dropSupported = false;
-                        break;
-                    case ViewDataFormats.GERADE_FORMAT:
-                    case ViewDataFormats.KREUZUNG_FORMAT:
-                    case ViewDataFormats.KURVE_FORMAT:
-                    case ViewDataFormats.TSTUECK_FORMAT:
-                        if (s != null) dropSupported = false;
-                        break;
-                    default:
-                        dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
-                        break;
-                }
-            }
-
-            if (dropSupported) event.acceptTransferModes(TransferMode.COPY);
-            event.consume();
-        });
-
-        rootView.setOnDragDropped(event -> {
-            Dragboard dragboard = event.getDragboard();
-
-            String dataString = dragboard.getString();
-            Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-            if (dataString.equals(ViewDataFormats.AMPEL_FORMAT)) {
-                s.ampelnAktivieren();
-            } else if (Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString)) {
-                Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
-
-            } else if (dataString.equals(ViewDataFormats.GERADE_FORMAT)) {
-                Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                netz.strasseAdden(g);
-            } else if (dataString.equals(ViewDataFormats.KREUZUNG_FORMAT)) {
-                Kreuzung k = new Kreuzung((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                netz.strasseAdden(k);
-            } else if (dataString.equals(ViewDataFormats.KURVE_FORMAT)) {
-                Kurve k = new Kurve((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                netz.strasseAdden(k);
-            } else if (dataString.equals(ViewDataFormats.TSTUECK_FORMAT)) {
-                TStueck t = new TStueck((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                netz.strasseAdden(t);
-            }
-
-            event.setDropCompleted(true);
-            event.consume();
-
-
-        });
+        app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView)rootView).setHoehe(app.getHauptStage().getHeight()));
 
     }
 

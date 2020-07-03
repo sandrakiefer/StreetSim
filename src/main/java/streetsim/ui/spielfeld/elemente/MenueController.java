@@ -1,10 +1,10 @@
 package streetsim.ui.spielfeld.elemente;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
-import streetsim.business.Ampel;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import streetsim.business.Auto;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
@@ -15,9 +15,6 @@ import streetsim.ui.spielfeld.elemente.straßenabschnitte.KurveView;
 import streetsim.ui.spielfeld.elemente.straßenabschnitte.TStueckView;
 import streetsim.ui.utils.ResourceAssist;
 
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

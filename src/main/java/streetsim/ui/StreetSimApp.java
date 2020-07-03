@@ -35,7 +35,11 @@ public class StreetSimApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        //TODO: fixe groesse
         this.hauptStage = primaryStage;
+        this.hauptStage.setTitle("StreetSim");
+        this.hauptStage.setHeight(1080);
+        this.hauptStage.setWidth(1920);
 
         szenen.put(Szenen.STARTSEITE, new StartseiteController(netz, this).getRootView());
         szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());
@@ -44,9 +48,6 @@ public class StreetSimApp extends Application {
         aktuelleSzene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         this.hauptStage.setScene(aktuelleSzene);
-        this.hauptStage.setTitle("StreetSim");
-        this.hauptStage.setHeight(1080);
-        this.hauptStage.setWidth(1920);
         this.hauptStage.show();
         this.hauptStage.setOnHidden(e -> {
             System.exit(0);
@@ -67,6 +68,10 @@ public class StreetSimApp extends Application {
         if (szenen.containsKey(s)) {
             aktuelleSzene.setRoot(szenen.get(s));
         }
+    }
+
+    public Scene getAktuelleSzene() {
+        return aktuelleSzene;
     }
 
     public Stage getHauptStage() {
