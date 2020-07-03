@@ -2,20 +2,28 @@ package streetsim.ui.spielfeld.elemente;
 
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import streetsim.business.Auto;
 import streetsim.business.Position;
 import streetsim.business.Strassenabschnitt;
 import streetsim.business.Strassennetz;
+import streetsim.business.abschnitte.Gerade;
+import streetsim.business.abschnitte.Kreuzung;
+import streetsim.business.abschnitte.Kurve;
+import streetsim.business.abschnitte.TStueck;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 
+import javax.imageio.ImageIO;
 import javax.swing.text.html.ImageView;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Verwaltung von Aktionen auf dem Spielfeld
@@ -29,7 +37,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
 
-        rootView = new StackPane();
+        rootView = new SpielfeldView();
 
         abschnitte = netz.getAbschnitte();
         autos = netz.getAutos();
@@ -41,7 +49,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
         abschnitte.addListener((MapChangeListener<Position, Strassenabschnitt>) change -> {
             if (change.wasAdded()) {
-                //TODO: do stuff
+
             } else if (change.wasRemoved()) {
                 //TODO: do stuff
             }
@@ -51,13 +59,66 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
             boolean dropSupported = true;
             Dragboard dragboard = event.getDragboard();
 
-            if(!dragboard.hasImage()){
-                dropSupported = false;
-            } else {
-                if(dragboard.getImage()){
+            if (event.getTransferMode() != TransferMode.COPY) dropSupported = false;
 
+            if (!dragboard.hasString()) dropSupported = false;
+            else {
+                String dataString = dragboard.getString();
+                if (!ViewDataFormats.DATA_FORMATS.contains(dataString)) dropSupported = false;
+
+                Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                switch (dataString) {
+                    case ViewDataFormats.AMPEL_FORMAT:
+                        if (s == null || s.isAmpelAktiv()) dropSupported = false;
+                        break;
+                    case ViewDataFormats.AUTO_FORMAT:
+
+                        if (s == null) dropSupported = false;
+                        break;
+                    case ViewDataFormats.GERADE_FORMAT:
+                    case ViewDataFormats.KREUZUNG_FORMAT:
+                    case ViewDataFormats.KURVE_FORMAT:
+                    case ViewDataFormats.TSTUECK_FORMAT:
+                        if (s != null) dropSupported = false;
+                        break;
+                    default:
+                        dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
+                        break;
                 }
             }
+
+            if (dropSupported) event.acceptTransferModes(TransferMode.COPY);
+            event.consume();
+        });
+
+        rootView.setOnDragDropped(event -> {
+            Dragboard dragboard = event.getDragboard();
+
+            String dataString = dragboard.getString();
+            Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+            if (dataString.equals(ViewDataFormats.AMPEL_FORMAT)) {
+                s.ampelnAktivieren();
+            } else if (Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString)) {
+                Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
+
+            } else if (dataString.equals(ViewDataFormats.GERADE_FORMAT)) {
+                Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                netz.strasseAdden(g);
+            } else if (dataString.equals(ViewDataFormats.KREUZUNG_FORMAT)) {
+                Kreuzung k = new Kreuzung((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                netz.strasseAdden(k);
+            } else if (dataString.equals(ViewDataFormats.KURVE_FORMAT)) {
+                Kurve k = new Kurve((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                netz.strasseAdden(k);
+            } else if (dataString.equals(ViewDataFormats.TSTUECK_FORMAT)) {
+                TStueck t = new TStueck((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                netz.strasseAdden(t);
+            }
+
+            event.setDropCompleted(true);
+            event.consume();
+
+
         });
 
     }
@@ -119,7 +180,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     /**
      * bewegt beliebig viele Strassenabschnitte in X und Y Richtung
      *
-     * @param s Strassenabschnitteå
+     * @param s    Strassenabschnitteå
      * @param offX X-Koordinate
      * @param offY Y-Koordinate
      */

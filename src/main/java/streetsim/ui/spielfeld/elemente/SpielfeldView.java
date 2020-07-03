@@ -6,7 +6,7 @@ import javafx.scene.layout.StackPane;
 
 import java.util.Stack;
 
-public class SpielfeldView extends Pane {
+public class SpielfeldView extends StackPane {
 
     Pane abschnitte;
     Pane autosUndAmpeln;
