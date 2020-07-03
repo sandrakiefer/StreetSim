@@ -20,19 +20,26 @@ public class Auto {
     private int breite;
     private int laenge;
     private String farbe;
-    private final Strassennetz strassennetz;
+
+    @JsonIgnore
+    private Strassennetz strassennetz;
+
+    @JsonIgnore
     private Rectangle rectangle;
 
-    public Auto(float geschwindigkeit, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge, String farbe, Strassennetz strassennetz) {
+    public Auto(float geschwindigkeit, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge) {
         this.geschwindigkeit = geschwindigkeit;
         this.richtung = richtung;
         this.positionX = new SimpleIntegerProperty(positionX);
         this.positionY = new SimpleIntegerProperty(positionY);
         this.breite = breite;
         this.laenge = laenge;
-        this.farbe = farbe;
-        this.strassennetz = strassennetz;
-        rectangle = new Rectangle(positionX,positionY,breite,laenge);
+        this.strassennetz = Strassennetz.getInstance();
+        initRectangle();
+    }
+
+    private void initRectangle(){
+        rectangle = new Rectangle(positionX.doubleValue(),positionY.doubleValue(),breite,laenge);
         rectangle.xProperty().bind(this.positionX);
         rectangle.yProperty().bind(this.positionY);
     }
@@ -46,6 +53,7 @@ public class Auto {
         // TODO: Kreuzung und Ampeln checken
         // TODO: kollision
         Position p = new Position(positionX.get(), positionY.get());
+        if (strassennetz == null) strassennetz = Strassennetz.getInstance();
         Strassenabschnitt s = strassennetz.getAbschnitte().get(p);
         int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
         int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
@@ -108,6 +116,7 @@ public class Auto {
     }
 
     public Rectangle getRectangle() {
+        if (rectangle == null) initRectangle();
         return rectangle;
     }
 
