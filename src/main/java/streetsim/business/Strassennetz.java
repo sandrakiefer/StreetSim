@@ -169,8 +169,7 @@ public class Strassennetz {
      *
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
-    public void speicherNetz(File file) throws WeltLeerException {
-        // TODO: speichern
+    public void speicherNetz(File file) {
         // TODO: data rausschmeißen
 
         ObjectMapper mapper = new ObjectMapper();
@@ -198,7 +197,6 @@ public class Strassennetz {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {
-        //instance.setName("Björn");
         ObjectMapper mapper = new ObjectMapper();
         try {
             // TODO: dezerialise Position
@@ -207,7 +205,7 @@ public class Strassennetz {
             String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
             instance.setName(name);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DateiParseException("Datei konnte nicht gelesen werden", e);
         }
     }
 
