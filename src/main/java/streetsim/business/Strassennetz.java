@@ -99,6 +99,7 @@ public class Strassennetz {
                 instance.autos.put(p, new ArrayList());
             }
             if (instance.posBelegt(a)) {
+                //TODO: Auto an nächstmöglicher Position ablegen
                 throw new SchonBelegtException();
             } else {
                 instance.autos.get(p).add(a);
@@ -149,6 +150,11 @@ public class Strassennetz {
     public boolean posBelegt(Strassenabschnitt s) {
         Position p = new Position(s.getPositionX(), s.getPositionY());
         return instance.abschnitte.containsKey(p);
+    }
+
+    public Strassenabschnitt strasseAnPos(int x, int y) {
+        Position p = new Position(x,y);
+        return instance.abschnitte.get(p);
     }
 
     /**
@@ -401,7 +407,7 @@ public class Strassennetz {
         Strassenabschnitt str = new TStueck(100, 100);
         s.strasseAdden(str);
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
-        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
+//        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
         //s.autoAdden(brumbrum);
         //s.autoAdden(brum);
     }
