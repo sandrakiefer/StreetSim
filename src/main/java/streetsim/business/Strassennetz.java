@@ -165,20 +165,22 @@ public class Strassennetz {
      *
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
-    public void speicherNetz(File file) throws WeltLeerException {
-        // TODO: speichern
-        instance.name = file.getName();
+    public void speicherNetz(File file) {
+        // TODO: data rausschmeißen
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             // TODO: Rekursion unterbinden
             String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
             System.out.println(jsonResult);
-            FileWriter f = new FileWriter(file.getPath() + ".json");
+            String path = file.getPath();
+            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
+            instance.setName(name);
+            FileWriter f = new FileWriter(path);
+
             f.write(jsonResult);
             f.flush();
             f.close();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -190,16 +192,15 @@ public class Strassennetz {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {
-        //instance.setName("Björn");
         ObjectMapper mapper = new ObjectMapper();
         try {
             // TODO: dezerialise Position
             String path = file.getPath();
             instance = mapper.readValue(Files.readString(Path.of(path)), Strassennetz.class);
-            String name = path.substring(path.lastIndexOf("/")+1, path.lastIndexOf(".json"));
+            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
             instance.setName(name);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DateiParseException("Datei konnte nicht gelesen werden", e);
         }
     }
 
@@ -382,7 +383,6 @@ public class Strassennetz {
         Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20, "geln", s);
         //s.autoAdden(brumbrum);
         //s.autoAdden(brum);
-        //s.speicherNetz();
     }
 
 }

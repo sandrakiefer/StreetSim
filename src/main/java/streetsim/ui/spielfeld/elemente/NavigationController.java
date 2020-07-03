@@ -3,16 +3,19 @@ package streetsim.ui.spielfeld.elemente;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
+
+import java.io.File;
 
 /**
  * Verwaltung von Aktionen in der Navigationsleiste
  */
 public class NavigationController extends AbstractController<StreetSimApp> {
 
-    private final Button startPause, beende;
+    private final Button startPause, speichern, beende;
     private final MenuButton entferne;
 
     public NavigationController(Strassennetz netz, StreetSimApp app) {
@@ -20,12 +23,15 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         rootView = new NavigationView();
         startPause = ((NavigationView) rootView).startPause;
         entferne = ((NavigationView) rootView).entferne;
+        speichern = ((NavigationView) rootView).speichern;
         beende = ((NavigationView) rootView).beende;
+
+        handlerAnmelden();
     }
 
     @Override
     public void handlerAnmelden() {
-
+        speichern.setOnAction(e -> speicherNetz());
     }
 
     /**
@@ -81,7 +87,11 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      * Strassennetz abspeichern
      */
     public void speicherNetz() {
-
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+        fileChooser.setInitialFileName(netz.getName());
+        File file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
+        netz.speicherNetz(file);
     }
 
 }
