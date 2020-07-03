@@ -7,7 +7,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import streetsim.ui.spielfeld.SpielViewController;
 import streetsim.ui.startseite.StartseiteController;
+import streetsim.ui.utils.ResourceAssist;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +41,7 @@ public class StreetSimApp extends Application {
         szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());
 
         aktuelleSzene = new Scene(szenen.get(Szenen.STARTSEITE));
+        aktuelleSzene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         this.hauptStage.setScene(aktuelleSzene);
         this.hauptStage.setTitle("StreetSim");

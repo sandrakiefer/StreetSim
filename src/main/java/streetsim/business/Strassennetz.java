@@ -1,10 +1,7 @@
 package streetsim.business;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javafx.collections.ObservableMapWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import streetsim.business.abschnitte.TStueck;
 import streetsim.business.exceptions.DateiParseException;
@@ -29,7 +26,6 @@ public class Strassennetz {
     private ObservableMap<Position, ArrayList<Auto>> autos;
     private BooleanProperty simuliert;
     private String name;
-    private transient String test;
     public static Strassennetz instance;
 
     private Strassennetz() {
@@ -52,16 +48,40 @@ public class Strassennetz {
      */
     public Optional<Strassenabschnitt> stehtAnKreuzung(Auto a) {
         // TODO: Lösungsansatz Distanz vom Auto zum Mittelpunkt (ACHTUNG: Referenzpunkt Auto konsistent)
-        return null;
+        Position p = new Position(a.getPositionX(), a.getPositionY());
+        Strassenabschnitt s = abschnitte.get(p);
+        int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
+        int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
+        int distanz = 0;
+        // vertikal
+        if (a.getRichtung().getX() == 0) {
+            distanz =  mittelpunktX - a.getPositionX() * a.getRichtung().getX();
+        }
+        // horizontal
+        else {
+            distanz = mittelpunktY - a.getPositionY() * a.getRichtung().getY();
+        }
+        if (distanz > 20 && distanz < 20) {
+            return Optional.of(s);
+        } else {
+            return Optional.of(null);
+        }
     }
 
     /**
      * @param a Auto
      * @param s Strassenabschnitt
-     * @return steht das Ampel an einer Ampel oder nicht
+     * @return steht das Auto an einer Ampel oder nicht
      */
     public boolean stehtAnAmpel(Auto a, Strassenabschnitt s) {
         // TODO: Lösungsansatz stehtAnKruezug() aufrufen und wenn ja Ampel überprüfen (ACHTUNG: Referenzpunkt Auto konsistent)
+        // Beispiel Auto fährt nach Norden aber steht an Ampel Süden
+        Himmelsrichtung h = a.getRichtung().gegenueber();
+        for (Ampel ampel : s.getAmpeln()) {
+            if (ampel.getRichtung().equals(h)) {
+                return ampel.isRot();
+            }
+        }
         return false;
     }
 
@@ -199,8 +219,7 @@ public class Strassennetz {
             // TODO: dezerialise Position
             String path = file.getPath();
             instance = mapper.readValue(Files.readString(Path.of(path)), Strassennetz.class);
-            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
-            instance.setName(name);
+            instance.setName(file.getName());
         } catch (IOException e) {
             throw new DateiParseException("Datei konnte nicht gelesen werden", e);
         }
