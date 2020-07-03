@@ -23,7 +23,7 @@ import java.util.*;
  * Verwaltung aller Strassenabschnitte und Autos sowie Großteil
  * der Anwendungslogik und Schnittstelle für obere Schicht (UI)
  */
-public class Strassennetz implements Serializable {
+public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
     private ObservableMap<Position, ArrayList<Auto>> autos;
@@ -97,6 +97,7 @@ public class Strassennetz implements Serializable {
      */
     public void strasseAdden(Strassenabschnitt s) throws SchonBelegtException, FalschRotiertException {
         // TODO: ? FalschRotiertException unnötig
+        // auch willkürlich möglich
         Position p = new Position(s.getPositionX(), s.getPositionY());
         if (instance.abschnitte.containsKey(p)) {
             throw new SchonBelegtException();
@@ -130,18 +131,6 @@ public class Strassennetz implements Serializable {
     public boolean posBelegt(Strassenabschnitt s) {
         Position p = new Position(s.getPositionX(), s.getPositionY());
         return instance.abschnitte.containsKey(p);
-    }
-
-    /**
-     * Überprüfung einer freien Position
-     *
-     * @param x X-Koordinate
-     * @param y y-Koordinate
-     * @return schon belegt oder nicht
-     */
-    public boolean posBelegt(int x, int y) {
-        // TODO: macht keinen Sinn (nicht aussagekräftiger Rückgabewert)
-        return false;
     }
 
     /**
@@ -182,6 +171,7 @@ public class Strassennetz implements Serializable {
      */
     public void speicherNetz() throws WeltLeerException {
         // TODO: speichern
+        // TODO: data rausschmeißen
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("StreetSim - Strassennetz speichern");
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -212,7 +202,6 @@ public class Strassennetz implements Serializable {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {
-
         //instance.setName("Björn");
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -224,7 +213,6 @@ public class Strassennetz implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -314,6 +302,8 @@ public class Strassennetz implements Serializable {
      */
     public void reset() {
         // TODO unnötig? (gleich mit entfAlleStrassen)
+        // namen entfernen (Singelton - null?)
+        // simuliert = false
     }
 
     /**
@@ -326,7 +316,6 @@ public class Strassennetz implements Serializable {
             throw new WeltLeerException();
         }
         instance.simuliert.setValue(true);
-        // TODO: Zeit-Intervall festlegen
         // Ampelschaltung
         int millisek = 10000;
         new Thread(() -> {
@@ -403,7 +392,7 @@ public class Strassennetz implements Serializable {
 
     public static void main(String[] args) {
         Strassennetz s = new Strassennetz();
-        Strassenabschnitt str = new TStueck(100, 100, 800);
+        Strassenabschnitt str = new TStueck(100, 100);
         s.strasseAdden(str);
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
         Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20, "geln", s);
