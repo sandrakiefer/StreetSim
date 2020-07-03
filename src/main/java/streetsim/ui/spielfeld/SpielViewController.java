@@ -1,5 +1,9 @@
 package streetsim.ui.spielfeld;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -16,6 +20,10 @@ import streetsim.ui.spielfeld.elemente.SpielfeldController;
  */
 public class SpielViewController extends AbstractController<StreetSimApp> {
     private BorderPane spielView;
+    private Pane menView, navView, spielfeldView;
+    private NavigationController navCon;
+    private MenueController menCon;
+    private SpielfeldController spielfeldCon;
 
     public SpielViewController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
@@ -23,13 +31,13 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         rootView = new StackPane();
         spielView = new BorderPane();
 
-        NavigationController navCon = new NavigationController(netz, app);
-        MenueController menCon = new MenueController(netz, app);
-        SpielfeldController spielfeldCon = new SpielfeldController(netz, app);
+        navCon = new NavigationController(netz, app);
+        menCon = new MenueController(netz, app);
+        spielfeldCon = new SpielfeldController(netz, app);
 
-        Pane menView = menCon.getRootView();
-        Pane navView = navCon.getRootView();
-        Pane spielfeldView = spielfeldCon.getRootView();
+        menView = menCon.getRootView();
+        navView = navCon.getRootView();
+        spielfeldView = spielfeldCon.getRootView();
 
         spielView.setRight(menView);
         spielView.setLeft(navView);
@@ -40,6 +48,11 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
+
+    }
+
+    public void dragnDropHandler(){
+
 
     }
 

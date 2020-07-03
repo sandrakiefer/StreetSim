@@ -11,6 +11,7 @@ import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Verwaltung von Aktionen auf dem Spielfeld
@@ -19,6 +20,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
     ObservableMap<Position, ArrayList<Auto>> autos;
+
 
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);

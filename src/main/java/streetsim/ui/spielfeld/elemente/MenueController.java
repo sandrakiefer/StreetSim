@@ -1,6 +1,9 @@
 package streetsim.ui.spielfeld.elemente;
 
 import javafx.scene.image.Image;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import streetsim.business.Auto;
 import streetsim.business.Strassennetz;
@@ -48,6 +51,14 @@ public class MenueController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
+        rootView.onDragDetectedProperty(event -> {
 
+            Dragboard dragboard = rootView.startDragAndDrop(TransferMode.COPY);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putImage();
+            dragboard.setContent(content);
+
+        });
     }
 }
