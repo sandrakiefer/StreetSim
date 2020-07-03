@@ -16,6 +16,8 @@ import java.util.Random;
  */
 public class Auto {
 
+    public enum AutoModell {ROT, POLIZEI, BLAU}
+
     // TODO: Anpassung des Wertebereichs der Geschwindigkeit (so maximale Geschwindigkeit = 1 Pixel)
     private float geschwindigkeit;
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
@@ -28,13 +30,16 @@ public class Auto {
     private SimpleIntegerProperty positionY;
     private int breite;
     private int laenge;
-    private String farbe;
+    private AutoModell autoModell;
     @JsonIgnore
     private Strassennetz strassennetz;
     @JsonIgnore
     private Rectangle rectangle;
 
-    public Auto(float geschwindigkeit, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge) {
+    public Auto(float geschwindigkeit, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
+        //TODO: geschwindigkeit default am anfang?
+        //TODO: Himmelsrichtung lieber berechnen?
+        //TODO: breite+länge immer gleich
         this.geschwindigkeit = geschwindigkeit;
         this.richtung.set(richtung);
         this.positionX = new SimpleIntegerProperty(positionX);
