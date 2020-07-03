@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 class NavigationView extends HBox {
 
@@ -24,8 +25,7 @@ class NavigationView extends HBox {
         entferne.getItems().addAll(ampeln, autos, strassen, alles);
         beende = new Button();
 
-        //styling über css
         this.getChildren().addAll(startPause, entferne, beende);
-        this.setAlignment(Pos.CENTER);
+        this.setAlignment(Pos.BOTTOM_RIGHT);
     }
 }
