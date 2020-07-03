@@ -2,18 +2,18 @@ package streetsim.business;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.javafx.collections.ObservableMapWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import streetsim.business.abschnitte.TStueck;
 import streetsim.business.exceptions.DateiParseException;
 import streetsim.business.exceptions.FalschRotiertException;
 import streetsim.business.exceptions.SchonBelegtException;
 import streetsim.business.exceptions.WeltLeerException;
-import streetsim.data.DatenService;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableMap;
 
-import javax.swing.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,9 +29,7 @@ public class Strassennetz {
     private ObservableMap<Position, ArrayList<Auto>> autos;
     private BooleanProperty simuliert;
     private String name;
-    private DatenService datenService;
     private transient String test;
-
     public static Strassennetz instance;
 
     private Strassennetz() {
@@ -80,7 +78,7 @@ public class Strassennetz {
             if (!instance.autos.containsKey(p)) {
                 instance.autos.put(p, new ArrayList());
             }
-            if (posBelegt(a)) {
+            if (instance.posBelegt(a)) {
                 throw new SchonBelegtException();
             } else {
                 instance.autos.get(p).add(a);
@@ -169,30 +167,24 @@ public class Strassennetz {
      *
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
-    public void speicherNetz() throws WeltLeerException {
-        // TODO: speichern
+    public void speicherNetz(File file) {
         // TODO: data rausschmeißen
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("StreetSim - Strassennetz speichern");
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int rueckgabewert = chooser.showSaveDialog(null);
-        File file = chooser.getSelectedFile();
-        if (rueckgabewert == JFileChooser.APPROVE_OPTION) {
-            instance.name = file.getName();
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                // TODO: Rekursion unterbinden
-                String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
-                System.out.println(jsonResult);
-                FileWriter f = new FileWriter(file.getPath() + ".json");
-                f.write(jsonResult);
-                f.flush();
-                f.close();
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            // TODO: Can not find a deserializer for non-concrete Map type -> abstract Straßenabschnitt oder ObsvMap nicht deserialisierbar...
+            String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(instance);
+            System.out.println(jsonResult);
+            String path = file.getPath();
+            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
+            instance.setName(name);
+            FileWriter f = new FileWriter(path);
+
+            f.write(jsonResult);
+            f.flush();
+            f.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -202,16 +194,15 @@ public class Strassennetz {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {
-        //instance.setName("Björn");
         ObjectMapper mapper = new ObjectMapper();
         try {
             // TODO: dezerialise Position
             String path = file.getPath();
             instance = mapper.readValue(Files.readString(Path.of(path)), Strassennetz.class);
-            String name = path.substring(path.lastIndexOf("/")+1, path.lastIndexOf(".json"));
+            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
             instance.setName(name);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DateiParseException("Datei konnte nicht gelesen werden", e);
         }
     }
 
@@ -257,7 +248,7 @@ public class Strassennetz {
             a.setPositionY(a.getPositionY() + yOff);
         }
         instance.autos.put(newP, instance.autos.remove(oldP));
-        entfStrasse(s);
+        instance.entfStrasse(s);
         instance.abschnitte.put(newP, s);
     }
 
@@ -282,18 +273,16 @@ public class Strassennetz {
      * entfernt alle Strassen vom Strassennetz
      */
     public void entfAlleStrassen() {
-        entfAlleAutos();
+        instance.entfAlleAutos();
         instance.abschnitte.clear();
     }
-
-    // TODO Ändernung von entfAlleAmpeln zu alleAmpelnDeaktivieren
 
     /**
      * deaktiviert alle Ampeln vom Strassennetz
      */
     public void alleAmpelnDeaktivieren() {
         for (Map.Entry<Position, Strassenabschnitt> entry : instance.abschnitte.entrySet()) {
-            ampelnDeaktivieren(entry.getValue());
+            instance.ampelnDeaktivieren(entry.getValue());
         }
     }
 
@@ -301,9 +290,8 @@ public class Strassennetz {
      * setzt die geladene Welt in den Ausgangszustand
      */
     public void reset() {
-        // TODO unnötig? (gleich mit entfAlleStrassen)
-        // namen entfernen (Singelton - null?)
-        // simuliert = false
+        entfAlleStrassen();
+        instance.simuliert.setValue(false);
     }
 
     /**
@@ -333,9 +321,8 @@ public class Strassennetz {
                     }
                 } else {
                     Thread.currentThread().interrupt();
-                    alleAmpelnDeaktivieren();
+                    instance.alleAmpelnDeaktivieren();
                 }
-
             }
         }).start();
         // Autos fahren
@@ -395,12 +382,18 @@ public class Strassennetz {
         Strassenabschnitt str = new TStueck(100, 100);
         s.strasseAdden(str);
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
-        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20, "geln", s);
+        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
         //s.autoAdden(brumbrum);
         //s.autoAdden(brum);
-        s.speicherNetz();
     }
 
+    public void setAbschnitte(ObservableMap<Position, Strassenabschnitt> abschnitte) {
+        this.abschnitte = abschnitte;
+    }
+
+    public void setAutos(ObservableMap<Position, ArrayList<Auto>> autos) {
+        this.autos = autos;
+    }
 }
 
 

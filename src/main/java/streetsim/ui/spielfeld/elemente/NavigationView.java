@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 
 class NavigationView extends HBox {
 
-    Button startPause, beende;
+    Button startPause, speichern, beende;
     MenuButton entferne;
     MenuItem ampeln, autos, strassen, alles;
 
@@ -23,9 +23,10 @@ class NavigationView extends HBox {
         alles = new MenuItem("Alles zurücksetzen");
         entferne = new MenuButton();
         entferne.getItems().addAll(ampeln, autos, strassen, alles);
+        speichern = new Button();
         beende = new Button();
 
-        this.getChildren().addAll(startPause, entferne, beende);
+        this.getChildren().addAll(startPause, entferne, speichern, beende);
         this.setAlignment(Pos.BOTTOM_RIGHT);
     }
 }

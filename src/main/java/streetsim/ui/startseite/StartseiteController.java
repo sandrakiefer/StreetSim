@@ -40,15 +40,13 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
      * lädt ein Strassennetz
      */
     private void ladeNetz() {
-        //TODO: init Spielstand an netz-Instanz
         FileChooser fileChooser = new FileChooser();
-//        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         File file = fileChooser.showOpenDialog(app.getHauptStage().getOwner());
-        netz.setName("Rudolf");
-        System.out.println(netz.getName());
-        if (file != null) netz.ladeNetz(file);
-        System.out.println(netz.getName());
-        app.wechsleSzene(Szenen.SPIEL_VIEW);
+        if (file != null) {
+            netz.ladeNetz(file);
+            app.wechsleSzene(Szenen.SPIEL_VIEW);
+        }
     }
 
     /**

@@ -1,12 +1,9 @@
 package streetsim.ui.spielfeld.elemente;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import streetsim.ui.spielfeld.elemente.straßenabschnitte.GeradeView;
 import streetsim.ui.spielfeld.elemente.straßenabschnitte.KreuzungView;
@@ -17,21 +14,30 @@ import java.util.List;
 
 class MenueView extends VBox {
 
+    GeradeView gerade;
+    KreuzungView kreuzung;
+    KurveView kurve;
+    TStueckView tstueck;
+    List<AutoView> autoViews;
+    AmpelView ampelView;
+
     MenueView(List<AutoView> autoViews){
         super();
+
+        this.autoViews = autoViews;
 
         VBox auswahlAbschnitte = new VBox();
         Label abschnitte = new Label("Straßenabschnitte");
         VBox abschnittBox = new VBox();
-        GeradeView gerade = new GeradeView();
-        KreuzungView kreuzung = new KreuzungView();
-        KurveView kurve = new KurveView();
-        TStueckView tstueck = new TStueckView();
+        gerade = new GeradeView();
+        kreuzung = new KreuzungView();
+        kurve = new KurveView();
+        tstueck = new TStueckView();
         abschnittBox.getChildren().addAll(gerade, kreuzung, kurve, tstueck);
         auswahlAbschnitte.getChildren().addAll(abschnitte, abschnittBox);
         auswahlAbschnitte.setAlignment(Pos.TOP_LEFT);
 
-        HBox autoAuswahl = new HBox();
+        VBox autoAuswahl = new VBox();
         Label autos = new Label("Autos");
         HBox autoBox = new HBox();
         autoBox.getChildren().add(autos);
@@ -45,7 +51,7 @@ class MenueView extends VBox {
 
         VBox auswahlAmpeln = new VBox();
         Label ampeln = new Label("Ampeln");
-        AmpelView ampelView = new AmpelView();
+        ampelView = new AmpelView();
         auswahlAmpeln.getChildren().addAll(ampeln, ampelView);
         auswahlAmpeln.setAlignment(Pos.TOP_LEFT);
         getChildren().addAll(auswahlAbschnitte, autoAuswahl, auswahlAmpeln);

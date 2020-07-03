@@ -9,6 +9,10 @@ import streetsim.business.Auto;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
+import streetsim.ui.spielfeld.elemente.straßenabschnitte.GeradeView;
+import streetsim.ui.spielfeld.elemente.straßenabschnitte.KreuzungView;
+import streetsim.ui.spielfeld.elemente.straßenabschnitte.KurveView;
+import streetsim.ui.spielfeld.elemente.straßenabschnitte.TStueckView;
 import streetsim.ui.utils.ResourceAssist;
 
 import java.util.Arrays;
@@ -26,7 +30,7 @@ public class MenueController extends AbstractController<StreetSimApp> {
         POLIZEI(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "polizeiAuto.png"))),
         ROT(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "rotesAuto.png")));
 
-        private AutoView view;
+        private final AutoView view;
 
         AutoModelle(Image img) {
             view = new AutoView(img);
@@ -41,10 +45,24 @@ public class MenueController extends AbstractController<StreetSimApp> {
         }
     }
 
+    GeradeView gerade;
+    KreuzungView kreuzung;
+    KurveView kurve;
+    TStueckView tstueck;
+    List<AutoView> autoViews;
+    AmpelView ampelView;
+
     public MenueController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
 
         rootView = new MenueView(AutoModelle.getAllViews());
+
+        gerade = ((MenueView) rootView).gerade;
+        kreuzung = ((MenueView) rootView).kreuzung;
+        kurve = ((MenueView) rootView).kurve;
+        tstueck = ((MenueView) rootView).tstueck;
+        autoViews = ((MenueView) rootView).autoViews;
+        ampelView = ((MenueView) rootView).ampelView;
 
         handlerAnmelden();
     }
