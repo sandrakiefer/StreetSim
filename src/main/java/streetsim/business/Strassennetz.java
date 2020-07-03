@@ -32,10 +32,17 @@ public class Strassennetz implements Serializable {
     private DatenService datenService;
     private transient String test;
 
-    public Strassennetz() {
+    public static Strassennetz instance;
+
+    private Strassennetz() {
         abschnitte = FXCollections.observableHashMap();
         autos = FXCollections.observableHashMap();
         simuliert = new SimpleBooleanProperty();
+    }
+
+    public static Strassennetz getInstance() {
+        if (instance == null) instance = new Strassennetz();
+        return instance;
     }
 
     /**
@@ -51,7 +58,6 @@ public class Strassennetz implements Serializable {
     }
 
     /**
-     *
      * @param a Auto
      * @param s Strassenabschnitt
      * @return steht das Ampel an einer Ampel oder nicht
@@ -70,14 +76,14 @@ public class Strassennetz implements Serializable {
     public void autoAdden(Auto a) throws SchonBelegtException {
         Position p = new Position(a.getPositionX(), a.getPositionY());
         // TODO: kein Strassenabschnitt an der Stelle (? Exception)
-        if (abschnitte.containsKey(p)) {
-            if (!autos.containsKey(p)) {
-                autos.put(p,new ArrayList());
+        if (instance.abschnitte.containsKey(p)) {
+            if (!instance.autos.containsKey(p)) {
+                instance.autos.put(p, new ArrayList());
             }
             if (posBelegt(a)) {
                 throw new SchonBelegtException();
             } else {
-                autos.get(p).add(a);
+                instance.autos.get(p).add(a);
             }
         }
     }
@@ -86,16 +92,16 @@ public class Strassennetz implements Serializable {
      * fügt ein Strassenabschnitt zum Strassennetz hinzu (Abschnitte-Map)
      *
      * @param s Strassenabschnitt
-     * @throws SchonBelegtException an der Position ist bereits ein anderer Strassenabschnitt platziert
+     * @throws SchonBelegtException   an der Position ist bereits ein anderer Strassenabschnitt platziert
      * @throws FalschRotiertException kein Strassenfluss möglich
      */
     public void strasseAdden(Strassenabschnitt s) throws SchonBelegtException, FalschRotiertException {
         // TODO: ? FalschRotiertException unnötig
         Position p = new Position(s.getPositionX(), s.getPositionY());
-        if (abschnitte.containsKey(p)) {
+        if (instance.abschnitte.containsKey(p)) {
             throw new SchonBelegtException();
         } else {
-            abschnitte.put(p,s);
+            instance.abschnitte.put(p, s);
         }
     }
 
@@ -107,7 +113,7 @@ public class Strassennetz implements Serializable {
      */
     public boolean posBelegt(Auto a) {
         Position p = new Position(a.getPositionX(), a.getPositionY());
-        for (Auto brum: autos.get(p)) {
+        for (Auto brum : instance.autos.get(p)) {
             if (a.getRectangle().intersects(brum.getRectangle().getLayoutBounds())) {
                 return true;
             }
@@ -123,7 +129,7 @@ public class Strassennetz implements Serializable {
      */
     public boolean posBelegt(Strassenabschnitt s) {
         Position p = new Position(s.getPositionX(), s.getPositionY());
-        return abschnitte.containsKey(p);
+        return instance.abschnitte.containsKey(p);
     }
 
     /**
@@ -143,10 +149,10 @@ public class Strassennetz implements Serializable {
      *
      * @param a Autos
      */
-    public void entfAuto(Auto ... a) {
-        for (Auto brum: a) {
+    public void entfAuto(Auto... a) {
+        for (Auto brum : a) {
             Position p = new Position(brum.getPositionX(), brum.getPositionY());
-            autos.get(p).remove(brum);
+            instance.autos.get(p).remove(brum);
         }
     }
 
@@ -182,13 +188,13 @@ public class Strassennetz implements Serializable {
         int rueckgabewert = chooser.showSaveDialog(null);
         File file = chooser.getSelectedFile();
         if (rueckgabewert == JFileChooser.APPROVE_OPTION) {
-            name = file.getName();
+            instance.name = file.getName();
             ObjectMapper mapper = new ObjectMapper();
             try {
                 // TODO: Rekursion unterbinden
                 String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
                 System.out.println(jsonResult);
-                FileWriter f = new FileWriter(file.getPath() + ".txt");
+                FileWriter f = new FileWriter(file.getPath() + ".json");
                 f.write(jsonResult);
                 f.flush();
                 f.close();
@@ -205,24 +211,20 @@ public class Strassennetz implements Serializable {
      *
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
-    public static Strassennetz ladeNetz() throws DateiParseException {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("StreetSim - Strassennetz auswählen");
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int rueckgabewert = chooser.showOpenDialog(null);
-        File file = chooser.getSelectedFile();
-        if (rueckgabewert == JFileChooser.APPROVE_OPTION) {
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                // TODO: dezerialise Position
-                return mapper.readValue(Files.readString(Path.of(file.getPath())), Strassennetz.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            throw new DateiParseException();
+    public void ladeNetz(File file) throws DateiParseException {
+
+        //instance.setName("Björn");
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            // TODO: dezerialise Position
+            String path = file.getPath();
+            instance = mapper.readValue(Files.readString(Path.of(path)), Strassennetz.class);
+            String name = path.substring(path.lastIndexOf("/")+1, path.lastIndexOf(".json"));
+            instance.setName(name);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
+
     }
 
     /**
@@ -242,10 +244,10 @@ public class Strassennetz implements Serializable {
      *
      * @param s Strassenabschnitte
      */
-    public void entfStrasse(Strassenabschnitt ... s) {
-        for (Strassenabschnitt stra: s) {
+    public void entfStrasse(Strassenabschnitt... s) {
+        for (Strassenabschnitt stra : s) {
             Position p = new Position(stra.getPositionX(), stra.getPositionY());
-            abschnitte.remove(p);
+            instance.abschnitte.remove(p);
         }
     }
 
@@ -259,22 +261,22 @@ public class Strassennetz implements Serializable {
      */
     public void bewegeStrasse(Strassenabschnitt s, int x, int y) {
         Position oldP = new Position(s.getPositionX(), s.getPositionY());
-        Position newP = new Position(x,y);
+        Position newP = new Position(x, y);
         int xOff = newP.getPositionX() - oldP.getPositionX();
         int yOff = newP.getPositionY() - oldP.getPositionY();
-        for (Auto a: autos.get(oldP)) {
+        for (Auto a : instance.autos.get(oldP)) {
             a.setPositionX(a.getPositionX() + xOff);
             a.setPositionY(a.getPositionY() + yOff);
         }
-        autos.put(newP,autos.remove(oldP));
+        instance.autos.put(newP, instance.autos.remove(oldP));
         entfStrasse(s);
-        abschnitte.put(newP,s);
+        instance.abschnitte.put(newP, s);
     }
 
     /**
      * passt die Geschwindigkeit eines Autos an
      *
-     * @param a Auto
+     * @param a               Auto
      * @param geschwindigkeit Geschwindigkeit (Intervall zwischen 0 und 1)
      */
     public void geschwindigkeitAnpassen(Auto a, float geschwindigkeit) {
@@ -285,7 +287,7 @@ public class Strassennetz implements Serializable {
      * entfernt alle Autos vom Strassennetz
      */
     public void entfAlleAutos() {
-        autos.clear();
+        instance.autos.clear();
     }
 
     /**
@@ -293,15 +295,16 @@ public class Strassennetz implements Serializable {
      */
     public void entfAlleStrassen() {
         entfAlleAutos();
-        abschnitte.clear();
+        instance.abschnitte.clear();
     }
 
     // TODO Ändernung von entfAlleAmpeln zu alleAmpelnDeaktivieren
+
     /**
      * deaktiviert alle Ampeln vom Strassennetz
      */
     public void alleAmpelnDeaktivieren() {
-        for (Map.Entry<Position,Strassenabschnitt> entry: abschnitte.entrySet()) {
+        for (Map.Entry<Position, Strassenabschnitt> entry : instance.abschnitte.entrySet()) {
             ampelnDeaktivieren(entry.getValue());
         }
     }
@@ -319,17 +322,17 @@ public class Strassennetz implements Serializable {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void starteSimulation() throws WeltLeerException {
-        if (abschnitte.isEmpty()) {
+        if (instance.abschnitte.isEmpty()) {
             throw new WeltLeerException();
         }
-        simuliert.setValue(true);
+        instance.simuliert.setValue(true);
         // TODO: Zeit-Intervall festlegen
         // Ampelschaltung
         int millisek = 10000;
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
-                if (simuliert.get()) {
-                    for (Strassenabschnitt s : abschnitte.values()) {
+                if (instance.simuliert.get()) {
+                    for (Strassenabschnitt s : instance.abschnitte.values()) {
                         if (s.isAmpelAktiv()) {
                             s.schalte();
                         }
@@ -349,8 +352,8 @@ public class Strassennetz implements Serializable {
         // Autos fahren
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
-                if (simuliert.get()) {
-                    for (Map.Entry<Position, ArrayList<Auto>> entry : autos.entrySet()) {
+                if (instance.simuliert.get()) {
+                    for (Map.Entry<Position, ArrayList<Auto>> entry : instance.autos.entrySet()) {
                         for (Auto a : entry.getValue()) {
                             a.fahre();
                             // TODO: wann wird auto in andere Liste verschoben?
@@ -367,47 +370,46 @@ public class Strassennetz implements Serializable {
      * Pausieren der Simulation
      */
     public void pausiereSimulation() {
-        simuliert.setValue(false);
+        instance.simuliert.setValue(false);
     }
 
     public boolean isSimuliert() {
-        return simuliert.get();
+        return instance.simuliert.get();
     }
 
     public BooleanProperty simuliertProperty() {
-        return simuliert;
+        return instance.simuliert;
     }
 
     public void setSimuliert(boolean simuliert) {
-        this.simuliert.set(simuliert);
+        instance.simuliert.set(simuliert);
     }
 
     public String getName() {
-        return name;
+        return instance.name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        instance.name = name;
     }
 
     public ObservableMap<Position, Strassenabschnitt> getAbschnitte() {
-        return abschnitte;
+        return instance.abschnitte;
     }
 
     public ObservableMap<Position, ArrayList<Auto>> getAutos() {
-        return autos;
+        return instance.autos;
     }
 
     public static void main(String[] args) {
         Strassennetz s = new Strassennetz();
-        Strassenabschnitt str = new TStueck(100,100,800);
+        Strassenabschnitt str = new TStueck(100, 100, 800);
         s.strasseAdden(str);
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
-        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN,100,100,10,20,"geln",s);
+        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20, "geln", s);
         //s.autoAdden(brumbrum);
         //s.autoAdden(brum);
         s.speicherNetz();
-        Strassennetz.ladeNetz();
     }
 
 }
