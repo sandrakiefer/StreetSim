@@ -169,31 +169,27 @@ public class Strassennetz {
      *
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
-    public void speicherNetz() throws WeltLeerException {
+    public void speicherNetz(File file) throws WeltLeerException {
         // TODO: speichern
         // TODO: data rausschmeißen
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("StreetSim - Strassennetz speichern");
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int rueckgabewert = chooser.showSaveDialog(null);
-        File file = chooser.getSelectedFile();
-        if (rueckgabewert == JFileChooser.APPROVE_OPTION) {
-            instance.name = file.getName();
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                // TODO: Rekursion unterbinden
-                String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
-                System.out.println(jsonResult);
-                FileWriter f = new FileWriter(file.getPath() + ".json");
-                f.write(jsonResult);
-                f.flush();
-                f.close();
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            // TODO: Rekursion unterbinden
+            String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+            System.out.println(jsonResult);
+            String path = file.getPath();
+            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
+            instance.setName(name);
+            FileWriter f = new FileWriter(path);
+
+            f.write(jsonResult);
+            f.flush();
+            f.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     /**
@@ -208,7 +204,7 @@ public class Strassennetz {
             // TODO: dezerialise Position
             String path = file.getPath();
             instance = mapper.readValue(Files.readString(Path.of(path)), Strassennetz.class);
-            String name = path.substring(path.lastIndexOf("/")+1, path.lastIndexOf(".json"));
+            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
             instance.setName(name);
         } catch (IOException e) {
             e.printStackTrace();
@@ -398,7 +394,6 @@ public class Strassennetz {
         Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20, "geln", s);
         //s.autoAdden(brumbrum);
         //s.autoAdden(brum);
-        s.speicherNetz();
     }
 
 }
