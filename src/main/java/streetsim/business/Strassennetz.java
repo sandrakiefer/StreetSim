@@ -2,7 +2,9 @@ package streetsim.business;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.javafx.collections.ObservableMapWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import streetsim.business.abschnitte.TStueck;
 import streetsim.business.exceptions.DateiParseException;
@@ -174,8 +176,8 @@ public class Strassennetz {
 
         ObjectMapper mapper = new ObjectMapper();
         try {
-            // TODO: Rekursion unterbinden
-            String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);
+            // TODO: Can not find a deserializer for non-concrete Map type -> abstract Straßenabschnitt oder ObsvMap nicht deserialisierbar...
+            String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(instance);
             System.out.println(jsonResult);
             String path = file.getPath();
             String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
@@ -389,11 +391,18 @@ public class Strassennetz {
         Strassenabschnitt str = new TStueck(100, 100);
         s.strasseAdden(str);
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
-        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20, "geln", s);
+        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
         //s.autoAdden(brumbrum);
         //s.autoAdden(brum);
     }
 
+    public void setAbschnitte(ObservableMap<Position, Strassenabschnitt> abschnitte) {
+        this.abschnitte = abschnitte;
+    }
+
+    public void setAutos(ObservableMap<Position, ArrayList<Auto>> autos) {
+        this.autos = autos;
+    }
 }
 
 
