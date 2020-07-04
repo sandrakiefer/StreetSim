@@ -18,8 +18,8 @@ public class Auto {
 
     public enum AutoModell {ROT, POLIZEI, BLAU}
 
-    // TODO: Anpassung des Wertebereichs der Geschwindigkeit (so maximale Geschwindigkeit = 1 Pixel)
-    private float geschwindigkeit;
+    private int geschwindigkeit;
+    private static final int MAXGESCHWINDIGKEIT = 8;
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
 
     private Himmelsrichtung abbiegerichtung;
@@ -36,11 +36,11 @@ public class Auto {
     @JsonIgnore
     private Rectangle rectangle;
 
-    public Auto(float geschwindigkeit, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
+    public Auto(float geschwindigkeitsfaktor, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
         //TODO: geschwindigkeit default am anfang?
         //TODO: Himmelsrichtung lieber berechnen?
         //TODO: breite+länge immer gleich
-        this.geschwindigkeit = geschwindigkeit;
+        setGeschwindigkeit(geschwindigkeitsfaktor);
         this.richtung.set(richtung);
         this.positionX = new SimpleIntegerProperty(positionX);
         this.positionY = new SimpleIntegerProperty(positionY);
@@ -115,17 +115,15 @@ public class Auto {
             int mittelpunktX = kreuzung.get().getPositionX() + kreuzung.get().getGroesse() / 2;
             int mittelpunktY = kreuzung.get().getPositionY() + kreuzung.get().getGroesse() / 2;
 
-            // TODO TODO TODO TODO noch mal nachdenken lol
             if(abbiegerichtung.equals(this.richtung.get().naechstes())){
-                // rechtsabbieger
-                // TODO Allegmeinbehandlung möglich? :((((((
-                this.abbiegePunktY = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
-                this.abbiegePunktX = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
+                // Rechtsabbieger
+                this.abbiegePunktX = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
+                this.abbiegePunktY = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
             } else if(abbiegerichtung.naechstes().equals(this.richtung.get())){
-                // linksabbieger
-                this.abbiegePunktY = mittelpunktY - ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
-                this.abbiegePunktX = mittelpunktX - ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
-            }
+                // Linksabbieger
+                this.abbiegePunktX = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
+                this.abbiegePunktY = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
+               }
 
             if (kreuzung.get().isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, kreuzung.get())) {
@@ -137,6 +135,17 @@ public class Auto {
             }
         }
 
+        if (abbiegerichtung.equals(richtung.get())) {
+            this.positionX.add(this.richtung.get().getX() * geschwindigkeit);
+            this.positionY.add(this.richtung.get().getY() * geschwindigkeit);
+        } else {
+            int distanz = Math.abs(this.positionX.get() - abbiegePunktX) + Math.abs(this.positionY.get() - abbiegePunktY);
+            if (geschwindigkeit > distanz) {
+                this.richtung.set(abbiegerichtung);
+                this.positionX.set(abbiegePunktX + abbiegerichtung.getX() * (geschwindigkeit - distanz));
+
+            }
+        }
         // Fahren!
             //if weg > position -> wendepunkt
 
@@ -159,8 +168,8 @@ public class Auto {
         return geschwindigkeit;
     }
 
-    public void setGeschwindigkeit(float geschwindigkeit) {
-        this.geschwindigkeit = geschwindigkeit;
+    public void setGeschwindigkeit(float geschwindigkeitsfaktor) {
+        this.geschwindigkeit = Math.min(Math.round(geschwindigkeitsfaktor * MAXGESCHWINDIGKEIT), MAXGESCHWINDIGKEIT);
     }
 
     public Himmelsrichtung getRichtung() {
