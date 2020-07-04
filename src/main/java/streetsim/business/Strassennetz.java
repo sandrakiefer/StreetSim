@@ -46,7 +46,7 @@ public class Strassennetz {
      * @param a Auto
      * @return Strassenabschnitt
      */
-    public Optional<Strassenabschnitt> stehtAnKreuzung(Auto a) {
+    public boolean stehtAnKreuzung(Auto a) {
         // TODO: Lösungsansatz Distanz vom Auto zum Mittelpunkt (ACHTUNG: Referenzpunkt Auto konsistent)
         Position p = new Position(a.getPositionX(), a.getPositionY());
         Strassenabschnitt s = abschnitte.get(p);
@@ -54,9 +54,9 @@ public class Strassennetz {
         int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
         int distanz = a.distanzBisMitte(mittelpunktX, mittelpunktY);
         if (distanz > 20 && distanz < 30) {
-            return Optional.of(s);
+            return true;
         } else {
-            return Optional.empty();
+            return false;
         }
     }
 
