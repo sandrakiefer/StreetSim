@@ -72,11 +72,7 @@ public class Auto {
      * eigenständiges Fahren der Autos
      */
     public void fahre() {
-        // TODO: Darstellung (linke oder rechte Seite)
-        // TODO: um Geschwindigkeit in aktueller Richtung fahren
-        // TODO: Kreuzung und Ampeln checken
-        // TODO: Kollision
-        // TODO: Linksabbieger muss andere beachten
+        // TODO: wenden
 
         // Kollisions-Überprüfung (wenn fahren Kollision hervorruft stoppt das Auto)
         Position p = new Position(positionX.get(), positionY.get());
@@ -102,7 +98,6 @@ public class Auto {
                 return;
             }
         }
-
         // Kruezungs- und Ampel-Überprüfung
         Optional<Strassenabschnitt> kreuzung = strassennetz.stehtAnKreuzung(this);
         if (kreuzung.isPresent()) {
@@ -114,7 +109,6 @@ public class Auto {
             abbiegerichtung = r.get(new Random().nextInt(r.size()));
             int mittelpunktX = kreuzung.get().getPositionX() + kreuzung.get().getGroesse() / 2;
             int mittelpunktY = kreuzung.get().getPositionY() + kreuzung.get().getGroesse() / 2;
-
             if(abbiegerichtung.equals(this.richtung.get().naechstes())){
                 // Rechtsabbieger
                 this.abbiegePunktX = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
@@ -124,46 +118,36 @@ public class Auto {
                 this.abbiegePunktX = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
                 this.abbiegePunktY = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
                }
-
             if (kreuzung.get().isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, kreuzung.get())) {
                     return;
+                } else if (abbiegerichtung.equals(richtung.get().naechstes())) {
+                    // links abbiegen
+                    if (kreuzungBlockiert(p,mittelpunktX,mittelpunktY,List.of(richtung.get().gegenueber()))) {
+                        return;
+                    }
                 }
             } else {
                 // Abbiegerichtung beachten
-                // TODO: STVO
                 // Rechtsabbieger dürfen immer fahren
                 if (!abbiegerichtung.equals(richtung.get().naechstes())) {
                     if (abbiegerichtung.equals(richtung.get())) {
                         // gerade fahren
                         Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
-                        for (Auto a: strassennetz.getAutos().get(p)) {
-                            if (a.getRichtung().equals(rechtsVonUns)) {
-                                // Bereichsprüfung
-                                int distanzBisMitte = a.distanzBisMitte(mittelpunktX, mittelpunktY);
-                                if (distanzBisMitte > 0 && distanzBisMitte < 40) {
-                                    return;
-                                }
-                            }
+                        if (kreuzungBlockiert(p, mittelpunktX, mittelpunktY, List.of(rechtsVonUns))) {
+                            return;
                         }
                     } else {
                         // links abbiegen
                         Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
                         Himmelsrichtung gegenueberVonuns = richtung.get().gegenueber();
-                        for (Auto a: strassennetz.getAutos().get(p)) {
-                            if (a.getRichtung().equals(rechtsVonUns) || a.getRichtung().equals(gegenueberVonuns)) {
-                                // Bereichsprüfung
-                                int distanzBisMitte = a.distanzBisMitte(mittelpunktX, mittelpunktY);
-                                if (distanzBisMitte > 0 && distanzBisMitte < 40) {
-                                    return;
-                                }
-                            }
+                        if (kreuzungBlockiert(p, mittelpunktX, mittelpunktY, List.of(rechtsVonUns, gegenueberVonuns))) {
+                            return;
                         }
                     }
                 }
             }
         }
-
         int distanz = Math.abs(this.positionX.get() - abbiegePunktX) + Math.abs(this.positionY.get() - abbiegePunktY);
         if (!abbiegerichtung.equals(richtung.get()) && geschwindigkeit > distanz) {
             this.richtung.set(abbiegerichtung);
@@ -173,12 +157,36 @@ public class Auto {
             this.positionX.add(this.richtung.get().getX() * geschwindigkeit);
             this.positionY.add(this.richtung.get().getY() * geschwindigkeit);
         }
-
+        Position neu = new Position(positionX.get(), positionY.get());
+        if (!neu.equals(p)) {
+            strassennetz.getAutos().get(p).remove(this);
+            strassennetz.getAutos().get(neu).add(this);
+        }
         //if (strassennetz == null) strassennetz = Strassennetz.getInstance();
     }
 
-    public int distanzBisMitte( int mittelpunktX, int mittelpunktY) {
+    public int distanzBisMitte(int mittelpunktX, int mittelpunktY) {
         return this.getRichtung().getX() * (mittelpunktX - this.getPositionX()) + this.getRichtung().getY() * (mittelpunktY - this.getPositionY());
+    }
+
+    public boolean distanzBisMitteKleiner(int schranke, int mittelpunktX, int mittelpunktY) {
+        int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
+        if (distanzBisMitte > 0 && distanzBisMitte < 40) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean kreuzungBlockiert(Position p, int mittelpunktX, int mittelpunktY, List<Himmelsrichtung> h) {
+        for (Auto a: strassennetz.getAutos().get(p)) {
+            if (h.contains(a.getRichtung())) {
+                // Bereichsprüfung
+                if (distanzBisMitteKleiner(40, mittelpunktX,mittelpunktY)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean autoKollision(Position p, Rectangle newR) {
