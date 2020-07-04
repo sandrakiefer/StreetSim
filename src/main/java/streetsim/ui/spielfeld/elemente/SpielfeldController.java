@@ -27,7 +27,6 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
     Map<Strassenabschnitt, StrassenController> strassenController;
     Map<Auto, AutoController> autoController;
-    Map<Ampel, AmpelController> ampelController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
     ObservableMap<Position, ArrayList<Auto>> autos;
@@ -40,7 +39,6 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         strassenController = new HashMap<>();
         autoController = new HashMap<>();
-        ampelController = new HashMap<>();
 
         abschnitte = netz.getAbschnitte();
         autos = netz.getAutos();

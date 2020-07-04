@@ -1,6 +1,7 @@
 package streetsim.business;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  * Abbildung einer einzelnen Ampel mit den passenden Zuständen
@@ -8,14 +9,21 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public class Ampel {
 
+    public static final double BREITE = 11;
+    public static final double HOEHE = 29;
+
     private SimpleBooleanProperty rot;
     private SimpleBooleanProperty gelb;
     private SimpleBooleanProperty gruen;
     private Himmelsrichtung richtung;
     private boolean schaltet = false;
 
+    private SimpleDoubleProperty relPosX = new SimpleDoubleProperty(this, "relPosX");
+    private SimpleDoubleProperty relPosY = new SimpleDoubleProperty(this, "relPosY");
+
     public Ampel(Himmelsrichtung richtung) {
         this.richtung = richtung;
+        rotiereRelativePosition();
         rot = new SimpleBooleanProperty(true);
         gelb = new SimpleBooleanProperty(false);
         gruen = new SimpleBooleanProperty(false);
@@ -98,6 +106,31 @@ public class Ampel {
      */
     public void rotiere() {
         this.richtung = richtung.naechstes();
+        rotiereRelativePosition();
+    }
+
+    private void rotiereRelativePosition(){
+        double g = Strassenabschnitt.GROESSE;
+        double offsetX = BREITE / 2;
+        double offsetY = HOEHE / 2;
+        switch (richtung) {
+            case NORDEN:
+                relPosX.set(((7 * g) / 8.0) - offsetX);
+                relPosY.set(((7 * g) / 8.0) - offsetY);
+                break;
+            case OSTEN:
+                relPosX.set(((7 * g) / 8.0) - offsetX);
+                relPosY.set((g / 8.0) - offsetY);
+                break;
+            case SUEDEN:
+                relPosX.set((g / 8.0) - offsetX);
+                relPosY.set((g / 8.0) - offsetY);
+                break;
+            case WESTEN:
+                relPosX.set((g / 8.0) - offsetX);
+                relPosY.set(((7 * g) / 8.0) - offsetY);
+                break;
+        }
     }
 
     public Himmelsrichtung getRichtung() {
