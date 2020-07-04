@@ -132,27 +132,53 @@ public class Auto {
             } else {
                 // Abbiegerichtung beachten
                 // TODO: STVO
+                // Rechtsabbieger dürfen immer fahren
+                if (!abbiegerichtung.equals(richtung.get().naechstes())) {
+                    if (abbiegerichtung.equals(richtung.get())) {
+                        // gerade fahren
+                        Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
+                        for (Auto a: strassennetz.getAutos().get(p)) {
+                            if (a.getRichtung().equals(rechtsVonUns)) {
+                                // Bereichsprüfung
+                                int distanzBisMitte = a.distanzBisMitte(mittelpunktX, mittelpunktY);
+                                if (distanzBisMitte > 0 && distanzBisMitte < 40) {
+                                    return;
+                                }
+                            }
+                        }
+                    } else {
+                        // links abbiegen
+                        Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
+                        Himmelsrichtung gegenueberVonuns = richtung.get().gegenueber();
+                        for (Auto a: strassennetz.getAutos().get(p)) {
+                            if (a.getRichtung().equals(rechtsVonUns) || a.getRichtung().equals(gegenueberVonuns)) {
+                                // Bereichsprüfung
+                                int distanzBisMitte = a.distanzBisMitte(mittelpunktX, mittelpunktY);
+                                if (distanzBisMitte > 0 && distanzBisMitte < 40) {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        if (abbiegerichtung.equals(richtung.get())) {
+        int distanz = Math.abs(this.positionX.get() - abbiegePunktX) + Math.abs(this.positionY.get() - abbiegePunktY);
+        if (!abbiegerichtung.equals(richtung.get()) && geschwindigkeit > distanz) {
+            this.richtung.set(abbiegerichtung);
+            this.positionX.set(abbiegePunktX + abbiegerichtung.getX() * (geschwindigkeit - distanz));
+            this.positionY.set(abbiegePunktX + abbiegerichtung.getY() * (geschwindigkeit - distanz));
+        } else {
             this.positionX.add(this.richtung.get().getX() * geschwindigkeit);
             this.positionY.add(this.richtung.get().getY() * geschwindigkeit);
-        } else {
-            int distanz = Math.abs(this.positionX.get() - abbiegePunktX) + Math.abs(this.positionY.get() - abbiegePunktY);
-            if (geschwindigkeit > distanz) {
-                this.richtung.set(abbiegerichtung);
-                this.positionX.set(abbiegePunktX + abbiegerichtung.getX() * (geschwindigkeit - distanz));
-
-            }
         }
-        // Fahren!
-            //if weg > position -> wendepunkt
-
-
 
         //if (strassennetz == null) strassennetz = Strassennetz.getInstance();
+    }
 
+    public int distanzBisMitte( int mittelpunktX, int mittelpunktY) {
+        return this.getRichtung().getX() * (mittelpunktX - this.getPositionX()) + this.getRichtung().getY() * (mittelpunktY - this.getPositionY());
     }
 
     public boolean autoKollision(Position p, Rectangle newR) {

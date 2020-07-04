@@ -52,19 +52,11 @@ public class Strassennetz {
         Strassenabschnitt s = abschnitte.get(p);
         int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
         int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
-        int distanz = 0;
-        // vertikal
-        if (a.getRichtung().getX() == 0) {
-            distanz =  mittelpunktX - a.getPositionX() * a.getRichtung().getX();
-        }
-        // horizontal
-        else {
-            distanz = mittelpunktY - a.getPositionY() * a.getRichtung().getY();
-        }
-        if (distanz > 20 && distanz < 20) {
+        int distanz = a.distanzBisMitte(mittelpunktX, mittelpunktY);
+        if (distanz > 20 && distanz < 30) {
             return Optional.of(s);
         } else {
-            return Optional.of(null);
+            return Optional.empty();
         }
     }
 
