@@ -39,7 +39,6 @@ public class Auto {
     public Auto(float geschwindigkeitsfaktor, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
         //TODO: geschwindigkeit default am anfang?
         //TODO: Himmelsrichtung lieber berechnen?
-        //TODO: breite+länge immer gleich
         setGeschwindigkeit(geschwindigkeitsfaktor);
         this.richtung.set(richtung);
         this.positionX = new SimpleIntegerProperty(positionX);
@@ -47,6 +46,7 @@ public class Auto {
         this.breite = breite;
         this.laenge = laenge;
         this.strassennetz = Strassennetz.getInstance();
+        this.autoModell = autoModell;
         initRectangle();
         // vertikal Auto richtig positionieren
         if (richtung.getX() == 0) {
