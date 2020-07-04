@@ -99,7 +99,7 @@ public class Strassennetz {
                 instance.autos.put(p, new ArrayList());
             }
             if (instance.posBelegt(a)) {
-                //TODO: Auto an nächstmöglicher Position ablegen
+                //TODO: Auto an nächstmöglicher Position ablegen @UI @Logik?
                 throw new SchonBelegtException();
             } else {
                 instance.autos.get(p).add(a);

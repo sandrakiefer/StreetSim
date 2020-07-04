@@ -21,8 +21,9 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     private BooleanProperty ampelAktiv;
 
     public Strassenabschnitt(int positionX, int positionY, List<Himmelsrichtung> richtungen) {
-        this.positionX.set(positionX);
-        this.positionY.set(positionY);
+        Position p = new Position(positionX, positionY);
+        this.positionX.set(p.getPositionX());
+        this.positionY.set(p.getPositionY());
         this.richtungen = richtungen;
         this.ampeln = baueAmpeln(richtungen);
         ampelAktiv = new SimpleBooleanProperty();
