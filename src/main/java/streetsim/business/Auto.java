@@ -32,11 +32,8 @@ public class Auto {
     @JsonIgnore
     private Rectangle rectangle;
 
-    public Auto(float geschwindigkeitsfaktor, Himmelsrichtung richtung, int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
-        //TODO: geschwindigkeit default am anfang?
-        //TODO: Himmelsrichtung lieber berechnen?
-        setGeschwindigkeit(geschwindigkeitsfaktor);
-        this.richtung.set(richtung);
+    public Auto(int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
+        setGeschwindigkeit(0.5f);
         this.positionX = new SimpleIntegerProperty(positionX);
         this.positionY = new SimpleIntegerProperty(positionY);
         this.breite = breite;
@@ -45,13 +42,28 @@ public class Auto {
         this.autoModell = autoModell;
         this.wendepunkte = new Stack();
         initRectangle();
-        // vertikal Auto richtig positionieren
-        if (richtung.getX() == 0) {
-            positionX = (int) (positionX - (positionX % Strassenabschnitt.GROESSE) + (positionX / 2) + (richtung.naechstes().getX() * breite * 0.5));
-        }
-        // horizontal Auto richtig positionieren
-        else {
-            positionY = (int) (positionY - (positionY % Strassenabschnitt.GROESSE) + (positionY / 2) + (richtung.naechstes().getY() * breite * 0.5));
+        positionierung();
+    }
+
+    public void positionierung() {
+        int offX = (this.positionX.get() % Strassenabschnitt.GROESSE) - Strassenabschnitt.GROESSE / 2;
+        int offY = (this.positionY.get() % Strassenabschnitt.GROESSE) - Strassenabschnitt.GROESSE / 2;
+        if (Math.abs(offX) < Math.abs(offY)) {
+            if (offX < 0) {
+                this.richtung.set(Himmelsrichtung.SUEDEN);
+                this.positionX.set((Strassenabschnitt.GROESSE - this.breite) / 2);
+            } else {
+                this.richtung.set(Himmelsrichtung.NORDEN);
+                this.positionX.set((Strassenabschnitt.GROESSE + this.breite) / 2);
+            }
+        } else {
+            if (offY < 0) {
+                this.richtung.set(Himmelsrichtung.WESTEN);
+                this.positionY.set((Strassenabschnitt.GROESSE - this.breite) / 2);
+            } else {
+                this.richtung.set(Himmelsrichtung.OSTEN);
+                this.positionY.set((Strassenabschnitt.GROESSE + this.breite) / 2);
+            }
         }
     }
 
@@ -69,9 +81,6 @@ public class Auto {
      * eigenständiges Fahren der Autos
      */
     public void fahre() {
-        // TODO: wenden
-
-
         // Kollisions-Überprüfung (wenn fahren Kollision hervorruft stoppt das Auto)
         Position p = new Position(positionX.get(), positionY.get());
         Rectangle newR = new Rectangle(this.rectangle.getX() + this.richtung.get().getX() * geschwindigkeit,this.rectangle.getY() + this.richtung.get().getY() * geschwindigkeit,breite,laenge);
