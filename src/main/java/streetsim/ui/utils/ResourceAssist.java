@@ -24,12 +24,12 @@ public class ResourceAssist {
      * korrekt zusammenbaut und die gewünschte Ressource als InputStream zurückgibt.
      *
      * Beispiel:
-     * gewünschte Ressource liegt im Pfad unter Unix = "assets/bilder/foto.png"
+     * gewünschte Ressource liegt im Pfad unter Unix = "assets/icons/foto.png"
      * wird erzielt durch:
      * <code>
-     *     resourceAssistInstance.holeRessourceAusOrdnern("assets", "bilder", "foto.png");
+     *     resourceAssistInstance.holeRessourceAusOrdnern("assets", "icons", "foto.png");
      * </code>
-     * (erzeugt unter Windows entsprechend intern "assets\bilder\foto.png")
+     * (erzeugt unter Windows entsprechend intern "assets\icons\foto.png")
      *
      *
      * @param pfadteile einzelne Ordner des Pfades
