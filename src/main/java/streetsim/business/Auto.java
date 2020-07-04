@@ -20,15 +20,15 @@ public class Auto {
     private static final int MAXGESCHWINDIGKEIT = 8;
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
 
-    private Stack<Wendepunkt> wendepunkte;
+    private final Stack<Wendepunkt> wendepunkte;
 
-    private SimpleIntegerProperty positionX;
-    private SimpleIntegerProperty positionY;
+    private final SimpleIntegerProperty positionX;
+    private final SimpleIntegerProperty positionY;
     private int breite;
     private int laenge;
     private AutoModell autoModell;
     @JsonIgnore
-    private Strassennetz strassennetz;
+    private final Strassennetz strassennetz;
     @JsonIgnore
     private Rectangle rectangle;
 
@@ -45,10 +45,17 @@ public class Auto {
         positionierung();
     }
 
+    /**
+     * Positionierung und Ausrichtung des Autos
+     * an nächstgelegener Stelle des Strassenabschnittes
+     */
     public void positionierung() {
+        // Distanz der oberen linken Ecke zum Mittelpunkt
         int offX = (this.positionX.get() % Strassenabschnitt.GROESSE) - Strassenabschnitt.GROESSE / 2;
         int offY = (this.positionY.get() % Strassenabschnitt.GROESSE) - Strassenabschnitt.GROESSE / 2;
+        // Wert welcher näher zur Mitte liegt wird angepasst
         if (Math.abs(offX) < Math.abs(offY)) {
+            // Trennung nach Richtung aus welcher der Punkt angepasst wird (rechts/links)
             if (offX < 0) {
                 this.richtung.set(Himmelsrichtung.SUEDEN);
                 this.positionX.set((Strassenabschnitt.GROESSE - this.breite) / 2);
@@ -57,6 +64,7 @@ public class Auto {
                 this.positionX.set((Strassenabschnitt.GROESSE + this.breite) / 2);
             }
         } else {
+            // Trennung nach Richtung aus welcher der Punkt angepasst wird (oben/unten)
             if (offY < 0) {
                 this.richtung.set(Himmelsrichtung.WESTEN);
                 this.positionY.set((Strassenabschnitt.GROESSE - this.breite) / 2);
@@ -68,17 +76,25 @@ public class Auto {
     }
 
     /**
-     * Abbilden der Koordinaten auf ein Rechteck
+     * Abbilden der Koordinaten des Autos auf ein Rechteck
      * (für die Kollisionserkennung)
      */
     private void initRectangle(){
         rectangle = new Rectangle(positionX.doubleValue() - (breite / 2),positionY.doubleValue() - (laenge / 2), breite, laenge);
+        // automatische Anpassung an die Position
         rectangle.xProperty().bind(Bindings.subtract(this.positionX, breite / 2));
         rectangle.yProperty().bind(Bindings.subtract(this.positionY, laenge / 2));
     }
 
     /**
-     * eigenständiges Fahren der Autos
+     * eigenständiges Fahren des Autos
+     *
+     * Überprüfung auf eventuell eintretende Kollision
+     * Überprüfung und Berücksichtigung der aktuellen Ampelphase
+     * Berücksichtigung der Verkehrsregeln (rechts vor links)
+     * Überprüfung auf Fortführung des Strassenabschnittes (Einleitung eines U-Turns)
+     * Fahren unter Berücksichtigung möglicher zuvor ermittelter Wendepuntke (Abbiegen, U-Turn)
+     * mögliches Versetzen des Autos in neuen Strassenabschnitt (Handover)
      */
     public void fahre() {
         // Kollisions-Überprüfung (wenn fahren Kollision hervorruft stoppt das Auto)
@@ -105,7 +121,7 @@ public class Auto {
                 return;
             }
         }
-        // Kruezungs- und Ampel-Überprüfung
+        // Kreuzungs- und Ampel-Überprüfung
         Strassenabschnitt aktuellerAbschnitt = strassennetz.getAbschnitte().get(p);
         int mittelpunktX = aktuellerAbschnitt.getPositionX() + aktuellerAbschnitt.getGroesse() / 2;
         int mittelpunktY = aktuellerAbschnitt.getPositionY() + aktuellerAbschnitt.getGroesse() / 2;
@@ -190,10 +206,27 @@ public class Auto {
         }
     }
 
+    /**
+     * Berechnung der Distanz bis zum Mittelpunkt
+     * unter Berücksichtigung der Bewegungsrichtung
+     * (Rechtsverkehr Offset wird vernachlässigt)
+     *
+     * @param mittelpunktX Mittelpunkt-Koordinate-X des aktuellen Abschnitts
+     * @param mittelpunktY Mittelpunkt-Koordinate-Y des aktuellen Abschnitts
+     * @return Distanz
+     */
     public int distanzBisMitte(int mittelpunktX, int mittelpunktY) {
         return this.getRichtung().getX() * (mittelpunktX - this.getPositionX()) + this.getRichtung().getY() * (mittelpunktY - this.getPositionY());
     }
 
+    /**
+     * Überprüfung der Distanz nach gegebener Schranke
+     *
+     * @param schranke Grenze ab welcher true zurückgegeben wird
+     * @param mittelpunktX Mittelpunkt-Koordinate-X des aktuellen Abschnitts
+     * @param mittelpunktY Mittelpunkt-Koordinate-Y des aktuellen Abschnitts
+     * @return Distanz bis Mitte ist kleiner als Schranke (Vorzeichen definiert Richtung)
+     */
     public boolean distanzBisMitteKleiner(int schranke, int mittelpunktX, int mittelpunktY) {
         int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
         if (distanzBisMitte > 0 && distanzBisMitte < schranke) {
@@ -202,6 +235,18 @@ public class Auto {
         return false;
     }
 
+    /**
+     * Überprüfung ob Autos eines Abschnittes
+     * (fahren in angegebener Himmelsrichtung)
+     * sich im relevanten Bereich zum Abbiegen
+     * des Abschnittes befinden
+     *
+     * @param p Position des Strassenabschnitts
+     * @param mittelpunktX Mittelpunkt-Koordinate-X des aktuellen Abschnitts
+     * @param mittelpunktY Mittelpunkt-Koordinate-Y des aktuellen Abschnitts
+     * @param h Liste von zu beachtenden Himmelsrichtungen
+     * @return Kreuzung (Bereich zum Abbiegen) ist blockiert
+     */
     public boolean kreuzungBlockiert(Position p, int mittelpunktX, int mittelpunktY, List<Himmelsrichtung> h) {
         for (Auto a: strassennetz.getAutos().get(p)) {
             if (h.contains(a.getRichtung())) {
@@ -214,6 +259,14 @@ public class Auto {
         return false;
     }
 
+    /**
+     * Überprüfung der zu fahrenden Strecke
+     * auf Kollision mit anderem Auto
+     *
+     * @param p Position des Strassenabschnitts
+     * @param newR Rechteck des Autos auf künftiger Position
+     * @return ob nächste Position des Autos verfügbar ist (ohne Kollision mit anderem Auto)
+     */
     public boolean autoKollision(Position p, Rectangle newR) {
         for (Auto a : strassennetz.getAutos().get(p)) {
             if (newR.intersects(a.getRectangle().getLayoutBounds()) && !this.equals(a)) {
@@ -223,6 +276,10 @@ public class Auto {
         return false;
     }
 
+    /**
+     * innere Klasse zur Definition eines Wendepunktes
+     * bestehend aus den Koordinaten und der Richtung nach Wendung
+     */
     class Wendepunkt {
 
         private int x;
@@ -235,6 +292,13 @@ public class Auto {
             this.richtung = richtung;
         }
 
+        /**
+         * Berechnet Manhatten-Distanz bis zum übergebenen Koordinaten
+         *
+         * @param x X-Koordinate
+         * @param y Y-Koordinate
+         * @return Distanz
+         */
         public int distanzBisWendepunkt(int x, int y) {
            return Math.abs(x - this.x) + Math.abs(y - this.y);
         }

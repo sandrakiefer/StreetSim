@@ -47,16 +47,20 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
      * rotiert den Strassenabschnitt um 90° im Uhrzeigersinn
      */
     public void rotiere() {
-
         List<Himmelsrichtung> neueRichtungen = new ArrayList<>();
         richtungen.forEach(r -> neueRichtungen.add(r.naechstes()));
         richtungen = neueRichtungen;
-
         for (Ampel a: ampeln) {
             a.rotiere();
         }
     }
 
+    /**
+     * Initialisierung der Ampeln mit den passenden Himmelsrichtungen
+     *
+     * @param richtungen Himmelsrichtung in welche die Ampeln aufgestellt werden
+     * @return
+     */
     public static List<Ampel> baueAmpeln(List<Himmelsrichtung> richtungen) {
         List<Ampel> ampeln = new ArrayList<>();
         for (Himmelsrichtung r: richtungen) {
@@ -115,4 +119,5 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     public SimpleIntegerProperty positionYProperty() {
         return positionY;
     }
+
 }

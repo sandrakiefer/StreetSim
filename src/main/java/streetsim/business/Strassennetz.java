@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import streetsim.business.abschnitte.TStueck;
-import streetsim.business.exceptions.DateiParseException;
-import streetsim.business.exceptions.FalschRotiertException;
-import streetsim.business.exceptions.SchonBelegtException;
-import streetsim.business.exceptions.WeltLeerException;
+import streetsim.business.exceptions.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableMap;
 
@@ -17,8 +14,8 @@ import java.nio.file.Path;
 import java.util.*;
 
 /**
- * Verwaltung aller Strassenabschnitte und Autos sowie Großteil
- * der Anwendungslogik und Schnittstelle für obere Schicht (UI)
+ * Verwaltung aller Strassenabschnitte und Autos (über die Position)
+ * sowie den Großteil der Anwendungslogik und Schnittstelle für obere Schicht (UI)
  */
 public class Strassennetz {
 
@@ -40,14 +37,13 @@ public class Strassennetz {
     }
 
     /**
-     * steht das Auto an einem Strassenabschnitt, an dem es in eine andere Richtung abbiegen kann
-     * zufällige Bestimmung der möglichen Abbiegerichtung
+     * Bestimmung ob gegebenes Auto an einer Kreuzung steht
+     * (vorgegebener Wertebereich [20,30])
      *
      * @param a Auto
-     * @return Strassenabschnitt
+     * @return steht an Kreuzung
      */
     public boolean stehtAnKreuzung(Auto a) {
-        // TODO: Lösungsansatz Distanz vom Auto zum Mittelpunkt (ACHTUNG: Referenzpunkt Auto konsistent)
         Position p = new Position(a.getPositionX(), a.getPositionY());
         Strassenabschnitt s = abschnitte.get(p);
         int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
@@ -61,12 +57,13 @@ public class Strassennetz {
     }
 
     /**
+     * Überprüfung ob die Ampel rot ist
+     *
      * @param a Auto
      * @param s Strassenabschnitt
      * @return steht das Auto an einer Ampel oder nicht
      */
     public boolean stehtAnAmpel(Auto a, Strassenabschnitt s) {
-        // TODO: Lösungsansatz stehtAnKruezug() aufrufen und wenn ja Ampel überprüfen (ACHTUNG: Referenzpunkt Auto konsistent)
         // Beispiel Auto fährt nach Norden aber steht an Ampel Süden
         Himmelsrichtung h = a.getRichtung().gegenueber();
         for (Ampel ampel : s.getAmpeln()) {
@@ -82,20 +79,22 @@ public class Strassennetz {
      *
      * @param a Auto
      * @throws SchonBelegtException wenn ein Auto auf dem Strassennetz mit selber Position und Richtung existiert
+     * @throws KeinAbschnittException wenn Auto auf stelle platziert werden soll, wo noch kein Strassenabschnitt platziert worden ist
      */
-    public void autoAdden(Auto a) throws SchonBelegtException {
+    public void autoAdden(Auto a) throws SchonBelegtException, KeinAbschnittException {
         Position p = new Position(a.getPositionX(), a.getPositionY());
-        // TODO: kein Strassenabschnitt an der Stelle (? Exception)
         if (instance.abschnitte.containsKey(p)) {
             if (!instance.autos.containsKey(p)) {
                 instance.autos.put(p, new ArrayList());
             }
             if (instance.posBelegt(a)) {
-                //TODO: Auto an nächstmöglicher Position ablegen @UI @Logik?
+                //TODO: Auto an nächstmöglicher Position ablegen @UI @Logik? (optional)
                 throw new SchonBelegtException();
             } else {
                 instance.autos.get(p).add(a);
             }
+        } else {
+            throw new KeinAbschnittException();
         }
     }
 
@@ -103,12 +102,9 @@ public class Strassennetz {
      * fügt ein Strassenabschnitt zum Strassennetz hinzu (Abschnitte-Map)
      *
      * @param s Strassenabschnitt
-     * @throws SchonBelegtException   an der Position ist bereits ein anderer Strassenabschnitt platziert
-     * @throws FalschRotiertException kein Strassenfluss möglich
+     * @throws SchonBelegtException an der Position ist bereits ein anderer Strassenabschnitt platziert
      */
-    public void strasseAdden(Strassenabschnitt s) throws SchonBelegtException, FalschRotiertException {
-        // TODO: ? FalschRotiertException unnötig
-        // auch willkürlich möglich
+    public void strasseAdden(Strassenabschnitt s) throws SchonBelegtException {
         Position p = new Position(s.getPositionX(), s.getPositionY());
         if (instance.abschnitte.containsKey(p)) {
             throw new SchonBelegtException();
@@ -144,6 +140,13 @@ public class Strassennetz {
         return instance.abschnitte.containsKey(p);
     }
 
+    /**
+     * Bestimmung der Position mit den Koordinaten
+     *
+     * @param x X-Koordinate
+     * @param y Y-Koordinate
+     * @return Strassenabschnitt an der gegeben Position
+     */
     public Strassenabschnitt strasseAnPos(int x, int y) {
         Position p = new Position(x,y);
         return instance.abschnitte.get(p);
@@ -186,8 +189,10 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void speicherNetz(File file) {
-        // TODO: data rausschmeißen
-
+        if (abschnitte.isEmpty() && autos.isEmpty()) {
+            // TODO: machen wir das noch?
+            throw new WeltLeerException();
+        }
         ObjectMapper mapper = new ObjectMapper();
         try {
             // TODO: Can not find a deserializer for non-concrete Map type -> abstract Straßenabschnitt oder ObsvMap nicht deserialisierbar...
@@ -224,13 +229,11 @@ public class Strassennetz {
     }
 
     /**
-     * versucht den Strassenabschnitt um 90 Grad im Uhrzeigersinn zu rotieren
+     * rotiert Strassenabschnitt um 90 Grad im Uhrzeigersinn
      *
      * @param s Strassenabschnitt
-     * @throws FalschRotiertException keine Verknüpfung zu einem anderen Strassenabschnitt
      */
-    public void rotiereStrasse(Strassenabschnitt s) throws FalschRotiertException {
-        // TODO: FlaschRotiertException sinvoll? (wie überprüfen, beschränkt Benutzer, lose Enden = Sackgasse)
+    public void rotiereStrasse(Strassenabschnitt s) {
         s.rotiere();
     }
 
@@ -248,7 +251,7 @@ public class Strassennetz {
     }
 
     /**
-     * versucht Strassenabschnitt zu verschieben
+     * verschiebt Strassenabschnitt,
      * eventuell darauf befindliche Autos werden mit verschoben
      *
      * @param s Strassenabschnitt
@@ -256,6 +259,7 @@ public class Strassennetz {
      * @param y Y-Koordinate
      */
     public void bewegeStrasse(Strassenabschnitt s, int x, int y) {
+        // TODO: SchonBelegtException hier auch möglich?
         Position oldP = new Position(s.getPositionX(), s.getPositionY());
         Position newP = new Position(x, y);
         int xOff = newP.getPositionX() - oldP.getPositionX();
@@ -270,9 +274,9 @@ public class Strassennetz {
     }
 
     /**
-     * passt die Geschwindigkeit eines Autos an
+     * passt die Geschwindigkeit des Autos an
      *
-     * @param a               Auto
+     * @param a Auto
      * @param geschwindigkeit Geschwindigkeit (Intervall zwischen 0 und 1)
      */
     public void geschwindigkeitAnpassen(Auto a, float geschwindigkeit) {
@@ -313,6 +317,8 @@ public class Strassennetz {
 
     /**
      * Starten der Simulation
+     * startet Thread für automatisierte Schaltung aller Ampeln (nach bestimmten Zeitintervall)
+     * startet Thread für automatisiertes Fahren aller Autos
      *
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
@@ -349,7 +355,6 @@ public class Strassennetz {
                     for (Map.Entry<Position, ArrayList<Auto>> entry : instance.autos.entrySet()) {
                         for (Auto a : entry.getValue()) {
                             a.fahre();
-                            // TODO: wann wird auto in andere Liste verschoben?
                         }
                     }
                 } else {
@@ -394,7 +399,16 @@ public class Strassennetz {
         return instance.autos;
     }
 
+    public void setAbschnitte(ObservableMap<Position, Strassenabschnitt> abschnitte) {
+        this.abschnitte = abschnitte;
+    }
+
+    public void setAutos(ObservableMap<Position, ArrayList<Auto>> autos) {
+        this.autos = autos;
+    }
+
     public static void main(String[] args) {
+        // Testen der Klassen
         Strassennetz s = getInstance();
         Strassenabschnitt str = new TStueck(128, 128);
         System.out.println(str.getPositionX() + " " + str.getPositionY());
@@ -411,13 +425,6 @@ public class Strassennetz {
         //s.autoAdden(brum);
     }
 
-    public void setAbschnitte(ObservableMap<Position, Strassenabschnitt> abschnitte) {
-        this.abschnitte = abschnitte;
-    }
-
-    public void setAutos(ObservableMap<Position, ArrayList<Auto>> autos) {
-        this.autos = autos;
-    }
 }
 
 
