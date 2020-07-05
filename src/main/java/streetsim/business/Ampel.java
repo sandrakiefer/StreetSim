@@ -12,9 +12,9 @@ public class Ampel {
     public static final double BREITE = 11;
     public static final double HOEHE = 29;
 
-    private SimpleBooleanProperty rot;
-    private SimpleBooleanProperty gelb;
-    private SimpleBooleanProperty gruen;
+    private final SimpleBooleanProperty rot;
+    private final SimpleBooleanProperty gelb;
+    private final SimpleBooleanProperty gruen;
     private Himmelsrichtung richtung;
     private boolean schaltet = false;
 
@@ -31,6 +31,7 @@ public class Ampel {
 
     /**
      * Schaltung zwischen den verschiedenen Ampelphasen
+     * rot -> rot und gelb -> gruen -> gelb -> rot
      */
     public void schalte() {
         if (!schaltet) {
@@ -102,7 +103,7 @@ public class Ampel {
 
     /**
      * rotiert die Ampel um 90° im Uhrzeigersinn
-     * (Himmelsrichtung änder sich)
+     * (Himmelsrichtung ändert sich)
      */
     public void rotiere() {
         this.richtung = richtung.naechstes();

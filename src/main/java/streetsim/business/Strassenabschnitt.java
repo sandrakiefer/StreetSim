@@ -3,9 +3,6 @@ package streetsim.business;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +15,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
 
     private SimpleIntegerProperty positionX = new SimpleIntegerProperty(this, "positionX");
     private SimpleIntegerProperty positionY = new SimpleIntegerProperty(this, "positionY");
-    private SimpleListProperty<Himmelsrichtung> richtungen;
+    private List<Himmelsrichtung> richtungen;
     public static final int GROESSE = 128;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
@@ -27,8 +24,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
         Position p = new Position(positionX, positionY);
         this.positionX.set(p.getPositionX());
         this.positionY.set(p.getPositionY());
-        ObservableList<Himmelsrichtung> tmp = FXCollections.observableList(richtungen);
-        this.richtungen = new SimpleListProperty<>(tmp);
+        this.richtungen = richtungen;
         this.ampeln = baueAmpeln(richtungen);
         ampelAktiv = new SimpleBooleanProperty();
     }
@@ -51,16 +47,20 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
      * rotiert den Strassenabschnitt um 90° im Uhrzeigersinn
      */
     public void rotiere() {
-
         List<Himmelsrichtung> neueRichtungen = new ArrayList<>();
-        richtungen.get().forEach(r -> neueRichtungen.add(r.naechstes()));
-        richtungen.setAll(neueRichtungen);
-
+        richtungen.forEach(r -> neueRichtungen.add(r.naechstes()));
+        richtungen = neueRichtungen;
         for (Ampel a: ampeln) {
             a.rotiere();
         }
     }
 
+    /**
+     * Initialisierung der Ampeln mit den passenden Himmelsrichtungen
+     *
+     * @param richtungen Himmelsrichtung in welche die Ampeln aufgestellt werden
+     * @return
+     */
     public static List<Ampel> baueAmpeln(List<Himmelsrichtung> richtungen) {
         List<Ampel> ampeln = new ArrayList<>();
         for (Himmelsrichtung r: richtungen) {
@@ -76,8 +76,8 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
         }
     }
 
-    public ObservableList<Himmelsrichtung> getRichtungen() {
-        return richtungen.get();
+    public List<Himmelsrichtung> getRichtungen() {
+        return richtungen;
     }
 
     public int getGroesse() {
@@ -120,7 +120,4 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
         return positionY;
     }
 
-    public SimpleListProperty<Himmelsrichtung> richtungenProperty() {
-        return richtungen;
-    }
 }

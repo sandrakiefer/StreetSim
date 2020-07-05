@@ -1,16 +1,14 @@
 package streetsim.business.abschnitte;
 
-import streetsim.business.Ampel;
 import streetsim.business.Himmelsrichtung;
 import streetsim.business.Strassenabschnitt;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Realisierung eines Strassenabschnitts
- * maximal vie Ampel-Instanzen
+ * maximal vie Ampel-Instanzen und
  * vier mögliche Strassenrichtungen
  */
 public class Kreuzung extends Strassenabschnitt {
