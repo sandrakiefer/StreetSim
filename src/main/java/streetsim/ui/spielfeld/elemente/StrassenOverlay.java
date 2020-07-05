@@ -1,12 +1,15 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import streetsim.business.Ampel;
 import streetsim.business.Strassenabschnitt;
 import streetsim.ui.utils.ResourceAssist;
+import streetsim.ui.utils.StyleAssist;
 
 class StrassenOverlay extends Pane {
 
@@ -20,16 +23,29 @@ class StrassenOverlay extends Pane {
         setPrefSize(OVERLAY_GROESSE, OVERLAY_GROESSE);
 
         loesche = new Button();
-        loesche.setGraphic(new ImageView(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "loeschen.png"))));
+        ImageView loescheView = new ImageView(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "loeschen.png")));
+        loescheView.setFitWidth(BUTTON_SIZE);
+        loescheView.setFitHeight(BUTTON_SIZE);
+        loesche.setGraphic(loescheView);
+        loesche.setPadding(Insets.EMPTY);
         loesche.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
 
         rotiere = new Button();
-        rotiere.setGraphic(new ImageView(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "rotieren.png"))));
+        ImageView rotiereView = new ImageView(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "rotieren.png")));
+        rotiereView.setFitWidth(BUTTON_SIZE);
+        rotiereView.setFitHeight(BUTTON_SIZE);
+        rotiere.setGraphic(rotiereView);
+        rotiere.setPadding(Insets.EMPTY);
         rotiere.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
 
         deaktiviereAmpeln = new Button();
-        deaktiviereAmpeln.setGraphic(new ImageView(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "ampelweg.png"))));
+        ImageView deaktView = new ImageView(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "ampelweg.png")));
+        deaktView.setFitWidth(BUTTON_SIZE);
+        deaktView.setFitHeight(BUTTON_SIZE);
+        deaktiviereAmpeln.setGraphic(deaktView);
+        deaktiviereAmpeln.setPadding(Insets.EMPTY);
         deaktiviereAmpeln.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
+
 
         getChildren().addAll(loesche, rotiere, deaktiviereAmpeln);
 
