@@ -50,7 +50,6 @@ public class AmpelController extends AbstractModelController<Ampel> {
         model.richtungProperty().addListener(c -> {
             ausrichtung();
         });
-
     }
 
     private void ausrichtung(){

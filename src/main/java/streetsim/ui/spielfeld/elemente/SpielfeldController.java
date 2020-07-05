@@ -21,7 +21,6 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
     Map<Strassenabschnitt, StrassenController> strassenController;
     Map<Auto, AutoController> autoController;
-//    Map<Strassenabschnitt, List<AmpelController>> ampelController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
     ObservableMap<Position, ArrayList<Auto>> autos;
@@ -64,8 +63,9 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
                 ((SpielfeldView) rootView).addAbschnitt(strassenView);
             } else if (change.wasRemoved()) {
                 Strassenabschnitt s = change.getValueRemoved();
-                netz.entfStrasse(s);
                 StrassenController sc = strassenController.remove(s);
+                sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).entferneAmpelOderAuto(a.getRootView()));
+                netz.entfStrasse(s);
                 ((SpielfeldView) rootView).entferneAbschnitt(sc.getRootView());
             }
         });
@@ -74,13 +74,6 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView)rootView).setHoehe(app.getHauptStage().getHeight()));
 
-    }
-
-    public void setAmpeln(Strassenabschnitt s){
-        strassenController.get(s).getAlleAmpelController().forEach(a ->{
-            System.out.println(String.format("Ampel \n Richtung: %s \n Position X: %2f \n Position Y: %2f \n", a.getModel().getRichtung().toString(), a.getAbsolutePosX(), a.getAbsolutePosY()));
-            ((SpielfeldView) rootView).addAmpelOderAuto(a.getRootView());
-        });
     }
 
     /**
@@ -98,7 +91,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      * @param s Strassenabschnitt
      */
     public void ampelnAktivieren(Strassenabschnitt s) {
-
+        strassenController.get(s).getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).addAmpelOderAuto(a.getRootView()));
     }
 
     /**

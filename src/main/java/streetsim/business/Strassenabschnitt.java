@@ -125,4 +125,6 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     public SimpleListProperty<Himmelsrichtung> richtungenProperty() {
         return richtungen;
     }
+
+    public BooleanProperty ampelAktivProperty(){ return ampelAktiv; }
 }

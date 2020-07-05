@@ -10,19 +10,17 @@ import streetsim.ui.spielfeld.elemente.AmpelController;
 import streetsim.ui.spielfeld.elemente.AmpelView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 public class StrassenController extends AbstractModelController<Strassenabschnitt> {
 
     HashMap<Ampel, AmpelController> alleAmpeln;
-    List<AmpelController> alleAmpelCon;
-
 
     public StrassenController(Strassenabschnitt model, ImageView rootView) {
         super(model, rootView);
         alleAmpeln = new HashMap<>();
-        alleAmpelCon = new ArrayList<>();
         initAmpelPos();
         handlerAnmelden();
     }
@@ -30,13 +28,9 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
     @Override
     public void handlerAnmelden() {
 
-        model.positionXProperty().addListener(c -> {
-            Platform.runLater(() -> rootView.setLayoutX(model.getPositionX()));
-        });
+        model.positionXProperty().addListener(c ->  Platform.runLater(() -> rootView.setLayoutX(model.getPositionX())) );
 
-        model.positionYProperty().addListener(c -> {
-            Platform.runLater(() -> rootView.setLayoutY(model.getPositionY()));
-        });
+        model.positionYProperty().addListener(c ->  Platform.runLater(() -> rootView.setLayoutY(model.getPositionY())) );
 
         model.getAmpeln().forEach( f -> {
             f.getRelPosX().addListener( change ->{
@@ -51,23 +45,22 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
         model.richtungenProperty().addListener((observable, oldValue, newValue) -> {
             if (model.getRichtungen().size() > 0) {
                 rootView.setRotate(rootView.getRotate() + 90);
-
             }
         });
+
     }
 
     public void initAmpelPos(){
         model.getAmpeln().forEach(f -> {
             AmpelView ampelView = new AmpelView();
             AmpelController ampelCon = new AmpelController(f, ampelView);
-            alleAmpelCon.add(ampelCon);
             ampelCon.setAbsolutePosX(model.getPositionX() + f.getRelPosX().intValue());
             ampelCon.setAbsolutePosY(model.getPositionY() + f.getRelPosY().intValue());
             alleAmpeln.put(f, ampelCon);
         });
     }
 
-    public List<AmpelController> getAlleAmpelController(){
-        return alleAmpelCon;
+    public Collection<AmpelController> getAlleAmpeln(){
+        return alleAmpeln.values();
     }
 }
