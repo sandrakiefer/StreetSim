@@ -57,7 +57,6 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
             a.rotiere();
         }
     }
-
     /**
      * Initialisierung der Ampeln mit den passenden Himmelsrichtungen
      *
