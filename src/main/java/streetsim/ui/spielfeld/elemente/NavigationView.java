@@ -11,7 +11,6 @@ import streetsim.ui.utils.StyleAssist;
 class NavigationView extends HBox {
 
     Button startPause, speichern, beende;
-    MenuButton entferne;
     MenuItem ampeln, autos, strassen, alles;
 
     NavigationView() {
@@ -25,7 +24,7 @@ class NavigationView extends HBox {
         autos = new MenuItem("Autos zurücksetzen");
         strassen = new MenuItem("Straßen zurücksetzen");
         alles = new MenuItem("Alles zurücksetzen");
-        entferne = new MenuButton();
+        MenuButton entferne = new MenuButton();
         entferne.getItems().addAll(ampeln, autos, strassen, alles);
         entferne.setId("delete");
         entferne.setPickOnBounds(true);

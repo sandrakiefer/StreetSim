@@ -2,6 +2,7 @@ package streetsim.ui.spielfeld.elemente;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import streetsim.business.Auto;
@@ -21,15 +22,19 @@ import java.io.File;
 public class NavigationController extends AbstractController<StreetSimApp> {
 
     private final Button startPause, speichern, beende;
-    private final MenuButton entferne;
+    private final MenuItem ampeln, autos, strassen, alles;
 
     public NavigationController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
         rootView = new NavigationView();
         startPause = ((NavigationView) rootView).startPause;
-        entferne = ((NavigationView) rootView).entferne;
         speichern = ((NavigationView) rootView).speichern;
         beende = ((NavigationView) rootView).beende;
+
+        ampeln = ((NavigationView) rootView).ampeln;
+        autos = ((NavigationView) rootView).autos;
+        strassen = ((NavigationView) rootView).strassen;
+        alles = ((NavigationView) rootView).alles;
 
         handlerAnmelden();
     }
@@ -38,12 +43,18 @@ public class NavigationController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
         speichern.setOnAction(e -> speicherNetz());
         beende.setOnAction(e -> zurueck());
+
+        ampeln.setOnAction(e -> entfAlleAmplen());
+        autos.setOnAction(e -> entfAlleAutos());
+        strassen.setOnAction(e -> entfAlleStrassen());
+        alles.setOnAction(e -> feldLeeren());
     }
 
     /**
      * Straten der Simulatiom
      */
     public void start() {
+        startPause.setId("pause");
 
     }
 
@@ -51,35 +62,37 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      * Pausieren der Simulation
      */
     public void pause() {
-
+        startPause.setId("play");
     }
 
     /**
      * Entfernen aller Autos
      */
     public void entfAlleAutos() {
-
+        netz.entfAlleAutos();
     }
 
     /**
      * Entfernen aller Strassen
      */
     public void entfAlleStrassen() {
-
+        netz.entfAlleStrassen();
     }
 
     /**
      * Entfernen aller Ampeln
      */
     public void entfAlleAmplen() {
-
+        netz.alleAmpelnDeaktivieren();
     }
 
     /**
      * Felder leeren
      */
     public void feldLeeren() {
-
+        netz.entfAlleAutos();
+        netz.alleAmpelnDeaktivieren();
+        netz.entfAlleStrassen();
     }
 
     /**
@@ -87,7 +100,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      */
     public void zurueck() {
         //TODO: Frage ob wirklich beendet werden soll / speicherhinweis
-        //TODO: resettem des Netzes
+        netz.reset();
         app.wechsleSzene(Szenen.STARTSEITE);
     }
 
@@ -95,13 +108,6 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      * Strassennetz abspeichern
      */
     public void speicherNetz() {
-        //tmp init of netz for save test
-
-//        Strassenabschnitt str = new TStueck(100, 100);
-//        netz.strasseAdden(str);
-//        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
-//        netz.autoAdden(brum);
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         fileChooser.setInitialFileName(netz.getName());
