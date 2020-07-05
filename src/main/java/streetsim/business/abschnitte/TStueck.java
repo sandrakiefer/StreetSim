@@ -20,7 +20,7 @@ public class TStueck extends Strassenabschnitt {
     }
 
     public static List<Himmelsrichtung> definiereRichtungen() {
-        List<Himmelsrichtung> richtungen = new ArrayList();
+        List<Himmelsrichtung> richtungen = new ArrayList<>();
         richtungen.add(Himmelsrichtung.OSTEN);
         richtungen.add(Himmelsrichtung.SUEDEN);
         richtungen.add(Himmelsrichtung.WESTEN);

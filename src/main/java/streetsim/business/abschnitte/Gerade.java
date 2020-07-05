@@ -19,7 +19,7 @@ public class Gerade extends Strassenabschnitt {
     }
 
     public static List<Himmelsrichtung> definiereRichtungen() {
-        List<Himmelsrichtung> richtungen = new ArrayList();
+        List<Himmelsrichtung> richtungen = new ArrayList<>();
         richtungen.add(Himmelsrichtung.WESTEN);
         richtungen.add(Himmelsrichtung.OSTEN);
         return richtungen;

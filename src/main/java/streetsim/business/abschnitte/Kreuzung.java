@@ -20,8 +20,7 @@ public class Kreuzung extends Strassenabschnitt {
     }
 
     public static List<Himmelsrichtung> definiereRichtungen() {
-        List<Himmelsrichtung> richtungen = Arrays.asList(Himmelsrichtung.values());
-        return richtungen;
+        return Arrays.asList(Himmelsrichtung.values());
     }
 
 }
