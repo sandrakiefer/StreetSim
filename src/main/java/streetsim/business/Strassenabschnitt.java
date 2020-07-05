@@ -5,7 +5,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
  * Verwaltung der Richtungen in welche ein Strassenabschnitt führt,
  * verwendet Ampelschaltung für optionale Ampeln
  */
-public abstract class Strassenabschnitt implements Ampelschaltung {
+public abstract class Strassenabschnitt implements Ampelschaltung, Serializable {
 
     private SimpleIntegerProperty positionX = new SimpleIntegerProperty(this, "positionX");
     private SimpleIntegerProperty positionY = new SimpleIntegerProperty(this, "positionY");
@@ -21,6 +23,8 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
     public static final int GROESSE = 128;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
+
+    public Strassenabschnitt(){}
 
     public Strassenabschnitt(int positionX, int positionY, List<Himmelsrichtung> richtungen) {
         Position p = new Position(positionX, positionY);
@@ -124,5 +128,17 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
 
     public SimpleListProperty<Himmelsrichtung> richtungenProperty() {
         return richtungen;
+    }
+
+    public void setRichtungen(ObservableList<Himmelsrichtung> richtungen) {
+        this.richtungen.set(richtungen);
+    }
+
+    public void setAmpeln(List<Ampel> ampeln) {
+        this.ampeln = ampeln;
+    }
+
+    public BooleanProperty ampelAktivProperty() {
+        return ampelAktiv;
     }
 }

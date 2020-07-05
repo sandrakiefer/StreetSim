@@ -85,11 +85,11 @@ public class MenueController extends AbstractController<StreetSimApp> {
                 ClipboardContent content = new ClipboardContent();
 
                 String df;
-                if (e instanceof GeradeView) df = ViewDataFormats.GERADE_FORMAT;
-                else if (e instanceof KreuzungView) df = ViewDataFormats.KREUZUNG_FORMAT;
-                else if (e instanceof KurveView) df = ViewDataFormats.KURVE_FORMAT;
-                else if (e instanceof TStueckView) df = ViewDataFormats.TSTUECK_FORMAT;
-                else if (e instanceof AmpelView) df = ViewDataFormats.AMPEL_FORMAT;
+                if (e instanceof GeradeView) df = DragDataFormats.GERADE_FORMAT;
+                else if (e instanceof KreuzungView) df = DragDataFormats.KREUZUNG_FORMAT;
+                else if (e instanceof KurveView) df = DragDataFormats.KURVE_FORMAT;
+                else if (e instanceof TStueckView) df = DragDataFormats.TSTUECK_FORMAT;
+                else if (e instanceof AmpelView) df = DragDataFormats.AMPEL_FORMAT;
                 else df = ((AutoView) e).getAutoModell().name();
 
                 dragboard.setDragView(e.getImage());

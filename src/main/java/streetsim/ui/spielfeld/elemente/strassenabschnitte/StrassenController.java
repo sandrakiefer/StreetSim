@@ -2,12 +2,17 @@ package streetsim.ui.spielfeld.elemente.strassenabschnitte;
 
 import javafx.application.Platform;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import streetsim.business.Ampel;
 import streetsim.business.Strassenabschnitt;
 
 import streetsim.ui.spielfeld.AbstractModelController;
 import streetsim.ui.spielfeld.elemente.AmpelController;
 import streetsim.ui.spielfeld.elemente.AmpelView;
+import streetsim.ui.spielfeld.elemente.DragDataFormats;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +58,16 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
                 rootView.setRotate(rootView.getRotate() + 90);
 
             }
+        });
+
+        rootView.setOnDragDetected(e -> {
+            Dragboard dragboard = rootView.startDragAndDrop(TransferMode.COPY);
+
+            ClipboardContent content = new ClipboardContent();
+            DataFormat df = new DataFormat(DragDataFormats.STRASSENABSCHNITT);
+
+            content.put(df, model);
+            dragboard.setContent(content);
         });
     }
 
