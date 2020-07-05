@@ -16,6 +16,7 @@ public class AmpelController extends AbstractModelController<Ampel> {
 
     public AmpelController(Ampel model, ImageView rootView) {
         super(model, rootView);
+        ausrichtung();
         handlerAnmelden();
     }
 
@@ -45,6 +46,28 @@ public class AmpelController extends AbstractModelController<Ampel> {
         model.isGruenProperty().addListener(change ->{
             if (!model.isRot() && !model.isGelb() && model.isGruen()) rootView.setImage(ampelGruen);
         });
+
+        model.richtungProperty().addListener(c -> {
+            ausrichtung();
+        });
+
+    }
+
+    private void ausrichtung(){
+        switch (model.getRichtung()) {
+            case NORDEN:
+                rootView.setRotate(180);
+                break;
+            case OSTEN:
+                rootView.setRotate(270);
+                break;
+            case SUEDEN:
+                rootView.setRotate(0);
+                break;
+            case WESTEN:
+                rootView.setRotate(90);
+                break;
+        }
     }
 
     public Ampel getModel(){

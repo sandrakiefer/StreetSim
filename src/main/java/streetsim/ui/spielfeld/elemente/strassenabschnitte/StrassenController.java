@@ -51,6 +51,7 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
         model.richtungenProperty().addListener((observable, oldValue, newValue) -> {
             if (model.getRichtungen().size() > 0) {
                 rootView.setRotate(rootView.getRotate() + 90);
+
             }
         });
     }

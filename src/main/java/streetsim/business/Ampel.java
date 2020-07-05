@@ -3,6 +3,7 @@ package streetsim.business;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * Abbildung einer einzelnen Ampel mit den passenden Zuständen
@@ -16,14 +17,14 @@ public class Ampel {
     private final SimpleBooleanProperty rot;
     private final SimpleBooleanProperty gelb;
     private final SimpleBooleanProperty gruen;
-    private Himmelsrichtung richtung;
+    private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>();
     private boolean schaltet = false;
 
     private SimpleDoubleProperty relPosX = new SimpleDoubleProperty(this, "relPosX");
     private SimpleDoubleProperty relPosY = new SimpleDoubleProperty(this, "relPosY");
 
     public Ampel(Himmelsrichtung richtung) {
-        this.richtung = richtung;
+        this.richtung.set(richtung);
         rotiereRelativePosition();
         rot = new SimpleBooleanProperty(true);
         gelb = new SimpleBooleanProperty(false);
@@ -107,7 +108,7 @@ public class Ampel {
      * (Himmelsrichtung ändert sich)
      */
     public void rotiere() {
-        this.richtung = richtung.naechstes();
+        this.richtung.set(richtung.get().naechstes());
         rotiereRelativePosition();
     }
 
@@ -115,20 +116,20 @@ public class Ampel {
         double g = Strassenabschnitt.GROESSE;
         double offsetX = BREITE / 2;
         double offsetY = HOEHE / 2;
-        switch (richtung) {
-            case NORDEN:
+        switch (richtung.get()) {
+            case SUEDEN:
                 relPosX.set(((7 * g) / 8.0) - offsetX);
                 relPosY.set(((7 * g) / 8.0) - offsetY);
                 break;
-            case OSTEN:
+            case WESTEN:
                 relPosX.set((g / 8.0) - offsetX);
                 relPosY.set(((7 * g) / 8.0) - offsetY);
                 break;
-            case SUEDEN:
+            case NORDEN:
                 relPosX.set((g / 8.0) - offsetX);
                 relPosY.set((g / 8.0) - offsetY);
                 break;
-            case WESTEN:
+            case OSTEN:
                 relPosX.set(((7 * g) / 8.0) - offsetX);
                 relPosY.set(( g / 8.0) - offsetY);
                 break;
@@ -144,7 +145,7 @@ public class Ampel {
     }
 
     public Himmelsrichtung getRichtung() {
-        return richtung;
+        return richtung.get();
     }
 
     public boolean isRot() {
@@ -165,4 +166,7 @@ public class Ampel {
 
     public BooleanProperty isGruenProperty() {return  gruen;}
 
+    public SimpleObjectProperty<Himmelsrichtung> richtungProperty() {
+        return richtung;
+    }
 }
