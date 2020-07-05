@@ -68,7 +68,10 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
                 strassenController.put(s, sc);
                 ((SpielfeldView) rootView).addAbschnitt(strassenView);
             } else if (change.wasRemoved()) {
-                //TODO: do stuff
+                Strassenabschnitt s = change.getValueRemoved();
+                netz.entfStrasse(s);
+                StrassenController sc = strassenController.remove(s);
+                ((SpielfeldView) rootView).entferneAbschnitt(sc.getRootView());
             }
         });
 

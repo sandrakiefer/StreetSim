@@ -48,6 +48,7 @@ public class StrassenOverlayController extends AbstractController<StreetSimApp> 
     private void loescheStrasse(double x, double y){
         Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));
         netz.entfStrasse(s);
+        disable();
     }
 
     private void rotiereStrasse(double x, double y) {
