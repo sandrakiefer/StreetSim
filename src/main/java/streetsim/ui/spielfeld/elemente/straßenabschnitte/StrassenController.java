@@ -16,12 +16,14 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
     @Override
     public void handlerAnmelden() {
 
-        model.positionXProperty().addListener(c -> {
-            Platform.runLater(() -> rootView.setLayoutX(model.getPositionX()));
-        });
+        model.positionXProperty().addListener(c -> Platform.runLater(() -> rootView.setLayoutX(model.getPositionX())));
 
-        model.positionYProperty().addListener(c -> {
-            Platform.runLater(() -> rootView.setLayoutY(model.getPositionY()));
+        model.positionYProperty().addListener(c -> Platform.runLater(() -> rootView.setLayoutY(model.getPositionY())));
+
+        model.richtungenProperty().addListener((observable, oldValue, newValue) -> {
+            if (model.getRichtungen().size() > 0) {
+                rootView.setRotate(rootView.getRotate() + 90);
+            }
         });
 
     }
