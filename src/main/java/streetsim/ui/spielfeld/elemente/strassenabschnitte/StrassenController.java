@@ -47,6 +47,12 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
                 Platform.runLater(() -> alleAmpeln.get(f).setAbsolutePosY(model.getPositionY() + f.getRelPosY().intValue()));
             });
         });
+
+        model.richtungenProperty().addListener((observable, oldValue, newValue) -> {
+            if (model.getRichtungen().size() > 0) {
+                rootView.setRotate(rootView.getRotate() + 90);
+            }
+        });
     }
 
     public void initAmpelPos(){
