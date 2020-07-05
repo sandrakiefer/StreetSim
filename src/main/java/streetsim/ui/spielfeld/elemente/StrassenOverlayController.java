@@ -61,5 +61,4 @@ public class StrassenOverlayController extends AbstractController<StreetSimApp> 
         netz.ampelnDeaktivieren(s);
     }
 
-
 }

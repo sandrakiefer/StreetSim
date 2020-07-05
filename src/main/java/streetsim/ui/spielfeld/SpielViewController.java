@@ -47,7 +47,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         spielfeldView = spielfeldCon.getRootView();
         overlayView = overlayController.getRootView();
 
-
         spielView.setRight(menView);
         spielView.setLeft(navView);
 
@@ -101,7 +100,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
                 switch (dataString) {
                     case DragDataFormats.AMPEL_FORMAT:
-                        spielfeldCon.setAmpeln(s);
+                        spielfeldCon.ampelnAktivieren(s);
                         s.ampelnAktivieren();
                         break;
                     case DragDataFormats.GERADE_FORMAT:
