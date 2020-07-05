@@ -22,6 +22,10 @@ public abstract class AbstractController<T> {
         this.app = app;
     }
 
+    public AbstractController(Strassennetz netz) {
+        this.netz = netz;
+    }
+
     /**
      * entsprechende Methoden die durch GUI-Interaktion entstehen
      * stoßen über die Strassennetz-Instanz gleichnamige Methoden im Model an

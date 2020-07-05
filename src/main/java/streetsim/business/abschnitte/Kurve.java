@@ -1,15 +1,14 @@
 package streetsim.business.abschnitte;
 
-import streetsim.business.Ampel;
 import streetsim.business.Himmelsrichtung;
 import streetsim.business.Strassenabschnitt;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Realisierung eines Strassenabschnitts
- * maximal zwei Ampel-Instanzen
+ * maximal zwei Ampel-Instanzen und
  * zwei mögliche Strassenrichtungen
  */
 public class Kurve extends Strassenabschnitt {
@@ -19,10 +18,7 @@ public class Kurve extends Strassenabschnitt {
     }
 
     public static List<Himmelsrichtung> definiereRichtungen() {
-        List<Himmelsrichtung> richtungen = new ArrayList();
-        richtungen.add(Himmelsrichtung.OSTEN);
-        richtungen.add(Himmelsrichtung.SUEDEN);
-        return richtungen;
+        return Arrays.asList(Himmelsrichtung.OSTEN, Himmelsrichtung.SUEDEN);
     }
 
 }

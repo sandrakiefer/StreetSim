@@ -6,6 +6,7 @@ package streetsim.business.exceptions;
  */
 public class DateiParseException extends RuntimeException {
     public DateiParseException() {
+
     }
 
     public DateiParseException(String message) {
@@ -15,4 +16,5 @@ public class DateiParseException extends RuntimeException {
     public DateiParseException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }

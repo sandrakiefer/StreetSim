@@ -2,6 +2,7 @@ package streetsim.business;
 
 /**
  * Abbildung der Himmelsrichtungen
+ * (Norden, Osten, Süden, Westen)
  */
 public enum Himmelsrichtung {
 
@@ -15,16 +16,8 @@ public enum Himmelsrichtung {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     /**
-     * gibt nächste Himmelsrichtung
+     * gibt nächste Himmelsrichtung an
      * (90° im Uhrzeigersinn)
      *
      * @return Himmelsrichtung
@@ -33,12 +26,32 @@ public enum Himmelsrichtung {
         return Himmelsrichtung.values()[(this.ordinal() + 1) % 4];
     }
 
+    /**
+     * gibt gegenüberliegende Himmelsrichtung an
+     * (180°)
+     *
+     * @return Himmelsrichtung
+     */
     public Himmelsrichtung gegenueber() {
         return Himmelsrichtung.values()[(this.ordinal() + 2) % 4];
     }
 
+    /**
+     * gibt vorherige Himmelsrichtung an
+     * (270° im Uhrzeigersinn / 90° gegen den Uhrzeigersinn)
+     *
+     * @return Himmelsrichtung
+     */
     public Himmelsrichtung vorheriges() {
         return  Himmelsrichtung.values()[(this.ordinal() + 3) % 4];
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
 }
