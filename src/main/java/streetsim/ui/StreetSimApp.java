@@ -35,9 +35,9 @@ public class StreetSimApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        //TODO: fixe groesse
         this.hauptStage = primaryStage;
         this.hauptStage.setTitle("StreetSim");
+//        this.hauptStage.setFullScreen(true);
         this.hauptStage.setHeight(1080);
         this.hauptStage.setWidth(1920);
 

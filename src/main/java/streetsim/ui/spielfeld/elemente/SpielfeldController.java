@@ -1,24 +1,18 @@
 package streetsim.ui.spielfeld.elemente;
 
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import streetsim.business.*;
 import streetsim.business.abschnitte.Gerade;
 import streetsim.business.abschnitte.Kreuzung;
 import streetsim.business.abschnitte.Kurve;
-import streetsim.business.abschnitte.TStueck;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.*;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Verwaltung von Aktionen auf dem Spielfeld
@@ -27,6 +21,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
     Map<Strassenabschnitt, StrassenController> strassenController;
     Map<Auto, AutoController> autoController;
+//    Map<Strassenabschnitt, List<AmpelController>> ampelController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
     ObservableMap<Position, ArrayList<Auto>> autos;
@@ -76,6 +71,13 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView)rootView).setHoehe(app.getHauptStage().getHeight()));
 
+    }
+
+    public void setAmpeln(Strassenabschnitt s){
+        strassenController.get(s).getAlleAmpelController().forEach(a ->{
+            System.out.println(String.format("Ampel \n Richtung: %s \n Position X: %2f \n Position Y: %2f \n", a.getModel().getRichtung().toString(), a.getAbsolutePosX(), a.getAbsolutePosY()));
+            ((SpielfeldView) rootView).addAmpelOderAuto(a.getRootView());
+        });
     }
 
     /**

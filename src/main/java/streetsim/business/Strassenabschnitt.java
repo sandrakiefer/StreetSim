@@ -57,7 +57,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung {
         }
     }
 
-    public static List<Ampel> baueAmpeln(List<Himmelsrichtung> richtungen) {
+    public List<Ampel> baueAmpeln(List<Himmelsrichtung> richtungen) {
         List<Ampel> ampeln = new ArrayList<>();
         for (Himmelsrichtung r: richtungen) {
             ampeln.add(new Ampel(r));

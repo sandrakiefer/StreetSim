@@ -5,10 +5,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.GeradeView;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.KreuzungView;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.KurveView;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.TStueckView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.GeradeView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.KreuzungView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.KurveView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.TStueckView;
 
 import java.util.List;
 

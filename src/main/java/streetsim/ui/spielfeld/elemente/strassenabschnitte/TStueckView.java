@@ -1,4 +1,4 @@
-package streetsim.ui.spielfeld.elemente.straßenabschnitte;
+package streetsim.ui.spielfeld.elemente.strassenabschnitte;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

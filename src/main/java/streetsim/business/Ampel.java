@@ -1,5 +1,6 @@
 package streetsim.business;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -119,18 +120,26 @@ public class Ampel {
                 relPosY.set(((7 * g) / 8.0) - offsetY);
                 break;
             case OSTEN:
-                relPosX.set(((7 * g) / 8.0) - offsetX);
-                relPosY.set((g / 8.0) - offsetY);
+                relPosX.set((g / 8.0) - offsetX);
+                relPosY.set(((7 * g) / 8.0) - offsetY);
                 break;
             case SUEDEN:
                 relPosX.set((g / 8.0) - offsetX);
                 relPosY.set((g / 8.0) - offsetY);
                 break;
             case WESTEN:
-                relPosX.set((g / 8.0) - offsetX);
-                relPosY.set(((7 * g) / 8.0) - offsetY);
+                relPosX.set(((7 * g) / 8.0) - offsetX);
+                relPosY.set(( g / 8.0) - offsetY);
                 break;
         }
+    }
+
+    public SimpleDoubleProperty getRelPosX() {
+        return relPosX;
+    }
+
+    public SimpleDoubleProperty getRelPosY() {
+        return relPosY;
     }
 
     public Himmelsrichtung getRichtung() {
@@ -148,5 +157,11 @@ public class Ampel {
     public boolean isGruen() {
         return gruen.get();
     }
+
+    public BooleanProperty isRotProperty() {return  rot;}
+
+    public BooleanProperty isGelbProperty() {return  gelb;}
+
+    public BooleanProperty isGruenProperty() {return  gruen;}
 
 }
