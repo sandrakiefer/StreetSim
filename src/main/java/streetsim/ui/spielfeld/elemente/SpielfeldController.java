@@ -1,24 +1,18 @@
 package streetsim.ui.spielfeld.elemente;
 
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import streetsim.business.*;
 import streetsim.business.abschnitte.Gerade;
 import streetsim.business.abschnitte.Kreuzung;
 import streetsim.business.abschnitte.Kurve;
-import streetsim.business.abschnitte.TStueck;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.*;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Verwaltung von Aktionen auf dem Spielfeld
@@ -68,7 +62,11 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
                 strassenController.put(s, sc);
                 ((SpielfeldView) rootView).addAbschnitt(strassenView);
             } else if (change.wasRemoved()) {
-                //TODO: do stuff
+                Strassenabschnitt s = change.getValueRemoved();
+                StrassenController sc = strassenController.remove(s);
+                sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).entferneAmpelOderAuto(a.getRootView()));
+                netz.entfStrasse(s);
+                ((SpielfeldView) rootView).entferneAbschnitt(sc.getRootView());
             }
         });
 
@@ -93,7 +91,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      * @param s Strassenabschnitt
      */
     public void ampelnAktivieren(Strassenabschnitt s) {
-
+        strassenController.get(s).getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).addAmpelOderAuto(a.getRootView()));
     }
 
     /**

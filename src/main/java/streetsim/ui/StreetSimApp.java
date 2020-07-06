@@ -18,6 +18,9 @@ import java.util.Map;
  */
 public class StreetSimApp extends Application {
 
+    public static final int BREITE = 1920;
+    public static final int HOEHE = 1080;
+
     //TODO: before release: change back to private
     protected Strassennetz netz;
     protected Map<Szenen, Pane> szenen;
@@ -38,8 +41,9 @@ public class StreetSimApp extends Application {
         //TODO: fixe groesse
         this.hauptStage = primaryStage;
         this.hauptStage.setTitle("StreetSim");
-        this.hauptStage.setHeight(1080);
-        this.hauptStage.setWidth(1920);
+        //        this.hauptStage.setFullScreen(true);
+        this.hauptStage.setHeight(HOEHE);
+        this.hauptStage.setWidth(BREITE);
 
         szenen.put(Szenen.STARTSEITE, new StartseiteController(netz, this).getRootView());
         szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());

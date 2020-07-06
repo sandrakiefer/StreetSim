@@ -311,7 +311,10 @@ public class Strassennetz {
      * setzt die geladene Welt in den Ausgangszustand
      */
     public void reset() {
+        entfAlleAutos();
+        alleAmpelnDeaktivieren();
         entfAlleStrassen();
+        name = null;
         instance.simuliert.setValue(false);
     }
 

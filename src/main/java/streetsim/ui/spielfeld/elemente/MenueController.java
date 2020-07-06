@@ -9,10 +9,10 @@ import streetsim.business.Auto;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.GeradeView;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.KreuzungView;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.KurveView;
-import streetsim.ui.spielfeld.elemente.straßenabschnitte.TStueckView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.GeradeView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.KreuzungView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.KurveView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.TStueckView;
 import streetsim.ui.utils.ResourceAssist;
 
 import java.util.ArrayList;
@@ -65,6 +65,7 @@ public class MenueController extends AbstractController<StreetSimApp> {
         tstueck = ((MenueView) rootView).tstueck;
         autoViews = ((MenueView) rootView).autoViews;
         ampelView = ((MenueView) rootView).ampelView;
+        ampelView.setImage(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "ampeln", "ampelRotGelb.png")));
 
         List<ImageView> viewList = List.of(gerade, kreuzung, kurve, tstueck, ampelView);
         alleViews = new ArrayList<>();
@@ -95,7 +96,6 @@ public class MenueController extends AbstractController<StreetSimApp> {
                 content.putString(df);
                 dragboard.setContent(content);
 
-                event.consume();
             });
         });
     }
