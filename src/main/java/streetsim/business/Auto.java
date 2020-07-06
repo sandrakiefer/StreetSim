@@ -56,19 +56,19 @@ public class Auto {
             // Trennung nach Richtung aus welcher der Punkt angepasst wird (rechts/links)
             if (offX < 0) {
                 this.richtung.set(Himmelsrichtung.SUEDEN);
-                this.positionX.set((Strassenabschnitt.GROESSE - this.breite) / 2);
+                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - this.breite) / 2));
             } else {
                 this.richtung.set(Himmelsrichtung.NORDEN);
-                this.positionX.set((Strassenabschnitt.GROESSE + this.breite) / 2);
+                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + this.breite) / 2));
             }
         } else {
             // Trennung nach Richtung aus welcher der Punkt angepasst wird (oben/unten)
             if (offY < 0) {
                 this.richtung.set(Himmelsrichtung.WESTEN);
-                this.positionY.set((Strassenabschnitt.GROESSE - this.breite) / 2);
+                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - this.breite) / 2));
             } else {
                 this.richtung.set(Himmelsrichtung.OSTEN);
-                this.positionY.set((Strassenabschnitt.GROESSE + this.breite) / 2);
+                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + this.breite) / 2));
             }
         }
     }
