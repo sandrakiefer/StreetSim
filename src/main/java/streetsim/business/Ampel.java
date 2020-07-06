@@ -20,8 +20,8 @@ public class Ampel {
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>();
     private boolean schaltet = false;
 
-    private SimpleDoubleProperty relPosX = new SimpleDoubleProperty(this, "relPosX");
-    private SimpleDoubleProperty relPosY = new SimpleDoubleProperty(this, "relPosY");
+    private SimpleDoubleProperty relPosX = new SimpleDoubleProperty();
+    private SimpleDoubleProperty relPosY = new SimpleDoubleProperty();
 
     public Ampel(Himmelsrichtung richtung) {
         this.richtung.set(richtung);

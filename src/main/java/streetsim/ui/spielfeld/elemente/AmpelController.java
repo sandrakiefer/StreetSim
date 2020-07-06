@@ -16,8 +16,8 @@ public class AmpelController extends AbstractModelController<Ampel> {
 
     public AmpelController(Ampel model, ImageView rootView) {
         super(model, rootView);
-        ausrichtung();
         handlerAnmelden();
+        init();
     }
 
     public void setAbsolutePosX(double absolutePosX) {
@@ -71,6 +71,14 @@ public class AmpelController extends AbstractModelController<Ampel> {
 
     public Ampel getModel(){
         return model;
+    }
+
+    private void init(){
+        if (model.isRot() && !model.isGelb() && !model.isGruen()) rootView.setImage(ampelRot);
+        else if (model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelRotGelb);
+        else if (!model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelGelb);
+        else if (!model.isRot() && !model.isGelb() && model.isGruen()) rootView.setImage(ampelGruen);
+        ausrichtung();
     }
 
 }

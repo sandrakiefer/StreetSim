@@ -28,6 +28,7 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
         alleAmpeln = new HashMap<>();
         initAmpelPos();
         handlerAnmelden();
+        init();
     }
 
     @Override
@@ -53,15 +54,6 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
             }
         });
 
-        rootView.setOnDragDetected(e -> {
-            Dragboard dragboard = rootView.startDragAndDrop(TransferMode.COPY);
-
-            ClipboardContent content = new ClipboardContent();
-            DataFormat df = new DataFormat(DragDataFormats.STRASSENABSCHNITT);
-
-            content.put(df, model);
-            dragboard.setContent(content);
-        });
     }
 
     public void initAmpelPos(){
@@ -76,5 +68,11 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
 
     public Collection<AmpelController> getAlleAmpeln(){
         return alleAmpeln.values();
+    }
+
+    private void init(){
+        for (int i=0; i<model.getRotiertCounter(); i++) {
+            rootView.setRotate(rootView.getRotate() + 90);
+        }
     }
 }

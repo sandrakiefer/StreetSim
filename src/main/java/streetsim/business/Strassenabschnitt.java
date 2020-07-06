@@ -17,12 +17,13 @@ import java.util.List;
  */
 public abstract class Strassenabschnitt implements Ampelschaltung, Serializable {
 
-    private SimpleIntegerProperty positionX = new SimpleIntegerProperty(this, "positionX");
-    private SimpleIntegerProperty positionY = new SimpleIntegerProperty(this, "positionY");
-    private SimpleListProperty<Himmelsrichtung> richtungen;
     public static final int GROESSE = 128;
+    private SimpleIntegerProperty positionX = new SimpleIntegerProperty();
+    private SimpleIntegerProperty positionY = new SimpleIntegerProperty();
+    private SimpleListProperty<Himmelsrichtung> richtungen;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
+    private int rotiertCounter;
 
     public Strassenabschnitt(){}
 
@@ -33,6 +34,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
         this.richtungen = new SimpleListProperty<>(FXCollections.observableArrayList(richtungen));
         this.ampeln = baueAmpeln(richtungen);
         ampelAktiv = new SimpleBooleanProperty();
+        rotiertCounter = 0;
     }
 
     /**
@@ -60,6 +62,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
         for (Ampel a: ampeln) {
             a.rotiere();
         }
+        rotiertCounter = (rotiertCounter + 1) % 4;
     }
     /**
      * Initialisierung der Ampeln mit den passenden Himmelsrichtungen
@@ -140,5 +143,9 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
 
     public BooleanProperty ampelAktivProperty() {
         return ampelAktiv;
+    }
+
+    public int getRotiertCounter() {
+        return rotiertCounter;
     }
 }

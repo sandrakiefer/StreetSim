@@ -15,5 +15,6 @@ public class DragDataFormats {
 
     // Straßenabschnitt aus dem Spielfeld
     public static final String STRASSENABSCHNITT = "STRASSENABSCHNITT";
+    public static final DataFormat ABSCHNITTFORMAT = new DataFormat(STRASSENABSCHNITT);
 
 }

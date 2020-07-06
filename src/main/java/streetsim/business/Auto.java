@@ -18,7 +18,7 @@ public class Auto {
 
     private int geschwindigkeit;
     private static final int MAXGESCHWINDIGKEIT = 8;
-    private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
+    private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>();
 
     private final Stack<Wendepunkt> wendepunkte;
 
@@ -27,9 +27,7 @@ public class Auto {
     private int breite;
     private int laenge;
     private AutoModell autoModell;
-    @JsonIgnore
-    private final Strassennetz strassennetz;
-    @JsonIgnore
+    private final transient Strassennetz strassennetz;
     private Rectangle rectangle;
 
     public Auto(int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
@@ -40,7 +38,7 @@ public class Auto {
         this.laenge = laenge;
         this.strassennetz = Strassennetz.getInstance();
         this.autoModell = autoModell;
-        this.wendepunkte = new Stack();
+        this.wendepunkte = new Stack<>();
         initRectangle();
         positionierung();
     }
