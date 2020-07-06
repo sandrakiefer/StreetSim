@@ -20,7 +20,7 @@ public class Auto {
     private static final int MAXGESCHWINDIGKEIT = 8;
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
 
-    private final Stack<Wendepunkt> wendepunkte;
+    private final Queue<Wendepunkt> wendepunkte;
 
     private final SimpleIntegerProperty positionX;
     private final SimpleIntegerProperty positionY;
@@ -40,7 +40,7 @@ public class Auto {
         this.laenge = 32;
         this.strassennetz = Strassennetz.getInstance();
         this.autoModell = autoModell;
-        this.wendepunkte = new Stack();
+        this.wendepunkte = new LinkedList();
         initRectangle();
         positionierung();
     }
@@ -134,12 +134,12 @@ public class Auto {
                 // Rechtsabbieger
                 int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
                 int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
-                wendepunkte.push(new Wendepunkt(x,y,abbiegerichtung));
+                wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
             } else if(abbiegerichtung.naechstes().equals(this.richtung.get())){
                 // Linksabbieger
                 int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
                 int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
-                wendepunkte.push(new Wendepunkt(x,y,abbiegerichtung));
+                wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
             }
             if (aktuellerAbschnitt.isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, aktuellerAbschnitt)) {
@@ -183,14 +183,14 @@ public class Auto {
                 int w1y = basisY + (richtung.get().naechstes().getY() * breite / 2);
                 int w2x = basisX + (richtung.get().vorheriges().getX() * breite / 2);
                 int w2y = basisY + (richtung.get().vorheriges().getY() * breite / 2);
-                wendepunkte.push(new Wendepunkt(w1x, w1y, richtung.get().vorheriges()));
-                wendepunkte.push(new Wendepunkt(w2x, w2y, richtung.get().gegenueber()));
+                wendepunkte.add(new Wendepunkt(w1x, w1y, richtung.get().vorheriges()));
+                wendepunkte.add(new Wendepunkt(w2x, w2y, richtung.get().gegenueber()));
             }
         }
         // fahren und Wendepunkte dabei beachten
         int distanz = (wendepunkte.size() > 0) ? wendepunkte.peek().distanzBisWendepunkt(this.positionX.get(), this.positionY.get()) : 0;
         if (wendepunkte.size() > 0 &&  distanz < geschwindigkeit) {
-            Wendepunkt w = wendepunkte.pop();
+            Wendepunkt w = wendepunkte.remove();
             this.richtung.set(w.getRichtung());
             this.positionX.set(w.getX() + w.getRichtung().getX() * (geschwindigkeit - distanz));
             this.positionY.set(w.getY() + w.getRichtung().getY() * (geschwindigkeit - distanz));
