@@ -191,26 +191,6 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void speicherNetz(File file) {
-        if (abschnitte.isEmpty() && autos.isEmpty()) {
-            // TODO: machen wir das noch?
-            throw new WeltLeerException();
-        }
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            // TODO: Can not find a deserializer for non-concrete Map type -> abstract Straßenabschnitt oder ObsvMap nicht deserialisierbar...
-//            String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(instance);
-//            System.out.println(jsonResult);
-//            String path = file.getPath();
-//            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
-//            instance.setName(name);
-//            FileWriter f = new FileWriter(path);
-//
-//            f.write(jsonResult);
-//            f.flush();
-//            f.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         String name = file.getName();
         instance.setName(name);
         Gson gsonBuilder = FxGson.coreBuilder()
@@ -234,16 +214,6 @@ public class Strassennetz {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {
-//        ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            // TODO: dezerialise Position
-//            String path = file.getPath();
-//            instance = mapper.readValue(Files.readString(Path.of(path)), Strassennetz.class);
-//            instance.setName(file.getName());
-//        } catch (IOException e) {
-//            throw new DateiParseException("Datei konnte nicht gelesen werden", e);
-//        }
-
         try {
             String json = Files.readString(Paths.get(file.getPath()), StandardCharsets.UTF_8);
             Gson gson = FxGson.coreBuilder()
@@ -253,9 +223,8 @@ public class Strassennetz {
                     .create();
             instance = gson.fromJson(json, Strassennetz.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DateiParseException("Datei konnte nicht gelesen werden.", e);
         }
-
     }
 
     /**
