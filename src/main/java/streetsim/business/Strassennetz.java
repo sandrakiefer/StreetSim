@@ -412,7 +412,7 @@ public class Strassennetz {
 
     public static void main(String[] args) {
         // Testen der Klassen
-        Strassennetz s = getInstance();
+        /*Strassennetz s = getInstance();
         Strassenabschnitt str = new TStueck(128, 128);
         System.out.println(str.getPositionX() + " " + str.getPositionY());
         s.strasseAdden(str);
@@ -425,7 +425,7 @@ public class Strassennetz {
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
 //        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
         //s.autoAdden(brumbrum);
-        //s.autoAdden(brum);
+        //s.autoAdden(brum);*/
     }
 
 }
