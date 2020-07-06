@@ -101,11 +101,11 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             String dataString = dragboard.getString();
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
             if (dataString.equals(ViewDataFormats.AMPEL_FORMAT)) {
-                spielfeldCon.ampelnAktivieren(s);
                 netz.ampelnAktivieren(s);
             } else if (Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString)) {
                 Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
-
+                Auto a = new Auto((int) Math.round(event.getX()), (int) Math.round(event.getY()), am);
+                netz.autoAdden(a);
             } else if (dataString.equals(ViewDataFormats.GERADE_FORMAT)) {
                 Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
                 netz.strasseAdden(g);

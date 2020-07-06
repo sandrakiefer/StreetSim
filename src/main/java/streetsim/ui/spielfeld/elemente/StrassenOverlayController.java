@@ -58,7 +58,8 @@ public class StrassenOverlayController extends AbstractController<StreetSimApp> 
 
     private void deaktiviereAmpeln(double x, double y) {
         Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));
-        netz.ampelnDeaktivieren(s);
+        if (s.ampelAktivProperty().getValue()) netz.ampelnDeaktivieren(s);
+        else netz.ampelnAktivieren(s);
     }
 
 }

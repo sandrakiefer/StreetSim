@@ -24,20 +24,20 @@ public class Auto {
 
     private final SimpleIntegerProperty positionX;
     private final SimpleIntegerProperty positionY;
-    private int breite;
-    private int laenge;
+    private final int breite;
+    private final int laenge;
     private AutoModell autoModell;
     @JsonIgnore
     private final Strassennetz strassennetz;
     @JsonIgnore
     private Rectangle rectangle;
 
-    public Auto(int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
+    public Auto(int positionX, int positionY, AutoModell autoModell) {
         setGeschwindigkeit(0.5f);
         this.positionX = new SimpleIntegerProperty(positionX);
         this.positionY = new SimpleIntegerProperty(positionY);
-        this.breite = breite;
-        this.laenge = laenge;
+        this.breite = 32;
+        this.laenge = 32;
         this.strassennetz = Strassennetz.getInstance();
         this.autoModell = autoModell;
         this.wendepunkte = new Stack();
@@ -361,16 +361,8 @@ public class Auto {
         return breite;
     }
 
-    public void setBreite(int breite) {
-        this.breite = breite;
-    }
-
     public int getLaenge() {
         return laenge;
-    }
-
-    public void setLaenge(int laenge) {
-        this.laenge = laenge;
     }
 
     public Rectangle getRectangle() {
