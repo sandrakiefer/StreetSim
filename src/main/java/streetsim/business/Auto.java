@@ -20,25 +20,25 @@ public class Auto {
     private static final int MAXGESCHWINDIGKEIT = 8;
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>();
 
-    private final Stack<Wendepunkt> wendepunkte;
+    private final Queue<Wendepunkt> wendepunkte;
 
     private final SimpleIntegerProperty positionX;
     private final SimpleIntegerProperty positionY;
-    private int breite;
-    private int laenge;
+    private final int breite;
+    private final int laenge;
     private AutoModell autoModell;
     private final transient Strassennetz strassennetz;
     private Rectangle rectangle;
 
-    public Auto(int positionX, int positionY, int breite, int laenge, AutoModell autoModell) {
+    public Auto(int positionX, int positionY, AutoModell autoModell) {
         setGeschwindigkeit(0.5f);
         this.positionX = new SimpleIntegerProperty(positionX);
         this.positionY = new SimpleIntegerProperty(positionY);
-        this.breite = breite;
-        this.laenge = laenge;
+        this.breite = 32;
+        this.laenge = 32;
         this.strassennetz = Strassennetz.getInstance();
         this.autoModell = autoModell;
-        this.wendepunkte = new Stack<>();
+        this.wendepunkte = new LinkedList();
         initRectangle();
         positionierung();
     }
@@ -132,12 +132,12 @@ public class Auto {
                 // Rechtsabbieger
                 int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
                 int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
-                wendepunkte.push(new Wendepunkt(x,y,abbiegerichtung));
+                wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
             } else if(abbiegerichtung.naechstes().equals(this.richtung.get())){
                 // Linksabbieger
                 int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
                 int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
-                wendepunkte.push(new Wendepunkt(x,y,abbiegerichtung));
+                wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
             }
             if (aktuellerAbschnitt.isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, aktuellerAbschnitt)) {
@@ -181,14 +181,14 @@ public class Auto {
                 int w1y = basisY + (richtung.get().naechstes().getY() * breite / 2);
                 int w2x = basisX + (richtung.get().vorheriges().getX() * breite / 2);
                 int w2y = basisY + (richtung.get().vorheriges().getY() * breite / 2);
-                wendepunkte.push(new Wendepunkt(w1x, w1y, richtung.get().vorheriges()));
-                wendepunkte.push(new Wendepunkt(w2x, w2y, richtung.get().gegenueber()));
+                wendepunkte.add(new Wendepunkt(w1x, w1y, richtung.get().vorheriges()));
+                wendepunkte.add(new Wendepunkt(w2x, w2y, richtung.get().gegenueber()));
             }
         }
         // fahren und Wendepunkte dabei beachten
         int distanz = (wendepunkte.size() > 0) ? wendepunkte.peek().distanzBisWendepunkt(this.positionX.get(), this.positionY.get()) : 0;
         if (wendepunkte.size() > 0 &&  distanz < geschwindigkeit) {
-            Wendepunkt w = wendepunkte.pop();
+            Wendepunkt w = wendepunkte.remove();
             this.richtung.set(w.getRichtung());
             this.positionX.set(w.getX() + w.getRichtung().getX() * (geschwindigkeit - distanz));
             this.positionY.set(w.getY() + w.getRichtung().getY() * (geschwindigkeit - distanz));
@@ -359,16 +359,8 @@ public class Auto {
         return breite;
     }
 
-    public void setBreite(int breite) {
-        this.breite = breite;
-    }
-
     public int getLaenge() {
         return laenge;
-    }
-
-    public void setLaenge(int laenge) {
-        this.laenge = laenge;
     }
 
     public Rectangle getRectangle() {

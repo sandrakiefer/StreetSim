@@ -42,7 +42,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
      */
     public void ampelnAktivieren() {
         for (Ampel a : ampeln) {
-            if (a.getRichtung().getX() == 0) {
+            if (a.getRichtung().getX() == 0 || ampeln.size() == 2) {
                 a.setGruenPhase();
             } else {
                 a.setRotPhase();

@@ -113,8 +113,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
                 switch (dataString) {
                     case DragDataFormats.AMPEL_FORMAT:
-                        spielfeldCon.ampelnAktivieren(s);
-                        s.ampelnAktivieren();
+                        netz.ampelnAktivieren(s);
                         break;
                     case DragDataFormats.GERADE_FORMAT:
                         Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
@@ -135,6 +134,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                     default:
                         if (Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString)) {
                             Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
+                            Auto a = new Auto((int) Math.round(event.getX()), (int) Math.round(event.getY()), am);
+                            netz.autoAdden(a);
                         }
                         break;
                 }

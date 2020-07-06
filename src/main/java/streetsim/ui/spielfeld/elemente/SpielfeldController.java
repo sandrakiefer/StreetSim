@@ -99,6 +99,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         StrassenController sc = new StrassenController(s, strassenView);
         strassenController.put(s, sc);
         ((SpielfeldView) rootView).addAbschnitt(strassenView);
+        sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).addAmpelOderAuto(a.getRootView()));
     }
 
     /**
@@ -116,7 +117,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      * @param s Strassenabschnitt
      */
     public void ampelnDeaktivierenAn(Strassenabschnitt s) {
-
+        strassenController.get(s).getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).entferneAmpelOderAuto(a.getRootView()));
     }
 
     /**
@@ -130,7 +131,6 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
             sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).entferneAmpelOderAuto(a.getRootView()));
             netz.entfStrasse(st);
             ((SpielfeldView) rootView).entferneAbschnitt(sc.getRootView());
-
         }
     }
 

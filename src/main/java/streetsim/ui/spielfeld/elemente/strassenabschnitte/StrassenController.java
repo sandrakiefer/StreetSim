@@ -1,6 +1,7 @@
 package streetsim.ui.spielfeld.elemente.strassenabschnitte;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -54,11 +55,20 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
             }
         });
 
+        model.ampelAktivProperty().addListener(c -> {
+            if (!model.ampelAktivProperty().getValue()){
+                getAlleAmpeln().forEach(a -> a.getRootView().setVisible(false));
+            } else {
+                getAlleAmpeln().forEach(a -> a.getRootView().setVisible(true));
+            }
+        });
+
     }
 
     public void initAmpelPos(){
         model.getAmpeln().forEach(f -> {
             AmpelView ampelView = new AmpelView();
+            ampelView.setVisible(false);
             AmpelController ampelCon = new AmpelController(f, ampelView);
             ampelCon.setAbsolutePosX(model.getPositionX() + f.getRelPosX().intValue());
             ampelCon.setAbsolutePosY(model.getPositionY() + f.getRelPosY().intValue());
