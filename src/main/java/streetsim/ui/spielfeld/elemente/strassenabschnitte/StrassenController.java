@@ -40,11 +40,11 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
         //TODO: platform run later entfernt muss vielleicht wieder rein
         model.getAmpeln().forEach( f -> {
             f.getRelPosX().addListener( change ->{
-                Platform.runLater(() -> alleAmpeln.get(f).setAbsolutePosX(model.getPositionX() + f.getRelPosX().intValue()));
+                alleAmpeln.get(f).setAbsolutePosX(model.getPositionX() + f.getRelPosX().intValue());
             });
 
             f.getRelPosY().addListener( change ->{
-                Platform.runLater(() -> alleAmpeln.get(f).setAbsolutePosY(model.getPositionY() + f.getRelPosY().intValue()));
+                alleAmpeln.get(f).setAbsolutePosY(model.getPositionY() + f.getRelPosY().intValue());
             });
         });
 

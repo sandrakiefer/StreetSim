@@ -22,11 +22,11 @@ public class AmpelController extends AbstractModelController<Ampel> {
     }
 
     public void setAbsolutePosX(double absolutePosX) {
-        Platform.runLater(() -> rootView.setLayoutX(absolutePosX));
+        rootView.setLayoutX(absolutePosX);
     }
 
     public void setAbsolutePosY(double absolutePosY) {
-        Platform.runLater(() -> rootView.setLayoutY(absolutePosY));
+        rootView.setLayoutY(absolutePosY);
     }
 
     public double getAbsolutePosX(){ return rootView.getLayoutX(); }

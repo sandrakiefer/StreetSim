@@ -80,7 +80,6 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      */
     public void autoAdden(Auto a) {
 
-        AutoModelle.valueOf(a.getAutoModell().toString()).getView();
         AutoView av = new AutoView(AutoModelle.valueOf(a.getAutoModell().toString()).getView());
         AutoController ac = new AutoController(a, av);
         autoController.put(a, ac);
