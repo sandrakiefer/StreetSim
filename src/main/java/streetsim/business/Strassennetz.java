@@ -191,7 +191,7 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void speicherNetz(File file) {
-        String name = file.getName();
+        /*String name = file.getName();
         instance.setName(name);
         Gson gsonBuilder = FxGson.coreBuilder()
                 .registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
@@ -204,7 +204,7 @@ public class Strassennetz {
             Files.writeString(Paths.get(path), jsonResult, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -214,7 +214,7 @@ public class Strassennetz {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {
-        try {
+        /*try {
             String json = Files.readString(Paths.get(file.getPath()), StandardCharsets.UTF_8);
             Gson gson = FxGson.coreBuilder()
                     .registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
@@ -224,7 +224,7 @@ public class Strassennetz {
             instance = gson.fromJson(json, Strassennetz.class);
         } catch (IOException e) {
             throw new DateiParseException("Datei konnte nicht gelesen werden.", e);
-        }
+        }*/
     }
 
     /**
@@ -411,7 +411,7 @@ public class Strassennetz {
 
     public static void main(String[] args) {
         // Testen der Klassen
-        Strassennetz s = getInstance();
+        /*Strassennetz s = getInstance();
         Strassenabschnitt str = new TStueck(128, 128);
         System.out.println(str.getPositionX() + " " + str.getPositionY());
         s.strasseAdden(str);
@@ -424,7 +424,7 @@ public class Strassennetz {
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
 //        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
         //s.autoAdden(brumbrum);
-        //s.autoAdden(brum);
+        //s.autoAdden(brum);*/
     }
 
 }

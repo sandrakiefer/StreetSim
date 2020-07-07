@@ -24,7 +24,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     Map<Auto, AutoController> autoController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
-    ObservableMap<Position, ArrayList<Auto>> autos;
+    ObservableMap<Position, List<Auto>> autos;
     List<ImageView> alleAbschnitte;
 
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
@@ -76,7 +76,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
             }
         });
 
-        autos.addListener((MapChangeListener<Position, ArrayList<Auto>>) change -> {
+        autos.addListener((MapChangeListener<Position, List<Auto>>) change -> {
             if(change.wasAdded()) {
                 change.getValueAdded().forEach(a -> {
                     ((SpielfeldView) rootView).addAmpelOderAuto(autoController.get(a).getRootView());
