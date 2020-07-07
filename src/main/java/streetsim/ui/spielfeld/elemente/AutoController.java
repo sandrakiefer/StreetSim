@@ -19,9 +19,9 @@ public class AutoController extends AbstractModelController<Auto> {
 
     @Override
     public void handlerAnmelden() {
-        model.positionXProperty().addListener(c -> rootView.setLayoutX(model.getPositionX()));
+        model.positionXProperty().addListener(c -> rootView.setLayoutX(model.getPositionX() - (double) model.getBreite()/2));
 
-        model.positionYProperty().addListener(c -> rootView.setLayoutY(model.getPositionY()));
+        model.positionYProperty().addListener(c -> rootView.setLayoutY(model.getPositionY() - (double) model.getLaenge()/2));
 
         model.richtungProperty().addListener((observable, oldValue, newValue) -> ausrichtung());
     }

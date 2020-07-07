@@ -34,8 +34,8 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
     @Override
     public void handlerAnmelden() {
         //TODO: platform run later entfernt muss vielleicht wieder rein
-        model.positionXProperty().addListener(c ->  rootView.setLayoutX(model.getPositionX()) );
-        model.positionYProperty().addListener(c ->  rootView.setLayoutY(model.getPositionY()) );
+        model.positionXProperty().addListener(c ->  rootView.setLayoutX(model.getPositionX()));
+        model.positionYProperty().addListener(c ->  rootView.setLayoutY(model.getPositionY()));
 
         //TODO: platform run later entfernt muss vielleicht wieder rein
         model.getAmpeln().forEach( f -> {
