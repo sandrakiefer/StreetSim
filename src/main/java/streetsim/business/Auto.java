@@ -3,6 +3,7 @@ package streetsim.business;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Pos;
 import javafx.scene.shape.Rectangle;
 
 import java.util.*;
@@ -273,6 +274,22 @@ public class Auto {
             }
         }
         return false;
+    }
+
+    /**
+     * rotiert ein Auto um 90° im Uhrzeigersinn
+     */
+    public void rotiere() {
+        Position p = new Position(this.getPositionX(), this.getPositionY());
+        Strassenabschnitt aktuellerAbschnitt = strassennetz.getAbschnitte().get(p);
+        int mittelpunkt[] = {aktuellerAbschnitt.getPositionX() + aktuellerAbschnitt.getGroesse() / 2, aktuellerAbschnitt.getPositionY() + aktuellerAbschnitt.getGroesse() / 2};
+        int alterPunkt[] = {this.getPositionX(), this.getPositionY()};
+        int zwPunkt[] = {(int)(Math.cos(270.0) * (alterPunkt[0] - mittelpunkt[0])) + (int)(-Math.sin(270.0) * (alterPunkt[1] - mittelpunkt[1])),
+                         (int)(Math.sin(270.0) * (alterPunkt[0] - mittelpunkt[0])) + (int)(Math.cos(270.0) * (alterPunkt[1] - mittelpunkt[1]))};
+        int neuerPunkt[] = {zwPunkt[0] + mittelpunkt[0], zwPunkt[1] + mittelpunkt[1]};
+        this.setPositionX(neuerPunkt[0]);
+        this.setPositionY(neuerPunkt[1]);
+        this.setRichtung(this.getRichtung().naechstes());
     }
 
     /**

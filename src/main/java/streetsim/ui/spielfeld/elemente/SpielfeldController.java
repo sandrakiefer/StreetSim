@@ -24,7 +24,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     Map<Auto, AutoController> autoController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
-    ObservableMap<Position, List<Auto>> autos;
+    Map<Position, List<Auto>> autos;
     List<ImageView> alleAbschnitte;
 
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {

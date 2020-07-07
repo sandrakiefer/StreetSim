@@ -240,11 +240,16 @@ public class Strassennetz {
 
     /**
      * rotiert Strassenabschnitt um 90 Grad im Uhrzeigersinn
+     * und die darauf befindlichen Autos
      *
      * @param s Strassenabschnitt
      */
     public void rotiereStrasse(Strassenabschnitt s) {
+        Position p = new Position(s.getPositionX(), s.getPositionY());
         s.rotiere();
+        for (Auto a : autos.get(p)) {
+            a.rotiere();
+        }
     }
 
     /**
