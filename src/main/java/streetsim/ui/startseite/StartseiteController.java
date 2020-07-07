@@ -39,15 +39,15 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
      * stößt gleichnamige Methode in der Business-Schicht an
      * lädt ein Strassennetz
      */
-//    private void ladeNetz() {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
-//        File file = fileChooser.showOpenDialog(app.getHauptStage().getOwner());
-//        if (file != null) {
-//            netz.ladeNetz(file);
-//            app.wechsleSzene(Szenen.SPIEL_VIEW);
-//        }
-//    }
+    private void ladeNetz() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+        File file = fileChooser.showOpenDialog(app.getHauptStage().getOwner());
+        if (file != null) {
+            netz.ladeNetz(file);
+            app.wechsleSzene(Szenen.SPIEL_VIEW);
+        }
+    }
 
     /**
      * erzeugt in der Startseite eine neue Strassennetz-Instanz
@@ -65,6 +65,6 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
             kontrollPane.getChildren().remove(fortfahrPane);
         });
         starten.setOnAction(e -> erstelle());
-//        laden.setOnAction(e -> ladeNetz());
+        laden.setOnAction(e -> ladeNetz());
     }
 }

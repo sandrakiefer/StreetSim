@@ -41,7 +41,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
-//        speichern.setOnAction(e -> speicherNetz());
+        speichern.setOnAction(e -> speicherNetz());
         beende.setOnAction(e -> zurueck());
 
         ampeln.setOnAction(e -> entfAlleAmplen());
@@ -113,12 +113,12 @@ public class NavigationController extends AbstractController<StreetSimApp> {
     /**
      * Strassennetz abspeichern
      */
-//    public void speicherNetz() {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
-//        fileChooser.setInitialFileName(netz.getName());
-//        File file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
-//        netz.speicherNetz(file);
-//    }
+    public void speicherNetz() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+        fileChooser.setInitialFileName(netz.getName());
+        File file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
+        netz.speicherNetz(file);
+    }
 
 }
