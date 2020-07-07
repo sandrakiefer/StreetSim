@@ -14,6 +14,11 @@ public class AutoView extends ImageView {
         this.autoModell = autoModell;
     }
 
+    public AutoView(AutoView autoView){
+        this(autoView.getImage(), autoView.autoModell);
+    }
+
+
     public Auto.AutoModell getAutoModell() {
         return autoModell;
     }

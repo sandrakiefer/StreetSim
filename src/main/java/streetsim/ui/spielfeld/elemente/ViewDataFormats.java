@@ -4,9 +4,8 @@ import javafx.scene.input.DataFormat;
 
 import java.util.List;
 
-public class DragDataFormats {
+public class ViewDataFormats {
 
-    // Views aus dem Menü
     public static final String GERADE_FORMAT ="GERADE";
     public static final String KREUZUNG_FORMAT ="KREUZUNG";
     public static final String KURVE_FORMAT = "KURVE";

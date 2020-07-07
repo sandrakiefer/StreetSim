@@ -13,7 +13,6 @@ import streetsim.business.Strassenabschnitt;
 import streetsim.ui.spielfeld.AbstractModelController;
 import streetsim.ui.spielfeld.elemente.AmpelController;
 import streetsim.ui.spielfeld.elemente.AmpelView;
-import streetsim.ui.spielfeld.elemente.DragDataFormats;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,11 +33,11 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
 
     @Override
     public void handlerAnmelden() {
+        //TODO: platform run later entfernt muss vielleicht wieder rein
+        model.positionXProperty().addListener(c ->  rootView.setLayoutX(model.getPositionX()) );
+        model.positionYProperty().addListener(c ->  rootView.setLayoutY(model.getPositionY()) );
 
-        model.positionXProperty().addListener(c ->  Platform.runLater(() -> rootView.setLayoutX(model.getPositionX())) );
-
-        model.positionYProperty().addListener(c ->  Platform.runLater(() -> rootView.setLayoutY(model.getPositionY())) );
-
+        //TODO: platform run later entfernt muss vielleicht wieder rein
         model.getAmpeln().forEach( f -> {
             f.getRelPosX().addListener( change ->{
                 Platform.runLater(() -> alleAmpeln.get(f).setAbsolutePosX(model.getPositionX() + f.getRelPosX().intValue()));
@@ -62,7 +61,6 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
                 getAlleAmpeln().forEach(a -> a.getRootView().setVisible(true));
             }
         });
-
     }
 
     public void initAmpelPos(){
