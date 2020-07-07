@@ -1,6 +1,5 @@
 package streetsim.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
