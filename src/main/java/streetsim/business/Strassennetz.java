@@ -206,7 +206,7 @@ public class Strassennetz {
         String name = file.getName();
         instance.setName(name);
         Gson gsonBuilder = FxGson.coreBuilder()
-                .registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
+                .registerTypeAdapter(Strassenabschnitt.class, StrassenAdapter.getInstance())
                 .enableComplexMapKeySerialization()
                 .setPrettyPrinting()
                 .create();
@@ -228,7 +228,7 @@ public class Strassennetz {
         try {
             String json = Files.readString(Paths.get(file.getPath()), StandardCharsets.UTF_8);
             Gson gson = FxGson.coreBuilder()
-                    .registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
+                    .registerTypeAdapter(Strassenabschnitt.class, StrassenAdapter.getInstance())
                     .enableComplexMapKeySerialization()
                     .setPrettyPrinting()
                     .create();
@@ -278,12 +278,16 @@ public class Strassennetz {
         Position newP = new Position(x, y);
         int xOff = newP.getPositionX() - oldP.getPositionX();
         int yOff = newP.getPositionY() - oldP.getPositionY();
-        for (Auto a : instance.autos.get(oldP)) {
-            a.setPositionX(a.getPositionX() + xOff);
-            a.setPositionY(a.getPositionY() + yOff);
+        if (instance.autos.containsKey(oldP)) {
+            for (Auto a : instance.autos.get(oldP)) {
+                a.setPositionX(a.getPositionX() + xOff);
+                a.setPositionY(a.getPositionY() + yOff);
+            }
+            instance.autos.put(newP, instance.autos.remove(oldP));
         }
-        instance.autos.put(newP, instance.autos.remove(oldP));
         instance.entfStrasse(s);
+        s.setPositionX(newP.getPositionX());
+        s.setPositionY(newP.getPositionY());
         instance.abschnitte.put(newP, s);
     }
 
@@ -362,7 +366,8 @@ public class Strassennetz {
                     }
                 } else {
                     Thread.currentThread().interrupt();
-                    instance.alleAmpelnDeaktivieren();
+                    // TODO: Jan brauchen wir das? bin mir nicht sicher (Jungs meinen nein)
+                    // instance.alleAmpelnDeaktivieren();
                 }
             }
         }).start();

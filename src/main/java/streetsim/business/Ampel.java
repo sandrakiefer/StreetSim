@@ -59,16 +59,16 @@ public class Ampel {
             } else if (!rot.get() && !gelb.get() && gruen.get()) {
                 schaltet = true;
                 new Thread(() -> {
-                    gelb.set(true);
                     gruen.set(false);
+                    gelb.set(true);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    rot.set(true);
                     gelb.set(false);
                     gruen.set(false);
+                    rot.set(true);
                     schaltet = false;
                 }).start();
             }
@@ -88,9 +88,9 @@ public class Ampel {
      * setzt die Ampel auf rot
      */
     public void setRotPhase() {
-        rot.set(true);
         gelb.set(false);
         gruen.set(false);
+        rot.set(true);
     }
 
     /**
