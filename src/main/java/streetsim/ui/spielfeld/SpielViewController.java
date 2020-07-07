@@ -1,5 +1,6 @@
 package streetsim.ui.spielfeld;
 
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -193,6 +194,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             if (e.getButton().equals(MouseButton.SECONDARY)) {
                 double x = e.getX();
                 double y = e.getY();
+                Position pos = new Position((int) Math.round(x), (int) Math.round(y));
+                spielfeldCon.getAutoMap().get(pos);
                 if (netz.strasseAnPos((int) Math.round(x), (int) Math.round(y)) != null) {
                     Position p = new Position((int) Math.round(x), (int) Math.round(y));
                     overlayController.setPosition(p.getPositionX(), p.getPositionY());

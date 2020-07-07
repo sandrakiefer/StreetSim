@@ -1,10 +1,13 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import streetsim.business.Auto;
 import streetsim.ui.spielfeld.AbstractModelController;
 import streetsim.ui.utils.ResourceAssist;
+
+import java.awt.*;
 
 public class AutoController extends AbstractModelController<Auto> {
 

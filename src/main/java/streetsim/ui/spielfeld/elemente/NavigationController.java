@@ -10,6 +10,7 @@ import streetsim.business.Himmelsrichtung;
 import streetsim.business.Strassenabschnitt;
 import streetsim.business.Strassennetz;
 import streetsim.business.abschnitte.TStueck;
+import streetsim.business.exceptions.WeltLeerException;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 import streetsim.ui.Szenen;
@@ -50,8 +51,12 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         alles.setOnAction(e -> feldLeeren());
 
         startPause.setOnAction(e -> {
-            if(!netz.isSimuliert()) start();
-            else pause();
+            try{
+                if(!netz.isSimuliert()) start();
+                else pause();
+            } catch(WeltLeerException ex){
+                //TODO: user informieren dass Welt leer ist
+            }
         });
     }
 
@@ -59,16 +64,16 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      * Straten der Simulatiom
      */
     public void start() {
-        startPause.setId("pause");
         netz.starteSimulation();
+        startPause.setId("pause");
     }
 
     /**
      * Pausieren der Simulation
      */
     public void pause() {
-        startPause.setId("play");
         netz.pausiereSimulation();
+        startPause.setId("play");
     }
 
     /**

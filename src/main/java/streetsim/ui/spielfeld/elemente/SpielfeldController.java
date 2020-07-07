@@ -27,6 +27,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     Map<Auto, AutoController> autoController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
+    Map<Position, List<Auto>> autoMap;
     ObservableList<Auto> autos;
     List<ImageView> alleAbschnitte;
 
@@ -39,6 +40,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         autoController = new HashMap<>();
         abschnitte = netz.getAbschnitte();
         autos = netz.getAutoList();
+        autoMap = netz.getAutos();
 
 
         alleAbschnitte = new LinkedList<>();
@@ -195,6 +197,9 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      */
     public void posBelegt(int x, int y) {
 
+    }
+    public Map<Position, List<Auto>> getAutoMap(){
+        return autoMap;
     }
 
     private void init() {
