@@ -366,7 +366,8 @@ public class Strassennetz {
                     }
                 } else {
                     Thread.currentThread().interrupt();
-                    instance.alleAmpelnDeaktivieren();
+                    // TODO: Jan brauchen wir das? bin mir nicht sicher (Jungs meinen nein)
+                    // instance.alleAmpelnDeaktivieren();
                 }
             }
         }).start();
