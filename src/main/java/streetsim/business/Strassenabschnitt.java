@@ -17,10 +17,10 @@ import java.util.List;
  */
 public abstract class Strassenabschnitt implements Ampelschaltung, Serializable {
 
-    public static final int GROESSE = 128;
-    private SimpleIntegerProperty positionX = new SimpleIntegerProperty();
-    private SimpleIntegerProperty positionY = new SimpleIntegerProperty();
+    private SimpleIntegerProperty positionX = new SimpleIntegerProperty(this, "positionX");
+    private SimpleIntegerProperty positionY = new SimpleIntegerProperty(this, "positionY");
     private SimpleListProperty<Himmelsrichtung> richtungen;
+    public static final int GROESSE = 128;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
     private int rotiertCounter;

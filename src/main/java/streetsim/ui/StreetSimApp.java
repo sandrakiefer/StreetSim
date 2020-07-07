@@ -21,9 +21,10 @@ public class StreetSimApp extends Application {
     public static final int BREITE = 1920;
     public static final int HOEHE = 1080;
 
-    private Strassennetz netz;
-    private Map<Szenen, Pane> szenen;
-    private Scene aktuelleSzene;
+    //TODO: before release: change back to private
+    protected Strassennetz netz;
+    protected Map<Szenen, Pane> szenen;
+    protected Scene aktuelleSzene;
     private Stage hauptStage;
 
     @Override
@@ -45,6 +46,7 @@ public class StreetSimApp extends Application {
         this.hauptStage.setWidth(BREITE);
 
         szenen.put(Szenen.STARTSEITE, new StartseiteController(netz, this).getRootView());
+        szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());
 
         aktuelleSzene = new Scene(szenen.get(Szenen.STARTSEITE));
         aktuelleSzene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -67,7 +69,6 @@ public class StreetSimApp extends Application {
      * @param s Szene
      */
     public void wechsleSzene(Szenen s) {
-        szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());
         if (szenen.containsKey(s)) {
             aktuelleSzene.setRoot(szenen.get(s));
         }

@@ -48,6 +48,11 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         autos.setOnAction(e -> entfAlleAutos());
         strassen.setOnAction(e -> entfAlleStrassen());
         alles.setOnAction(e -> feldLeeren());
+
+        startPause.setOnAction(e -> {
+            if(netz.simuliertProperty().getValue()) start();
+            else pause();
+        });
     }
 
     /**
@@ -55,7 +60,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      */
     public void start() {
         startPause.setId("pause");
-
+        netz.starteSimulation();
     }
 
     /**
@@ -63,6 +68,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      */
     public void pause() {
         startPause.setId("play");
+        netz.pausiereSimulation();
     }
 
     /**

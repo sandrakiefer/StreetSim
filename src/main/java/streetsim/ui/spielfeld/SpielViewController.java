@@ -1,5 +1,11 @@
 package streetsim.ui.spielfeld;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -66,7 +72,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
 
             if (s != null) {
-                content.put(DragDataFormats.ABSCHNITTFORMAT, s);
+                content.put(ViewDataFormats.ABSCHNITTFORMAT, s);
                 dragboard.setContent(content);
             }
         });
@@ -84,21 +90,19 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                 String dataString = dragboard.getString();
 
                 switch (dataString) {
-                    case DragDataFormats.AMPEL_FORMAT:
+                    case ViewDataFormats.AMPEL_FORMAT:
                         if (s == null || s.isAmpelAktiv()) dropSupported = false;
                         break;
-                    case DragDataFormats.GERADE_FORMAT:
-                    case DragDataFormats.KREUZUNG_FORMAT:
-                    case DragDataFormats.KURVE_FORMAT:
-                    case DragDataFormats.TSTUECK_FORMAT:
+                    case ViewDataFormats.GERADE_FORMAT:
+                    case ViewDataFormats.KREUZUNG_FORMAT:
+                    case ViewDataFormats.KURVE_FORMAT:
+                    case ViewDataFormats.TSTUECK_FORMAT:
                         if (s != null) dropSupported = false;
                         break;
                     default:
                         dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
                         break;
                 }
-            } else if (dragboard.hasContent(DragDataFormats.ABSCHNITTFORMAT)) {
-                if (s != null) dropSupported = false;
             }
 
             if (dropSupported) event.acceptTransferModes(TransferMode.COPY);
@@ -108,39 +112,40 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         rootView.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             if (dragboard.hasString()) {
-                String dataString = dragboard.getString();
-                Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+            String dataString = dragboard.getString();
+            Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
 
                 switch (dataString) {
-                    case DragDataFormats.AMPEL_FORMAT:
-                        netz.ampelnAktivieren(s);
+                    case ViewDataFormats.AMPEL_FORMAT:
+                netz.ampelnAktivieren(s);
                         break;
-                    case DragDataFormats.GERADE_FORMAT:
-                        Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                        netz.strasseAdden(g);
+                    case ViewDataFormats.GERADE_FORMAT:
+                Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                netz.strasseAdden(g);
                         break;
-                    case DragDataFormats.KREUZUNG_FORMAT:
+                    case ViewDataFormats.KREUZUNG_FORMAT:
                         Kreuzung kr = new Kreuzung((int) Math.round(event.getX()), (int) Math.round(event.getY()));
                         netz.strasseAdden(kr);
                         break;
-                    case DragDataFormats.KURVE_FORMAT:
+                    case ViewDataFormats.KURVE_FORMAT:
                         Kurve ku = new Kurve((int) Math.round(event.getX()), (int) Math.round(event.getY()));
                         netz.strasseAdden(ku);
                         break;
-                    case DragDataFormats.TSTUECK_FORMAT:
-                        TStueck t = new TStueck((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                        netz.strasseAdden(t);
+                    case ViewDataFormats.TSTUECK_FORMAT:
+                TStueck t = new TStueck((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                netz.strasseAdden(t);
                         break;
                     default:
                         if (Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString)) {
                             Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
                             Auto a = new Auto((int) Math.round(event.getX()), (int) Math.round(event.getY()), am);
+                            spielfeldCon.autoAdden(a);
                             netz.autoAdden(a);
                         }
                         break;
-                }
-            } else if (dragboard.hasContent(DragDataFormats.ABSCHNITTFORMAT)) {
-                Strassenabschnitt s = (Strassenabschnitt) dragboard.getContent(DragDataFormats.ABSCHNITTFORMAT);
+            }
+            } else if (dragboard.hasContent(ViewDataFormats.ABSCHNITTFORMAT)) {
+                Strassenabschnitt s = (Strassenabschnitt) dragboard.getContent(ViewDataFormats.ABSCHNITTFORMAT);
                 netz.bewegeStrasse(s, (int) Math.round(event.getX()), (int) Math.round(event.getY()));
             }
 

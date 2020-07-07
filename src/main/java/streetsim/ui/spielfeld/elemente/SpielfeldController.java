@@ -1,5 +1,6 @@
 package streetsim.ui.spielfeld.elemente;
 
+import com.sun.javafx.binding.StringFormatter;
 import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
@@ -23,7 +24,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     Map<Auto, AutoController> autoController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
-    ObservableMap<Position, List<Auto>> autos;
+    ObservableMap<Position, ArrayList<Auto>> autos;
     List<ImageView> alleAbschnitte;
 
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
@@ -34,12 +35,13 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         strassenController = new HashMap<>();
         autoController = new HashMap<>();
 
+        //TODO: auto map notwendig? an Position können mehrere autos sein ist doch egal
         abschnitte = netz.getAbschnitte();
         autos = netz.getAutos();
+        System.out.println(autos.size());
 
         alleAbschnitte = new LinkedList<>();
         handlerAnmelden();
-        init();
     }
 
     @Override
@@ -47,16 +49,52 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         abschnitte.addListener((MapChangeListener<Position, Strassenabschnitt>) change -> {
             if (change.wasAdded()) {
                 Strassenabschnitt s = change.getValueAdded();
-                strasseAdden(s);
+                ImageView strassenView;
+
+                if (s instanceof Gerade) strassenView = new GeradeView();
+                else if (s instanceof Kreuzung) strassenView = new KreuzungView();
+                else if (s instanceof Kurve) strassenView = new KurveView();
+                else strassenView = new TStueckView();
+
+                Platform.runLater(() -> {
+                    strassenView.setLayoutX(s.getPositionX());
+                    strassenView.setLayoutY(s.getPositionY());
+                });
+
+                StrassenController sc = new StrassenController(s, strassenView);
+                strassenController.put(s, sc);
+                ((SpielfeldView) rootView).addAbschnitt(strassenView);
+                sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).addAmpelOderAuto(a.getRootView()));
+
             } else if (change.wasRemoved()) {
                 Strassenabschnitt s = change.getValueRemoved();
-                entfStrasse(s);
+                StrassenController sc = strassenController.remove(s);
+                sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).entferneAmpelOderAuto(a.getRootView()));
+                netz.entfStrasse(s);
+                ((SpielfeldView) rootView).entferneAbschnitt(sc.getRootView());
+
+            }
+        });
+
+        autos.addListener((MapChangeListener<Position, ArrayList<Auto>>) change -> {
+            if(change.wasAdded()) {
+                change.getValueAdded().forEach(a -> {
+                    ((SpielfeldView) rootView).addAmpelOderAuto(autoController.get(a).getRootView());
+                });
+            }
+
+            if(change.wasRemoved()) {
+                change.getValueRemoved().forEach(a -> {
+                    ((SpielfeldView) rootView).entferneAmpelOderAuto(autoController.get(a).getRootView());
+                });
             }
         });
 
         app.getHauptStage().widthProperty().addListener(c -> ((SpielfeldView)rootView).setBreite(app.getHauptStage().getWidth()));
 
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView)rootView).setHoehe(app.getHauptStage().getHeight()));
+
+
 
     }
 
@@ -66,7 +104,21 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      * @param a Auto
      */
     public void autoAdden(Auto a) {
+//        System.out.println("wir kommen der Sache näher");
+        AutoModelle.valueOf(a.getAutoModell().toString()).getView();
 
+        AutoView av = new AutoView(AutoModelle.valueOf(a.getAutoModell().toString()).getView());
+
+        AutoController ac = new AutoController(a, av);
+
+        autoController.put(a, ac);
+        ac.getRootView().setLayoutX(a.getPositionX());
+        ac.getRootView().setLayoutY(a.getPositionY());
+//        System.out.println(String.format("Auto \n PosX: %d \n PosY: %d \n", a.getPositionX(), a.getPositionY()));
+
+        ((SpielfeldView) rootView).addAmpelOderAuto(ac.getRootView());
+//
+//        System.out.println("wir kommen der Sache viiiiiiiiiiiiel näher");
     }
 
     /**
@@ -84,22 +136,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      * @param s Strassenabschnitt
      */
     public void strasseAdden(Strassenabschnitt s) {
-        ImageView strassenView;
 
-        if (s instanceof Gerade) strassenView = new GeradeView();
-        else if (s instanceof Kreuzung) strassenView = new KreuzungView();
-        else if (s instanceof Kurve) strassenView = new KurveView();
-        else strassenView = new TStueckView();
-
-        Platform.runLater(() -> {
-            strassenView.setLayoutX(s.getPositionX());
-            strassenView.setLayoutY(s.getPositionY());
-        });
-
-        StrassenController sc = new StrassenController(s, strassenView);
-        strassenController.put(s, sc);
-        ((SpielfeldView) rootView).addAbschnitt(strassenView);
-        sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).addAmpelOderAuto(a.getRootView()));
     }
 
     /**
@@ -125,13 +162,8 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      *
      * @param s Strassenabschnitte
      */
-    public void entfStrasse(Strassenabschnitt ... s) {
-        for (Strassenabschnitt st : s) {
-        StrassenController sc = strassenController.remove(st);
-            sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).entferneAmpelOderAuto(a.getRootView()));
-            netz.entfStrasse(st);
-            ((SpielfeldView) rootView).entferneAbschnitt(sc.getRootView());
-        }
+    public void entfStrasse(Strassenabschnitt[] s) {
+
     }
 
     /**
@@ -171,16 +203,6 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      */
     public void posBelegt(int x, int y) {
 
-    }
-
-    private void init(){
-        for (Strassenabschnitt s : abschnitte.values()) {
-            strasseAdden(s);
-            if (s.isAmpelAktiv()) {
-                ampelnAktivieren(s);
-            }
-            //TODO: Autos adden
-        }
     }
 
 }

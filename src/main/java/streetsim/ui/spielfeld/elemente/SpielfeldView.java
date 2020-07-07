@@ -23,19 +23,19 @@ public class SpielfeldView extends StackPane {
     }
 
     public void addAbschnitt(ImageView imageView) {
-        Platform.runLater(() -> abschnitte.getChildren().addAll(imageView));
+        abschnitte.getChildren().addAll(imageView);
     }
 
     public void entferneAbschnitt(ImageView imageView) {
-        Platform.runLater(() -> abschnitte.getChildren().remove(imageView));
+        abschnitte.getChildren().remove(imageView);
     }
 
     public void addAmpelOderAuto(ImageView imageView) {
-        Platform.runLater(() -> autosUndAmpeln.getChildren().addAll(imageView));
+        autosUndAmpeln.getChildren().addAll(imageView);
     }
 
     public void entferneAmpelOderAuto(ImageView imageView) {
-        Platform.runLater(() -> autosUndAmpeln.getChildren().remove(imageView));
+        autosUndAmpeln.getChildren().remove(imageView);
     }
 
     public void setBreite(double breite) {

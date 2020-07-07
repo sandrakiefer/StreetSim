@@ -1,6 +1,5 @@
 package streetsim.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -18,7 +17,7 @@ public class Auto {
 
     private int geschwindigkeit;
     private static final int MAXGESCHWINDIGKEIT = 8;
-    private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>();
+    private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
 
     private final Queue<Wendepunkt> wendepunkte;
 
@@ -57,9 +56,11 @@ public class Auto {
             if (offX < 0) {
                 this.richtung.set(Himmelsrichtung.SUEDEN);
                 this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - this.breite) / 2));
+
             } else {
                 this.richtung.set(Himmelsrichtung.NORDEN);
                 this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + this.breite) / 2));
+
             }
         } else {
             // Trennung nach Richtung aus welcher der Punkt angepasst wird (oben/unten)
@@ -372,4 +373,7 @@ public class Auto {
         return richtung;
     }
 
+    public Auto.AutoModell getAutoModell(){
+        return this.autoModell;
+    }
 }

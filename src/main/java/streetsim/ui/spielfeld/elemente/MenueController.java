@@ -25,26 +25,27 @@ import java.util.stream.Collectors;
  */
 public class MenueController extends AbstractController<StreetSimApp> {
 
-    enum AutoModelle {
+//    enum AutoModelle {
+//
+//        BLAU(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "blauesAuto.png")), Auto.AutoModell.BLAU),
+//        POLIZEI(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "polizeiAuto.png")), Auto.AutoModell.POLIZEI),
+//        ROT(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "rotesAuto.png")), Auto.AutoModell.ROT);
+//
+//        private final AutoView view;
+//
+//        AutoModelle(Image img, Auto.AutoModell autoModell) {
+//            view = new AutoView(img, autoModell);
+//        }
+//
+//        public AutoView getView() {
+//            return view;
+//        }
+//
+//        public static List<AutoView> getAllViews() {
+//            return Arrays.stream(AutoModelle.values()).map(AutoModelle::getView).collect(Collectors.toList());
+//        }
+//    }
 
-        BLAU(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "blauesAuto.png")), Auto.AutoModell.BLAU),
-        POLIZEI(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "polizeiAuto.png")), Auto.AutoModell.POLIZEI),
-        ROT(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "rotesAuto.png")), Auto.AutoModell.ROT);
-
-        private final AutoView view;
-
-        AutoModelle(Image img, Auto.AutoModell autoModell) {
-            view = new AutoView(img, autoModell);
-        }
-
-        public AutoView getView() {
-            return view;
-        }
-
-        public static List<AutoView> getAllViews() {
-            return Arrays.stream(AutoModelle.values()).map(AutoModelle::getView).collect(Collectors.toList());
-        }
-    }
 
     GeradeView gerade;
     KreuzungView kreuzung;
@@ -85,11 +86,11 @@ public class MenueController extends AbstractController<StreetSimApp> {
                 ClipboardContent content = new ClipboardContent();
 
                 String df;
-                if (e instanceof GeradeView) df = DragDataFormats.GERADE_FORMAT;
-                else if (e instanceof KreuzungView) df = DragDataFormats.KREUZUNG_FORMAT;
-                else if (e instanceof KurveView) df = DragDataFormats.KURVE_FORMAT;
-                else if (e instanceof TStueckView) df = DragDataFormats.TSTUECK_FORMAT;
-                else if (e instanceof AmpelView) df = DragDataFormats.AMPEL_FORMAT;
+                if (e instanceof GeradeView) df = ViewDataFormats.GERADE_FORMAT;
+                else if (e instanceof KreuzungView) df = ViewDataFormats.KREUZUNG_FORMAT;
+                else if (e instanceof KurveView) df = ViewDataFormats.KURVE_FORMAT;
+                else if (e instanceof TStueckView) df = ViewDataFormats.TSTUECK_FORMAT;
+                else if (e instanceof AmpelView) df = ViewDataFormats.AMPEL_FORMAT;
                 else df = ((AutoView) e).getAutoModell().name();
 
                 dragboard.setDragView(e.getImage());
