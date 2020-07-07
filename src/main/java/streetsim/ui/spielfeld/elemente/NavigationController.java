@@ -50,7 +50,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         alles.setOnAction(e -> feldLeeren());
 
         startPause.setOnAction(e -> {
-            if(netz.isSimuliert()) start();
+            if(!netz.isSimuliert()) start();
             else pause();
         });
     }
