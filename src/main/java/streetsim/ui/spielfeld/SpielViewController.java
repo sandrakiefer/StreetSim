@@ -63,7 +63,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
-
+//TODO: menue view ausklappbar per button sowie einklappen bei dragdetect
         rootView.setOnDragDetected(e -> {
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
 

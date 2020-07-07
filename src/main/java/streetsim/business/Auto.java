@@ -57,11 +57,13 @@ public class Auto {
             if (offX < 0) {
                 this.richtung.set(Himmelsrichtung.SUEDEN);
                 this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - this.breite) / 2));
-
             } else {
                 this.richtung.set(Himmelsrichtung.NORDEN);
                 this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + this.breite) / 2));
-
+            }
+            if (Math.abs(offY) < 30) {
+                // TODO: für Jan
+                this.positionY.set(Integer.signum(offY) * 30 + this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE));
             }
         } else {
             // Trennung nach Richtung aus welcher der Punkt angepasst wird (oben/unten)
@@ -290,6 +292,9 @@ public class Auto {
         double neuerPunkt[] = {zwPunkt[0] + mittelpunkt[0], zwPunkt[1] + mittelpunkt[1]};
         this.setPositionX((int)Math.round(neuerPunkt[0]));
         this.setPositionY((int)Math.round(neuerPunkt[1]));
+        //System.out.println("ALT " + alterPunkt.toString());
+        //System.out.println("NEU (nichtrund) " + neuerPunkt.toString());
+        //System.out.println("NEU " + this.getPositionX() + " " + this.getPositionY());
         this.setRichtung(richtung.get().naechstes());
     }
 
