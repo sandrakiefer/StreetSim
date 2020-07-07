@@ -71,6 +71,9 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
             ampelCon.setAbsolutePosX(model.getPositionX() + f.getRelPosX().intValue());
             ampelCon.setAbsolutePosY(model.getPositionY() + f.getRelPosY().intValue());
             alleAmpeln.put(f, ampelCon);
+            if (model.isAmpelAktiv()) {
+                ampelCon.getRootView().setVisible(true);
+            }
         });
     }
 
