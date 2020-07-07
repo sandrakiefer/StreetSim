@@ -120,7 +120,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         break;
                     default:
                         dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
-
                         break;
                 }
             }
@@ -137,11 +136,11 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
                 switch (dataString) {
                     case DragDataFormats.AMPEL_FORMAT:
-                netz.ampelnAktivieren(s);
+                        netz.ampelnAktivieren(s);
                         break;
                     case DragDataFormats.GERADE_FORMAT:
-                Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                netz.strasseAdden(g);
+                        Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                        netz.strasseAdden(g);
                         break;
                     case DragDataFormats.KREUZUNG_FORMAT:
                         Kreuzung kr = new Kreuzung((int) Math.round(event.getX()), (int) Math.round(event.getY()));
@@ -152,15 +151,14 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         netz.strasseAdden(ku);
                         break;
                     case DragDataFormats.TSTUECK_FORMAT:
-                TStueck t = new TStueck((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                netz.strasseAdden(t);
+                        TStueck t = new TStueck((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                        netz.strasseAdden(t);
                         break;
                     default:
                         if (Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString)) {
                             if(netz.posBelegt(s)) {
                                 Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
                                 Auto a = new Auto((int) Math.round(event.getX()), (int) Math.round(event.getY()), am);
-                                spielfeldCon.autoAdden(a);
                                 netz.autoAdden(a);
                             }
                         }

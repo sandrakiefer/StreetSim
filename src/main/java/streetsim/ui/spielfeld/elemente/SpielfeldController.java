@@ -2,7 +2,10 @@ package streetsim.ui.spielfeld.elemente;
 
 import com.sun.javafx.binding.StringFormatter;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.image.ImageView;
 import streetsim.business.*;
@@ -24,7 +27,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     Map<Auto, AutoController> autoController;
 
     ObservableMap<Position, Strassenabschnitt> abschnitte;
-    Map<Position, List<Auto>> autos;
+    ObservableList<Auto> autos;
     List<ImageView> alleAbschnitte;
 
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
@@ -34,11 +37,9 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         strassenController = new HashMap<>();
         autoController = new HashMap<>();
-
-        //TODO: auto map notwendig? an Position können mehrere autos sein ist doch egal
         abschnitte = netz.getAbschnitte();
-        autos = netz.getAutos();
-        System.out.println(autos.size());
+        autos = netz.getAutoList();
+
 
         alleAbschnitte = new LinkedList<>();
         handlerAnmelden();
@@ -61,6 +62,14 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView) rootView).setHoehe(app.getHauptStage().getHeight()));
 
+        autos.addListener((ListChangeListener<Auto>) change -> {
+            if(change.next() && change.wasAdded()) {
+                autoAdden(autos.get(change.getFrom()));
+            } else if (change.next() && change.wasRemoved()){
+                entfAuto(change.getRemoved().toArray(Auto[]::new));
+            }
+        });
+
 
     }
 
@@ -70,21 +79,16 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      * @param a Auto
      */
     public void autoAdden(Auto a) {
-//        System.out.println("wir kommen der Sache näher");
+
         AutoModelle.valueOf(a.getAutoModell().toString()).getView();
-
         AutoView av = new AutoView(AutoModelle.valueOf(a.getAutoModell().toString()).getView());
-
         AutoController ac = new AutoController(a, av);
-
         autoController.put(a, ac);
+
         ac.getRootView().setLayoutX(a.getPositionX()-a.getBreite()/2);
         ac.getRootView().setLayoutY(a.getPositionY()-a.getLaenge()/2);
-//        System.out.println(String.format("Auto \n PosX: %d \n PosY: %d \n", a.getPositionX(), a.getPositionY()));
 
         ((SpielfeldView) rootView).addAmpelOderAuto(ac.getRootView());
-//
-//        System.out.println("wir kommen der Sache viiiiiiiiiiiiel näher");
     }
 
     /**
@@ -126,7 +130,11 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      * @param a Autos
      */
     public void entfAuto(Auto[] a) {
-
+        for(Auto brum : a) {
+            AutoModelle.valueOf(brum.getAutoModell().toString()).getView();
+            ((SpielfeldView) rootView).addAmpelOderAuto(autoController.get(brum).getRootView());
+            autoController.remove(brum);
+        }
     }
 
     /**

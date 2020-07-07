@@ -80,5 +80,4 @@ public class AmpelController extends AbstractModelController<Ampel> {
         else if (!model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelGelb);
         else if (!model.isRot() && !model.isGelb() && model.isGruen()) rootView.setImage(ampelGruen);
     }
-
 }
