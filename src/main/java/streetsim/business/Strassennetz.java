@@ -39,7 +39,7 @@ public class Strassennetz {
     private Strassennetz() {
         abschnitte = FXCollections.observableHashMap();
         autos = new HashMap<>();
-        autoList = new SimpleListProperty<>();
+        autoList = new SimpleListProperty<>(FXCollections.observableArrayList());
         simuliert = new SimpleBooleanProperty();
     }
 
@@ -247,9 +247,7 @@ public class Strassennetz {
     public void rotiereStrasse(Strassenabschnitt s) {
         Position p = new Position(s.getPositionX(), s.getPositionY());
         s.rotiere();
-        for (Auto a : autos.get(p)) {
-            a.rotiere();
-        }
+        if (autos.containsKey(p)) { autos.get(p).forEach(a -> a.rotiere()); }
     }
 
     /**
