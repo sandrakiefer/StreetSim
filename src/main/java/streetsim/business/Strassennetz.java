@@ -1,6 +1,6 @@
 package streetsim.business;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import streetsim.business.abschnitte.TStueck;
@@ -20,7 +20,7 @@ import java.util.*;
 public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
-    private ObservableMap<Position, ArrayList<Auto>> autos;
+    private ObservableMap<Position, List<Auto>> autos;
     private BooleanProperty simuliert;
     private String name;
     public static Strassennetz instance;
@@ -352,7 +352,7 @@ public class Strassennetz {
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (instance.simuliert.get()) {
-                    for (Map.Entry<Position, ArrayList<Auto>> entry : instance.autos.entrySet()) {
+                    for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
                         for (Auto a : entry.getValue()) {
                             a.fahre();
                         }
@@ -395,7 +395,7 @@ public class Strassennetz {
         return instance.abschnitte;
     }
 
-    public ObservableMap<Position, ArrayList<Auto>> getAutos() {
+    public ObservableMap<Position, List<Auto>> getAutos() {
         return instance.autos;
     }
 
@@ -403,7 +403,7 @@ public class Strassennetz {
         this.abschnitte = abschnitte;
     }
 
-    public void setAutos(ObservableMap<Position, ArrayList<Auto>> autos) {
+    public void setAutos(ObservableMap<Position, List<Auto>> autos) {
         this.autos = autos;
     }
 
