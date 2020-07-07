@@ -63,9 +63,9 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView) rootView).setHoehe(app.getHauptStage().getHeight()));
 
         autos.addListener((ListChangeListener<Auto>) change -> {
-            if(change.next() && change.wasAdded()) {
+            if (change.next() && change.wasAdded()) {
                 autoAdden(autos.get(change.getFrom()));
-            } else if (change.next() && change.wasRemoved()){
+            } else if (change.wasRemoved()){
                 entfAuto(change.getRemoved().toArray(Auto[]::new));
             }
         });
@@ -80,13 +80,12 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      */
     public void autoAdden(Auto a) {
 
-        AutoModelle.valueOf(a.getAutoModell().toString()).getView();
         AutoView av = new AutoView(AutoModelle.valueOf(a.getAutoModell().toString()).getView());
         AutoController ac = new AutoController(a, av);
         autoController.put(a, ac);
 
-        ac.getRootView().setLayoutX(a.getPositionX()-a.getBreite()/2);
-        ac.getRootView().setLayoutY(a.getPositionY()-a.getLaenge()/2);
+        ac.getRootView().setLayoutX(a.getPositionX() - (double) a.getBreite() / 2);
+        ac.getRootView().setLayoutY(a.getPositionY() - (double) a.getLaenge() / 2);
 
         ((SpielfeldView) rootView).addAmpelOderAuto(ac.getRootView());
     }
@@ -129,10 +128,9 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      *
      * @param a Autos
      */
-    public void entfAuto(Auto[] a) {
-        for(Auto brum : a) {
-            AutoModelle.valueOf(brum.getAutoModell().toString()).getView();
-            ((SpielfeldView) rootView).addAmpelOderAuto(autoController.get(brum).getRootView());
+    public void entfAuto(Auto ... a) {
+        for (Auto brum : a) {
+            ((SpielfeldView) rootView).entferneAmpelOderAuto(autoController.get(brum).getRootView());
             autoController.remove(brum);
         }
     }

@@ -260,7 +260,7 @@ public class Strassennetz {
         for (Strassenabschnitt stra : s) {
             Position p = new Position(stra.getPositionX(), stra.getPositionY());
             instance.abschnitte.remove(p);
-            instance.autos.remove(p).forEach(a -> instance.autoList.remove(a));
+            if (instance.autos.containsKey(p)) instance.autos.remove(p).forEach(a -> instance.autoList.remove(a));
         }
     }
 
