@@ -290,6 +290,9 @@ public class Auto {
         double neuerPunkt[] = {zwPunkt[0] + mittelpunkt[0], zwPunkt[1] + mittelpunkt[1]};
         this.setPositionX((int)Math.round(neuerPunkt[0]));
         this.setPositionY((int)Math.round(neuerPunkt[1]));
+        //System.out.println("ALT " + alterPunkt.toString());
+        //System.out.println("NEU (nichtrund) " + neuerPunkt.toString());
+        //System.out.println("NEU " + this.getPositionX() + " " + this.getPositionY());
         this.setRichtung(richtung.get().naechstes());
     }
 
