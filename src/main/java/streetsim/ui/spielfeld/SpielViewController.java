@@ -1,5 +1,6 @@
 package streetsim.ui.spielfeld;
 
+import com.google.gson.Gson;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -64,20 +65,16 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
 
         rootView.setOnDragDetected(e -> {
-            Dragboard dragboard = rootView.startDragAndDrop(TransferMode.COPY);
-
-            ClipboardContent content = new ClipboardContent();
-
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
 
-            if (s != null) {
-                System.out.println(s);
-                String serializedStrasse = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
-                        .enableComplexMapKeySerialization()
-                        .create()
-                        .toJson(s);
 
-                System.out.println(serializedStrasse);
+            if (s != null) {
+
+                Dragboard dragboard = rootView.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
+                Gson gson = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, StrassenAdapter.getInstance())
+                        .create();
+                String serializedStrasse = gson.toJson(s, Strassenabschnitt.class);
 
                 content.put(DragDataFormats.ABSCHNITTFORMAT, serializedStrasse);
 
@@ -88,8 +85,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                 else if (s instanceof Kurve) imageView = new KurveView();
                 else imageView = new TStueckView();
 
-                for (int i=0; i<s.getRotiertCounter(); i++) {
-                   imageView.setRotate(imageView.getRotate()+90);
+                for (int i = 0; i < s.getRotiertCounter(); i++) {
+                    imageView.setRotate(imageView.getRotate() + 90);
                 }
                 Image img = imageView.snapshot(null, null);
 
@@ -104,37 +101,42 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             boolean dropSupported = true;
             Dragboard dragboard = event.getDragboard();
 
-            if (event.getTransferMode() != TransferMode.COPY) dropSupported = false;
-
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-            if (dragboard.hasString()) {
-                String dataString = dragboard.getString();
+            if (event.getTransferMode() == TransferMode.COPY) {
+                if (dragboard.hasString()) {
+                    String dataString = dragboard.getString();
 
-                switch (dataString) {
-                    case DragDataFormats.AMPEL_FORMAT:
-                        if (s == null || s.isAmpelAktiv()) dropSupported = false;
-                        break;
-                    case DragDataFormats.GERADE_FORMAT:
-                    case DragDataFormats.KREUZUNG_FORMAT:
-                    case DragDataFormats.KURVE_FORMAT:
-                    case DragDataFormats.TSTUECK_FORMAT:
-                        if (s != null) dropSupported = false;
-                        break;
-                    default:
-                        dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
-                        break;
+                    switch (dataString) {
+                        case DragDataFormats.AMPEL_FORMAT:
+                            if (s == null || s.isAmpelAktiv()) dropSupported = false;
+                            break;
+                        case DragDataFormats.GERADE_FORMAT:
+                        case DragDataFormats.KREUZUNG_FORMAT:
+                        case DragDataFormats.KURVE_FORMAT:
+                        case DragDataFormats.TSTUECK_FORMAT:
+                            if (s != null) dropSupported = false;
+                            break;
+                        default:
+                            dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
+                            break;
+                    }
+                    if (dropSupported) event.acceptTransferModes(TransferMode.COPY);
                 }
+            } else {
+                dropSupported = event.getTransferMode() == TransferMode.MOVE && dragboard.hasContent(DragDataFormats.ABSCHNITTFORMAT) && s == null;
+                if (dropSupported) event.acceptTransferModes(TransferMode.MOVE);
+
             }
 
-            if (dropSupported) event.acceptTransferModes(TransferMode.COPY);
+
             event.consume();
         });
 
         rootView.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
             if (dragboard.hasString()) {
-            String dataString = dragboard.getString();
-            Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                String dataString = dragboard.getString();
+                Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
 
                 switch (dataString) {
                     case DragDataFormats.AMPEL_FORMAT:
@@ -158,7 +160,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         break;
                     default:
                         if (Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString)) {
-                            if(netz.posBelegt(s)) {
+                            if (netz.posBelegt(s)) {
                                 Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
                                 Auto a = new Auto((int) Math.round(event.getX()), (int) Math.round(event.getY()), am);
                                 try {
@@ -175,10 +177,10 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                 }
             } else if (dragboard.hasContent(DragDataFormats.ABSCHNITTFORMAT)) {
                 String serializedStrasse = (String) dragboard.getContent(DragDataFormats.ABSCHNITTFORMAT);
-                System.out.println(serializedStrasse);
-                Strassenabschnitt s = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
+                Gson gson = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, StrassenAdapter.getInstance())
                         .enableComplexMapKeySerialization()
-                        .create().fromJson(serializedStrasse, Strassenabschnitt.class);
+                        .create();
+                Strassenabschnitt s = gson.fromJson(serializedStrasse, Strassenabschnitt.class);
                 netz.bewegeStrasse(s, (int) Math.round(event.getX()), (int) Math.round(event.getY()));
             }
 

@@ -2,6 +2,15 @@ package streetsim.business;
 import com.google.gson.*;
 import java.lang.reflect.Type;
 public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonDeserializer<Strassenabschnitt> {
+
+    public static StrassenAdapter instance;
+    private StrassenAdapter(){}
+
+    public static StrassenAdapter getInstance() {
+        if (instance == null) instance = new StrassenAdapter();
+        return instance;
+    }
+
     @Override
     public JsonElement serialize(Strassenabschnitt src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
