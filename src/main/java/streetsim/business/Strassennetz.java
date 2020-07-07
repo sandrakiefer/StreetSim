@@ -246,8 +246,8 @@ public class Strassennetz {
      */
     public void rotiereStrasse(Strassenabschnitt s) {
         Position p = new Position(s.getPositionX(), s.getPositionY());
-        s.rotiere();
         if (autos.containsKey(p)) { autos.get(p).forEach(a -> a.rotiere()); }
+        s.rotiere();
     }
 
     /**
