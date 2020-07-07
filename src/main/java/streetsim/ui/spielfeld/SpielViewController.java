@@ -1,19 +1,13 @@
 package streetsim.ui.spielfeld;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import streetsim.business.Auto;
-import streetsim.business.Position;
-import streetsim.business.Strassenabschnitt;
-import streetsim.business.Strassennetz;
+import org.hildan.fxgson.FxGson;
+import streetsim.business.*;
 import streetsim.business.abschnitte.Gerade;
 import streetsim.business.abschnitte.Kreuzung;
 import streetsim.business.abschnitte.Kurve;
@@ -21,6 +15,10 @@ import streetsim.business.abschnitte.TStueck;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 import streetsim.ui.spielfeld.elemente.*;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.GeradeView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.KreuzungView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.KurveView;
+import streetsim.ui.spielfeld.elemente.strassenabschnitte.TStueckView;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -64,7 +62,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
 
         rootView.setOnDragDetected(e -> {
-            System.out.println("DRAG DETECTED");
             Dragboard dragboard = rootView.startDragAndDrop(TransferMode.COPY);
 
             ClipboardContent content = new ClipboardContent();
@@ -72,7 +69,29 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
 
             if (s != null) {
-                content.put(ViewDataFormats.ABSCHNITTFORMAT, s);
+                System.out.println(s);
+                String serializedStrasse = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
+                        .enableComplexMapKeySerialization()
+                        .create()
+                        .toJson(s);
+
+                System.out.println(serializedStrasse);
+
+                content.put(DragDataFormats.ABSCHNITTFORMAT, serializedStrasse);
+
+                ImageView imageView;
+
+                if (s instanceof Gerade) imageView = new GeradeView();
+                else if (s instanceof Kreuzung) imageView = new KreuzungView();
+                else if (s instanceof Kurve) imageView = new KurveView();
+                else imageView = new TStueckView();
+
+                for (int i=0; i<s.getRotiertCounter(); i++) {
+                   imageView.setRotate(imageView.getRotate()+90);
+                }
+                Image img = imageView.snapshot(null, null);
+
+                dragboard.setDragView(img);
                 dragboard.setContent(content);
             }
         });
@@ -90,13 +109,13 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                 String dataString = dragboard.getString();
 
                 switch (dataString) {
-                    case ViewDataFormats.AMPEL_FORMAT:
+                    case DragDataFormats.AMPEL_FORMAT:
                         if (s == null || s.isAmpelAktiv()) dropSupported = false;
                         break;
-                    case ViewDataFormats.GERADE_FORMAT:
-                    case ViewDataFormats.KREUZUNG_FORMAT:
-                    case ViewDataFormats.KURVE_FORMAT:
-                    case ViewDataFormats.TSTUECK_FORMAT:
+                    case DragDataFormats.GERADE_FORMAT:
+                    case DragDataFormats.KREUZUNG_FORMAT:
+                    case DragDataFormats.KURVE_FORMAT:
+                    case DragDataFormats.TSTUECK_FORMAT:
                         if (s != null) dropSupported = false;
                         break;
                     default:
@@ -119,22 +138,22 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
 
                 switch (dataString) {
-                    case ViewDataFormats.AMPEL_FORMAT:
-                        netz.ampelnAktivieren(s);
+                    case DragDataFormats.AMPEL_FORMAT:
+                netz.ampelnAktivieren(s);
                         break;
-                    case ViewDataFormats.GERADE_FORMAT:
-                        Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                        netz.strasseAdden(g);
+                    case DragDataFormats.GERADE_FORMAT:
+                Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                netz.strasseAdden(g);
                         break;
-                    case ViewDataFormats.KREUZUNG_FORMAT:
+                    case DragDataFormats.KREUZUNG_FORMAT:
                         Kreuzung kr = new Kreuzung((int) Math.round(event.getX()), (int) Math.round(event.getY()));
                         netz.strasseAdden(kr);
                         break;
-                    case ViewDataFormats.KURVE_FORMAT:
+                    case DragDataFormats.KURVE_FORMAT:
                         Kurve ku = new Kurve((int) Math.round(event.getX()), (int) Math.round(event.getY()));
                         netz.strasseAdden(ku);
                         break;
-                    case ViewDataFormats.TSTUECK_FORMAT:
+                    case DragDataFormats.TSTUECK_FORMAT:
                 TStueck t = new TStueck((int) Math.round(event.getX()), (int) Math.round(event.getY()));
                 netz.strasseAdden(t);
                         break;
@@ -146,9 +165,13 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                             netz.autoAdden(a);
                         }
                         break;
-            }
-            } else if (dragboard.hasContent(ViewDataFormats.ABSCHNITTFORMAT)) {
-                Strassenabschnitt s = (Strassenabschnitt) dragboard.getContent(ViewDataFormats.ABSCHNITTFORMAT);
+                }
+            } else if (dragboard.hasContent(DragDataFormats.ABSCHNITTFORMAT)) {
+                String serializedStrasse = (String) dragboard.getContent(DragDataFormats.ABSCHNITTFORMAT);
+                System.out.println(serializedStrasse);
+                Strassenabschnitt s = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
+                        .enableComplexMapKeySerialization()
+                        .create().fromJson(serializedStrasse, Strassenabschnitt.class);
                 netz.bewegeStrasse(s, (int) Math.round(event.getX()), (int) Math.round(event.getY()));
             }
 
