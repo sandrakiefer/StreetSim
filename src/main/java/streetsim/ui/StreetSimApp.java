@@ -46,7 +46,6 @@ public class StreetSimApp extends Application {
         this.hauptStage.setWidth(BREITE);
 
         szenen.put(Szenen.STARTSEITE, new StartseiteController(netz, this).getRootView());
-        szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());
 
         aktuelleSzene = new Scene(szenen.get(Szenen.STARTSEITE));
         aktuelleSzene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -69,6 +68,7 @@ public class StreetSimApp extends Application {
      * @param s Szene
      */
     public void wechsleSzene(Szenen s) {
+        szenen.put(Szenen.SPIEL_VIEW, new SpielViewController(netz, this).getRootView());
         if (szenen.containsKey(s)) {
             aktuelleSzene.setRoot(szenen.get(s));
         }
