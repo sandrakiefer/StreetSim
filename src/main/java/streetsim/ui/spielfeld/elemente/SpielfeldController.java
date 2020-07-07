@@ -63,8 +63,10 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView) rootView).setHoehe(app.getHauptStage().getHeight()));
 
         autos.addListener((ListChangeListener<Auto>) change -> {
-            if(change.wasAdded()) {
+            if(change.next() && change.wasAdded()) {
                 autoAdden(autos.get(change.getFrom()));
+            } else if (change.next() && change.wasRemoved()){
+                entfAuto(change.getRemoved().toArray(Auto[]::new));
             }
         });
 
@@ -128,7 +130,11 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      * @param a Autos
      */
     public void entfAuto(Auto[] a) {
-
+        for(Auto brum : a) {
+            AutoModelle.valueOf(brum.getAutoModell().toString()).getView();
+            ((SpielfeldView) rootView).addAmpelOderAuto(autoController.get(brum).getRootView());
+            autoController.remove(brum);
+        }
     }
 
     /**
