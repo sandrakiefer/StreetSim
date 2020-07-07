@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import streetsim.business.Auto;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
@@ -16,9 +15,7 @@ import streetsim.ui.spielfeld.elemente.strassenabschnitte.TStueckView;
 import streetsim.ui.utils.ResourceAssist;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Verwaltung von Aktionen im Menü
@@ -86,11 +83,11 @@ public class MenueController extends AbstractController<StreetSimApp> {
                 ClipboardContent content = new ClipboardContent();
 
                 String df;
-                if (e instanceof GeradeView) df = ViewDataFormats.GERADE_FORMAT;
-                else if (e instanceof KreuzungView) df = ViewDataFormats.KREUZUNG_FORMAT;
-                else if (e instanceof KurveView) df = ViewDataFormats.KURVE_FORMAT;
-                else if (e instanceof TStueckView) df = ViewDataFormats.TSTUECK_FORMAT;
-                else if (e instanceof AmpelView) df = ViewDataFormats.AMPEL_FORMAT;
+                if (e instanceof GeradeView) df = DragDataFormats.GERADE_FORMAT;
+                else if (e instanceof KreuzungView) df = DragDataFormats.KREUZUNG_FORMAT;
+                else if (e instanceof KurveView) df = DragDataFormats.KURVE_FORMAT;
+                else if (e instanceof TStueckView) df = DragDataFormats.TSTUECK_FORMAT;
+                else if (e instanceof AmpelView) df = DragDataFormats.AMPEL_FORMAT;
                 else df = ((AutoView) e).getAutoModell().name();
 
                 dragboard.setDragView(e.getImage());

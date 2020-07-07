@@ -4,7 +4,7 @@ import javafx.scene.input.DataFormat;
 
 import java.util.List;
 
-public class ViewDataFormats {
+public class DragDataFormats {
 
     public static final String GERADE_FORMAT ="GERADE";
     public static final String KREUZUNG_FORMAT ="KREUZUNG";

@@ -42,6 +42,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         alleAbschnitte = new LinkedList<>();
         handlerAnmelden();
+        init();
     }
 
     @Override
@@ -203,6 +204,13 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      */
     public void posBelegt(int x, int y) {
 
+    }
+
+    private void init(){
+        for (Strassenabschnitt s : abschnitte.values()) {
+            strasseAdden(s);
+            //TODO: Autos adden
+        }
     }
 
 }
