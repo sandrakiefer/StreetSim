@@ -1,18 +1,16 @@
 package streetsim.business;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
-import org.hildan.fxgson.FxGson;
 import streetsim.business.abschnitte.TStueck;
 import streetsim.business.exceptions.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableMap;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -22,10 +20,10 @@ import java.util.*;
 public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
-    private transient ObservableMap<Position, List<Auto>> autos;
+    private ObservableMap<Position, ArrayList<Auto>> autos;
     private BooleanProperty simuliert;
     private String name;
-    public transient static Strassennetz instance;
+    public static Strassennetz instance;
 
     private Strassennetz() {
         abschnitte = FXCollections.observableHashMap();
@@ -353,7 +351,7 @@ public class Strassennetz {
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (instance.simuliert.get()) {
-                    for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
+                    for (Map.Entry<Position, ArrayList<Auto>> entry : instance.autos.entrySet()) {
                         for (Auto a : entry.getValue()) {
                             a.fahre();
                         }
@@ -396,7 +394,7 @@ public class Strassennetz {
         return instance.abschnitte;
     }
 
-    public ObservableMap<Position, List<Auto>> getAutos() {
+    public ObservableMap<Position, ArrayList<Auto>> getAutos() {
         return instance.autos;
     }
 
@@ -404,7 +402,7 @@ public class Strassennetz {
         this.abschnitte = abschnitte;
     }
 
-    public void setAutos(ObservableMap<Position, List<Auto>> autos) {
+    public void setAutos(ObservableMap<Position, ArrayList<Auto>> autos) {
         this.autos = autos;
     }
 
@@ -416,9 +414,9 @@ public class Strassennetz {
         s.strasseAdden(str);
         Auto brum = new Auto(80+128,80+128, Auto.AutoModell.ROT);
         System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
-        brum = new Auto(80+128,10+128, Auto.AutoModell.ROT);
+        brum = new Auto(80,10, Auto.AutoModell.ROT);
         System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
-        brum = new Auto(54+128,100+128, Auto.AutoModell.ROT);
+        brum = new Auto(54,100, Auto.AutoModell.ROT);
         System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
 //        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
