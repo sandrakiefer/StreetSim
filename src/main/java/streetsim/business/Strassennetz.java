@@ -191,7 +191,7 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void speicherNetz(File file) {
-        /*String name = file.getName();
+        String name = file.getName();
         instance.setName(name);
         Gson gsonBuilder = FxGson.coreBuilder()
                 .registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
@@ -204,8 +204,7 @@ public class Strassennetz {
             Files.writeString(Paths.get(path), jsonResult, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
-
+        }
     }
 
     /**
@@ -214,7 +213,7 @@ public class Strassennetz {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {
-        /*try {
+        try {
             String json = Files.readString(Paths.get(file.getPath()), StandardCharsets.UTF_8);
             Gson gson = FxGson.coreBuilder()
                     .registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
@@ -224,7 +223,7 @@ public class Strassennetz {
             instance = gson.fromJson(json, Strassennetz.class);
         } catch (IOException e) {
             throw new DateiParseException("Datei konnte nicht gelesen werden.", e);
-        }*/
+        }
     }
 
     /**
