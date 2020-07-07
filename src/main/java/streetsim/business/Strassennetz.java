@@ -1,19 +1,27 @@
 package streetsim.business;
 
 import com.google.gson.Gson;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.FXCollections;
-import org.hildan.fxgson.FxGson;
-import streetsim.business.abschnitte.TStueck;
-import streetsim.business.exceptions.*;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import org.hildan.fxgson.FxGson;
+import streetsim.business.exceptions.DateiParseException;
+import streetsim.business.exceptions.KeinAbschnittException;
+import streetsim.business.exceptions.SchonBelegtException;
+import streetsim.business.exceptions.WeltLeerException;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Verwaltung aller Strassenabschnitte und Autos (über die Position)
@@ -22,14 +30,16 @@ import java.util.*;
 public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
-    private transient ObservableMap<Position, List<Auto>> autos;
+    private transient Map<Position, List<Auto>> autos;
+    private SimpleListProperty<Auto> autoList;
     private BooleanProperty simuliert;
     private String name;
-    public transient static Strassennetz instance;
+    public static Strassennetz instance;
 
     private Strassennetz() {
         abschnitte = FXCollections.observableHashMap();
-        autos = FXCollections.observableHashMap();
+        autos = new HashMap<>();
+        autoList = new SimpleListProperty<>();
         simuliert = new SimpleBooleanProperty();
     }
 
@@ -87,13 +97,14 @@ public class Strassennetz {
         Position p = new Position(a.getPositionX(), a.getPositionY());
         if (instance.abschnitte.containsKey(p)) {
             if (!instance.autos.containsKey(p)) {
-                instance.autos.put(p, new ArrayList());
+                instance.autos.put(p, new ArrayList<>());
             }
             if (instance.posBelegt(a)) {
                 //TODO: Auto an nächstmöglicher Position ablegen @UI @Logik? (optional)
                 throw new SchonBelegtException();
             } else {
                 instance.autos.get(p).add(a);
+                instance.autoList.add(a);
             }
         } else {
             throw new KeinAbschnittException();
@@ -163,6 +174,7 @@ public class Strassennetz {
         for (Auto brum : a) {
             Position p = new Position(brum.getPositionX(), brum.getPositionY());
             instance.autos.get(p).remove(brum);
+            instance.autoList.remove(brum);
         }
     }
 
@@ -245,6 +257,7 @@ public class Strassennetz {
         for (Strassenabschnitt stra : s) {
             Position p = new Position(stra.getPositionX(), stra.getPositionY());
             instance.abschnitte.remove(p);
+            instance.autos.remove(p).forEach(a -> instance.autoList.remove(a));
         }
     }
 
@@ -286,6 +299,7 @@ public class Strassennetz {
      */
     public void entfAlleAutos() {
         instance.autos.clear();
+        instance.autoList.clear();
     }
 
     /**
@@ -396,16 +410,24 @@ public class Strassennetz {
         return instance.abschnitte;
     }
 
-    public ObservableMap<Position, List<Auto>> getAutos() {
-        return instance.autos;
-    }
-
     public void setAbschnitte(ObservableMap<Position, Strassenabschnitt> abschnitte) {
         this.abschnitte = abschnitte;
     }
 
     public void setAutos(ObservableMap<Position, List<Auto>> autos) {
         this.autos = autos;
+    }
+
+    public ObservableList<Auto> getAutoList() {
+        return autoList.get();
+    }
+
+    public SimpleListProperty<Auto> autoListProperty() {
+        return autoList;
+    }
+
+    public Map<Position, List<Auto>> getAutos() {
+        return autos;
     }
 
     public static void main(String[] args) {
@@ -416,9 +438,9 @@ public class Strassennetz {
         s.strasseAdden(str);
         Auto brum = new Auto(80+128,80+128, Auto.AutoModell.ROT);
         System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
-        brum = new Auto(80+128,10+128, Auto.AutoModell.ROT);
+        brum = new Auto(80,10, Auto.AutoModell.ROT);
         System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
-        brum = new Auto(54+128,100+128, Auto.AutoModell.ROT);
+        brum = new Auto(54,100, Auto.AutoModell.ROT);
         System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
 //        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
