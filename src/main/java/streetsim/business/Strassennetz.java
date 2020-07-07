@@ -1,18 +1,16 @@
 package streetsim.business;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
-import org.hildan.fxgson.FxGson;
 import streetsim.business.abschnitte.TStueck;
 import streetsim.business.exceptions.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableMap;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -22,10 +20,10 @@ import java.util.*;
 public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
-    private transient ObservableMap<Position, List<Auto>> autos;
+    private ObservableMap<Position, ArrayList<Auto>> autos;
     private BooleanProperty simuliert;
     private String name;
-    public transient static Strassennetz instance;
+    public static Strassennetz instance;
 
     private Strassennetz() {
         abschnitte = FXCollections.observableHashMap();
@@ -80,7 +78,7 @@ public class Strassennetz {
      * fügt ein Auto zum Strassennetz hinzu (Autos-Map)
      *
      * @param a Auto
-     * @throws SchonBelegtException   wenn ein Auto auf dem Strassennetz mit selber Position und Richtung existiert
+     * @throws SchonBelegtException wenn ein Auto auf dem Strassennetz mit selber Position und Richtung existiert
      * @throws KeinAbschnittException wenn Auto auf stelle platziert werden soll, wo noch kein Strassenabschnitt platziert worden ist
      */
     public void autoAdden(Auto a) throws SchonBelegtException, KeinAbschnittException {
@@ -150,7 +148,7 @@ public class Strassennetz {
      * @return Strassenabschnitt an der gegeben Position
      */
     public Strassenabschnitt strasseAnPos(int x, int y) {
-        Position p = new Position(x, y);
+        Position p = new Position(x,y);
         return instance.abschnitte.get(p);
     }
 
@@ -191,21 +189,26 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void speicherNetz(File file) {
-        String name = file.getName();
-        instance.setName(name);
-        Gson gsonBuilder = FxGson.coreBuilder()
-                .registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
-                .enableComplexMapKeySerialization()
-                .setPrettyPrinting()
-                .create();
-        String jsonResult = gsonBuilder.toJson(instance);
-        String path = file.getPath();
+        if (abschnitte.isEmpty() && autos.isEmpty()) {
+            // TODO: machen wir das noch?
+            throw new WeltLeerException();
+        }
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            Files.writeString(Paths.get(path), jsonResult, StandardCharsets.UTF_8);
+            // TODO: Can not find a deserializer for non-concrete Map type -> abstract Straßenabschnitt oder ObsvMap nicht deserialisierbar...
+            String jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(instance);
+            System.out.println(jsonResult);
+            String path = file.getPath();
+            String name = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".json"));
+            instance.setName(name);
+            FileWriter f = new FileWriter(path);
+
+            f.write(jsonResult);
+            f.flush();
+            f.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -214,16 +217,14 @@ public class Strassennetz {
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            String json = Files.readString(Paths.get(file.getPath()), StandardCharsets.UTF_8);
-            Gson gson = FxGson.coreBuilder()
-                    .registerTypeAdapter(Strassenabschnitt.class, new StrassenAdapter())
-                    .enableComplexMapKeySerialization()
-                    .setPrettyPrinting()
-                    .create();
-            instance = gson.fromJson(json, Strassennetz.class);
+            // TODO: dezerialise Position
+            String path = file.getPath();
+            instance = mapper.readValue(Files.readString(Path.of(path)), Strassennetz.class);
+            instance.setName(file.getName());
         } catch (IOException e) {
-            throw new DateiParseException("Datei konnte nicht gelesen werden.", e);
+            throw new DateiParseException("Datei konnte nicht gelesen werden", e);
         }
     }
 
@@ -275,7 +276,7 @@ public class Strassennetz {
     /**
      * passt die Geschwindigkeit des Autos an
      *
-     * @param a               Auto
+     * @param a Auto
      * @param geschwindigkeit Geschwindigkeit (Intervall zwischen 0 und 1)
      */
     public void geschwindigkeitAnpassen(Auto a, float geschwindigkeit) {
@@ -354,7 +355,7 @@ public class Strassennetz {
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (instance.simuliert.get()) {
-                    for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
+                    for (Map.Entry<Position, ArrayList<Auto>> entry : instance.autos.entrySet()) {
                         for (Auto a : entry.getValue()) {
                             a.fahre();
                         }
@@ -397,7 +398,7 @@ public class Strassennetz {
         return instance.abschnitte;
     }
 
-    public ObservableMap<Position, List<Auto>> getAutos() {
+    public ObservableMap<Position, ArrayList<Auto>> getAutos() {
         return instance.autos;
     }
 
@@ -405,13 +406,13 @@ public class Strassennetz {
         this.abschnitte = abschnitte;
     }
 
-    public void setAutos(ObservableMap<Position, List<Auto>> autos) {
+    public void setAutos(ObservableMap<Position, ArrayList<Auto>> autos) {
         this.autos = autos;
     }
 
     public static void main(String[] args) {
         // Testen der Klassen
-        /*Strassennetz s = getInstance();
+        Strassennetz s = getInstance();
         Strassenabschnitt str = new TStueck(128, 128);
         System.out.println(str.getPositionX() + " " + str.getPositionY());
         s.strasseAdden(str);
@@ -424,7 +425,7 @@ public class Strassennetz {
         //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
 //        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
         //s.autoAdden(brumbrum);
-        //s.autoAdden(brum);*/
+        //s.autoAdden(brum);
     }
 
 }

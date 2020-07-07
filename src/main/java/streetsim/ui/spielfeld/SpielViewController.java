@@ -100,7 +100,10 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         if (s != null) dropSupported = false;
                         break;
                     default:
-                        dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
+                        while(!dropSupported) {
+                            if(netz.posBelegt(s))
+                                dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
+                        }
                         break;
                 }
             }
@@ -117,11 +120,11 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
                 switch (dataString) {
                     case ViewDataFormats.AMPEL_FORMAT:
-                netz.ampelnAktivieren(s);
+                        netz.ampelnAktivieren(s);
                         break;
                     case ViewDataFormats.GERADE_FORMAT:
-                Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-                netz.strasseAdden(g);
+                        Gerade g = new Gerade((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+                        netz.strasseAdden(g);
                         break;
                     case ViewDataFormats.KREUZUNG_FORMAT:
                         Kreuzung kr = new Kreuzung((int) Math.round(event.getX()), (int) Math.round(event.getY()));
