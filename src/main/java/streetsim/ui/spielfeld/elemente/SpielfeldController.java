@@ -73,28 +73,12 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
                 sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).entferneAmpelOderAuto(a.getRootView()));
                 netz.entfStrasse(s);
                 ((SpielfeldView) rootView).entferneAbschnitt(sc.getRootView());
-
-            }
-        });
-
-        autos.addListener((MapChangeListener<Position, List<Auto>>) change -> {
-            if(change.wasAdded()) {
-                change.getValueAdded().forEach(a -> {
-                    ((SpielfeldView) rootView).addAmpelOderAuto(autoController.get(a).getRootView());
-                });
-            }
-
-            if(change.wasRemoved()) {
-                change.getValueRemoved().forEach(a -> {
-                    ((SpielfeldView) rootView).entferneAmpelOderAuto(autoController.get(a).getRootView());
-                });
             }
         });
 
         app.getHauptStage().widthProperty().addListener(c -> ((SpielfeldView)rootView).setBreite(app.getHauptStage().getWidth()));
 
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView)rootView).setHoehe(app.getHauptStage().getHeight()));
-
 
 
     }
@@ -113,8 +97,8 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         AutoController ac = new AutoController(a, av);
 
         autoController.put(a, ac);
-        ac.getRootView().setLayoutX(a.getPositionX());
-        ac.getRootView().setLayoutY(a.getPositionY());
+        ac.getRootView().setLayoutX(a.getPositionX()-a.getBreite()/2);
+        ac.getRootView().setLayoutY(a.getPositionY()-a.getLaenge()/2);
 //        System.out.println(String.format("Auto \n PosX: %d \n PosY: %d \n", a.getPositionX(), a.getPositionY()));
 
         ((SpielfeldView) rootView).addAmpelOderAuto(ac.getRootView());

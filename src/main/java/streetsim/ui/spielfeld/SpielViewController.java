@@ -119,10 +119,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         if (s != null) dropSupported = false;
                         break;
                     default:
-                        while(!dropSupported) {
-                            if(netz.posBelegt(s))
-                                dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
-                        }
+                        dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
+
                         break;
                 }
             }
@@ -159,10 +157,12 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         break;
                     default:
                         if (Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString)) {
-                            Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
-                            Auto a = new Auto((int) Math.round(event.getX()), (int) Math.round(event.getY()), am);
-                            spielfeldCon.autoAdden(a);
-                            netz.autoAdden(a);
+                            if(netz.posBelegt(s)) {
+                                Auto.AutoModell am = Auto.AutoModell.valueOf(dataString);
+                                Auto a = new Auto((int) Math.round(event.getX()), (int) Math.round(event.getY()), am);
+                                spielfeldCon.autoAdden(a);
+                                netz.autoAdden(a);
+                            }
                         }
                         break;
                 }
