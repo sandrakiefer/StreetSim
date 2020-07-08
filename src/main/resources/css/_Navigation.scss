@@ -26,4 +26,17 @@
   -fx-background-color: $red;
 }
 
+.menu-button > .arrow-button {
+  -fx-padding: 0;
+}
+
+.menu-button > .arrow-button > .arrow {
+  -fx-padding: 0;
+}
+
+.menu-button > .arrow-button,
+.menu-button > .label{
+  -fx-background-color: transparent;
+  -fx-padding: 0;
+}
 
