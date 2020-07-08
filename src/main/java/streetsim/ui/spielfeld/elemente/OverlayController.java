@@ -1,9 +1,13 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import streetsim.business.Auto;
 import streetsim.business.Strassenabschnitt;
 import streetsim.business.Strassennetz;
@@ -16,6 +20,8 @@ public class OverlayController extends AbstractController<StreetSimApp> {
     private MenuButton geschwindigkeit;
     private MenuItem geschwSlider;
     private Auto aktuellesAuto;
+    private ImageView deaktView;
+    private Image aktImage, deaktImage;
 
     public OverlayController(Strassennetz netz) {
         super(netz);
@@ -26,6 +32,9 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         loescheAuto = ((OverlayView) rootView).loescheAuto;
         geschwindigkeit = ((OverlayView) rootView).geschwindigkeit;
         geschwSlider = ((OverlayView) rootView).geschwindigkeit.getItems().get(0);
+        deaktView = ((OverlayView) rootView).deaktView;
+        aktImage = ((OverlayView) rootView).aktImage;
+        deaktImage = ((OverlayView) rootView).deaktImage;
         disable();
         handlerAnmelden();
     }
@@ -34,9 +43,13 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         ((OverlayView) rootView).setPosition(x, y);
     }
 
-    public void setAutoPosition(double x, double y){ ((OverlayView) rootView).setAutoPos(x , y); }
+    public void setAutoPosition(double x, double y) {
+        ((OverlayView) rootView).setAutoPos(x, y);
+    }
 
-    public void enableStrasse(){
+    public void enableStrasse(Strassenabschnitt s) {
+        deaktView.setImage(s.isAmpelAktiv() ? deaktImage : aktImage);
+        s.ampelAktivProperty().addListener((observable, oldValue, newValue) -> deaktView.setImage(s.isAmpelAktiv() ? deaktImage : aktImage));
         loescheStrasse.setDisable(false);
         loescheStrasse.setVisible(true);
         rotiereStrasse.setDisable(false);
@@ -50,7 +63,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         rootView.setVisible(true);
     }
 
-    public void enableAuto(){
+    public void enableAuto() {
         loescheStrasse.setDisable(true);
         loescheStrasse.setVisible(false);
         rotiereStrasse.setDisable(true);
@@ -64,7 +77,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         rootView.setVisible(true);
     }
 
-    public void disable(){
+    public void disable() {
         loescheStrasse.setDisable(true);
         rotiereStrasse.setDisable(true);
         deaktiviereAmpeln.setDisable(true);
@@ -81,7 +94,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         deaktiviereAmpeln.setOnAction(e -> deaktiviereAmpeln(deaktiviereAmpeln.getLayoutX(), deaktiviereAmpeln.getLayoutY()));
     }
 
-    private void loescheStrasse(double x, double y){
+    private void loescheStrasse(double x, double y) {
         Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));
         netz.entfStrasse(s);
         disable();
@@ -98,12 +111,12 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         else netz.ampelnAktivieren(s);
     }
 
-    private void loescheAuto(Auto ... a){
+    private void loescheAuto(Auto... a) {
         netz.entfAuto(aktuellesAuto);
         disable();
     }
 
-    public void aktAuto(Auto a){
+    public void aktAuto(Auto a) {
         aktuellesAuto = a;
     }
 

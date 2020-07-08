@@ -218,7 +218,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             if (e.getButton().equals(MouseButton.SECONDARY)) {
                 double x = e.getX();
                 double y = e.getY();
-                if (netz.strasseAnPos((int) Math.round(x), (int) Math.round(y)) != null) {
+                Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));
+                if (s != null) {
                     Position p = new Position((int) Math.round(x), (int) Math.round(y));
                     if(spielfeldCon.getAutoMap().containsKey(p)) {
                         for (Auto a : spielfeldCon.getAutoMap().get(p)) {
@@ -234,7 +235,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         }
                     } else {
                         overlayController.setPosition(p.getPositionX(), p.getPositionY());
-                        overlayController.enableStrasse();
+                        overlayController.enableStrasse(s);
                         return;
                     }
                 }
