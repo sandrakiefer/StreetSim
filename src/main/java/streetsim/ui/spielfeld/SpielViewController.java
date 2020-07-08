@@ -32,13 +32,12 @@ import java.util.stream.Collectors;
  */
 public class SpielViewController extends AbstractController<StreetSimApp> {
     private BorderPane spielView;
-    private Pane menView, navView, spielfeldView, overlayView, autoOverlayView;
+    private Pane menView, navView, spielfeldView, overlayView;
     private HintergrundView hv;
     private NavigationController navCon;
     private MenueController menCon;
     private SpielfeldController spielfeldCon;
-    private StrassenOverlayController overlayController;
-    private AutoOverlayController autoOverlayController;
+    private OverlayController overlayController;
     private boolean autoOverlay = false;
 
     public SpielViewController(Strassennetz netz, StreetSimApp app) {
@@ -51,15 +50,15 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
         navCon = new NavigationController(netz, app);
         menCon = new MenueController(netz, app);
+
         spielfeldCon = new SpielfeldController(netz, app);
-        overlayController = new StrassenOverlayController(netz);
-        autoOverlayController = new AutoOverlayController(netz);
+        overlayController = new OverlayController(netz);
 
         menView = menCon.getRootView();
         navView = navCon.getRootView();
+
         spielfeldView = spielfeldCon.getRootView();
         overlayView = overlayController.getRootView();
-        autoOverlayView = autoOverlayController.getRootView();
 
         spielView.setRight(menView);
         spielView.setLeft(navView);
@@ -132,7 +131,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             } else {
                 dropSupported = event.getTransferMode() == TransferMode.MOVE && dragboard.hasContent(DragDataFormats.ABSCHNITTFORMAT) && s == null;
                 if (dropSupported) event.acceptTransferModes(TransferMode.MOVE);
-
             }
 
 
@@ -144,7 +142,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             if (dragboard.hasString()) {
                 String dataString = dragboard.getString();
                 Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
-
                 switch (dataString) {
                     case DragDataFormats.AMPEL_FORMAT:
                         netz.ampelnAktivieren(s);
@@ -204,30 +201,27 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                 double y = e.getY();
                 if (netz.strasseAnPos((int) Math.round(x), (int) Math.round(y)) != null) {
                     Position p = new Position((int) Math.round(x), (int) Math.round(y));
-//                    spielfeldCon.getAutoMap().get(p).forEach(a -> {
-                        //überprüfen ob rechtsklick innerhalb des Autos geschehen ist um Auto Overlay zu aktivieren
-//                        if (x <= a.getPositionX()+ a.getBreite()/2 && x >= a.getPositionX()-a.getBreite()/2
-//                                && y >= a.getPositionY()-a.getLaenge()/2 && y <= a.getPositionY()+a.getLaenge()/2){
-//                            autoOverlayController.setPosition(a.getPositionX(), a.getPositionY());
-//                            autoOverlayController.enable();
-//                            autoOverlayController.setAuto(a);
-//                            System.out.println("autoOverlay roll out!!!!");
-//                            autoOverlay = true;
-//                            return;
-//                        }
-//                    });
-                    if(!autoOverlay) {
+                    if(spielfeldCon.getAutoMap().containsKey(p)) {
+                        for (Auto a : spielfeldCon.getAutoMap().get(p)) {
+//                        überprüfen ob rechtsklick innerhalb des Autos geschehen ist um Auto Overlay zu aktivieren
+                            if (x <= a.getPositionX() + (double) a.getBreite() / 2 && x >= a.getPositionX() - (double) a.getBreite() / 2
+                                    && y >= a.getPositionY() - (double) a.getLaenge() / 2 && y <= a.getPositionY() + (double) a.getLaenge() / 2) {
+                                overlayController.setAutoPosition(a.getPositionX(), a.getPositionY());
+                                overlayController.enableAuto();
+                                overlayController.aktAuto(a);
+                                System.out.println("autoOverlay roll out!!!!");
+                            }
+                            return;
+                        }
+                    } else {
                         overlayController.setPosition(p.getPositionX(), p.getPositionY());
-                        overlayController.enable();
+                        overlayController.enableStrasse();
                         return;
                     }
                 }
             }
-            autoOverlay = false;
             overlayController.disable();
-            autoOverlayController.disable();
         });
-
     }
 
     /*
