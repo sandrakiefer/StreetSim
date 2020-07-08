@@ -26,19 +26,22 @@ import java.util.*;
  */
 public class NavigationController extends AbstractController<StreetSimApp> {
 
-    private final Button startPause, speichern, beende;
-    private final MenuItem ampeln, autos, strassen, alles;
+    private final Button startPause, beende;
+    private final MenuItem ampeln, autos, strassen, alles, speichern, speichernUnter;
     private Stage popup;
 
     private Map<Position, Strassenabschnitt> abschnitte;
     private Map<Position, List<Auto>> autoMap;
     private List<Auto> autoList;
 
+    private File file;
+
     public NavigationController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
         rootView = new NavigationView();
         startPause = ((NavigationView) rootView).startPause;
         speichern = ((NavigationView) rootView).speichern;
+        speichernUnter = ((NavigationView) rootView).speichernUnter;
         beende = ((NavigationView) rootView).beende;
 
         ampeln = ((NavigationView) rootView).ampeln;
@@ -53,6 +56,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
     @Override
     public void handlerAnmelden() {
         speichern.setOnAction(e -> speicherNetz());
+        speichernUnter.setOnAction(e -> speicherNetzUnter());
         beende.setOnAction(e -> zurueck());
 
         ampeln.setOnAction(e -> entfAlleAmplen());
@@ -137,15 +141,20 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         app.wechsleSzene(Szenen.STARTSEITE);
     }
 
-    /**
-     * Strassennetz abspeichern
-     */
-    public void speicherNetz() {
+    public void speicherNetzUnter(){
         popUpSchliessen();
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         fileChooser.setInitialFileName(netz.getName());
-        File file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
+        file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
+    }
+
+    /**
+     * Strassennetz abspeichern
+     */
+    public void speicherNetz() {
+        if (netz.getName() == null) speicherNetzUnter();
+
         if (file != null) {
             netz.speicherNetz(file);
             speicherStand();

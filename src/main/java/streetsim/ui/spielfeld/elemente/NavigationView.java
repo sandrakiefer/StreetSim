@@ -10,8 +10,8 @@ import streetsim.ui.utils.StyleAssist;
 
 class NavigationView extends HBox {
 
-    Button startPause, speichern, beende;
-    MenuItem ampeln, autos, strassen, alles;
+    Button startPause, beende;
+    MenuItem ampeln, autos, strassen, alles, speichern, speichernUnter;
 
     NavigationView() {
         super();
@@ -29,17 +29,21 @@ class NavigationView extends HBox {
         entferne.setId("delete");
         entferne.setPickOnBounds(true);
 
-        speichern = new Button();
-        speichern.setId("save");
-        speichern.setPickOnBounds(true);
+        MenuButton speichernButton = new MenuButton();
+        speichernButton.setId("save");
+        speichernButton.setPickOnBounds(true);
+
+        speichern = new MenuItem("Speichern");
+        speichernUnter = new MenuItem("Speichern unter");
+        speichernButton.getItems().addAll(speichern, speichernUnter);
 
         beende = new Button();
         beende.setId("exit");
         beende.setPickOnBounds(true);
 
-        StyleAssist.getInstance().wendeCSSKlassenAn("navbtn", startPause, speichern, beende, entferne);
+        StyleAssist.getInstance().wendeCSSKlassenAn("navbtn", startPause, speichernButton, beende, entferne);
 
-        this.getChildren().addAll(startPause, entferne, speichern, beende);
+        this.getChildren().addAll(startPause, entferne, speichernButton, beende);
         this.setAlignment(Pos.BOTTOM_RIGHT);
     }
 }
