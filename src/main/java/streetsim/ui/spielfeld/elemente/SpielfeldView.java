@@ -13,12 +13,16 @@ public class SpielfeldView extends StackPane {
 
     Pane abschnitte;
     Pane autosUndAmpeln;
+    Label name;
 
     public SpielfeldView() {
         super();
         abschnitte = new Pane();
         autosUndAmpeln = new Pane();
-        this.getChildren().addAll(abschnitte, autosUndAmpeln);
+        name = new Label();
+        name.setAlignment(Pos.TOP_LEFT);
+        setAlignment(Pos.TOP_LEFT);
+        this.getChildren().addAll(abschnitte, autosUndAmpeln, name);
 
     }
 
