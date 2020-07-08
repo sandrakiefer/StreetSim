@@ -223,20 +223,19 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                     if(spielfeldCon.getAutoMap().containsKey(p)) {
                         for (Auto a : spielfeldCon.getAutoMap().get(p)) {
 //                        überprüfen ob rechtsklick innerhalb des Autos geschehen ist um Auto Overlay zu aktivieren
-                            if (x <= a.getPositionX() + (double) a.getBreite() / 2 && x >= a.getPositionX() - (double) a.getBreite() / 2
-                                    && y >= a.getPositionY() - (double) a.getLaenge() / 2 && y <= a.getPositionY() + (double) a.getLaenge() / 2) {
+                            if ((x < a.getPositionX() + (double) a.getBreite() / 2 && x > a.getPositionX() - (double) a.getBreite() / 2)
+                                    && (y > a.getPositionY() - (double) a.getLaenge() / 2 && y < a.getPositionY() + (double) a.getLaenge() / 2)) {
                                 overlayController.setAutoPosition(a.getPositionX(), a.getPositionY());
                                 overlayController.enableAuto();
                                 overlayController.aktAuto(a);
                                 System.out.println("autoOverlay roll out!!!!");
+                                return;
                             }
-                            return;
                         }
-                    } else {
-                        overlayController.setPosition(p.getPositionX(), p.getPositionY());
-                        overlayController.enableStrasse(s);
-                        return;
                     }
+                    overlayController.setPosition(p.getPositionX(), p.getPositionY());
+                    overlayController.enableStrasse(s);
+                    return;
                 }
             }
             overlayController.disable();
