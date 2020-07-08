@@ -375,10 +375,16 @@ public class Strassennetz {
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (instance.simuliert.get()) {
-                    for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
-                        for (Auto a : entry.getValue()) {
+                    for (Auto a : autoList) {
+                    //for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
+                        //for (Auto a : entry.getValue()) {
                             a.fahre();
-                        }
+                        //}
+                    }
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 } else {
                     Thread.currentThread().interrupt();

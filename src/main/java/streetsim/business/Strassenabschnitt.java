@@ -56,6 +56,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
      * rotiert den Strassenabschnitt um 90° im Uhrzeigersinn
      */
     public void rotiere() {
+        System.out.println("WARUM???");
         List<Himmelsrichtung> neueRichtungen = new ArrayList<>();
         richtungen.forEach(r -> neueRichtungen.add(r.naechstes()));
         richtungen.clear();

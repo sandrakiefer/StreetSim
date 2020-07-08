@@ -3,7 +3,6 @@ package streetsim.business;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Pos;
 import javafx.scene.shape.Rectangle;
 
 import java.util.*;
@@ -17,7 +16,7 @@ public class Auto {
     public enum AutoModell {ROT, POLIZEI, BLAU}
 
     private int geschwindigkeit;
-    private static final int MAXGESCHWINDIGKEIT = 8;
+    private static final int MAXGESCHWINDIGKEIT = 1;
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
 
     private final Queue<Wendepunkt> wendepunkte;
@@ -38,7 +37,7 @@ public class Auto {
         this.laenge = 32;
         this.strassennetz = Strassennetz.getInstance();
         this.autoModell = autoModell;
-        this.wendepunkte = new LinkedList();
+        this.wendepunkte = new LinkedList<>();
         initRectangle();
         positionierung();
     }
@@ -135,6 +134,7 @@ public class Auto {
         Position p = new Position(positionX.get(), positionY.get());
         Rectangle newR = new Rectangle(this.rectangle.getX() + this.richtung.get().getX() * geschwindigkeit,this.rectangle.getY() + this.richtung.get().getY() * geschwindigkeit,breite,laenge);
         if (autoKollision(p, newR)) {
+            System.out.println("aktuelle Kollision");
             return;
         }
         // falls Front des Autos in nächsten Abschnitt reinragt
@@ -143,6 +143,7 @@ public class Auto {
         Position vorneP = new Position(vorneX, vorneY);
         if (!vorneP.equals(p)) {
             if (autoKollision(vorneP, newR)) {
+                System.out.println("front Kollision");
                 return;
             }
         }
@@ -152,6 +153,7 @@ public class Auto {
         Position hintenP = new Position(hintenX, hintenY);
         if (!hintenP.equals(p)) {
             if (autoKollision(hintenP, newR)) {
+                System.out.println("heck Kollision");
                 return;
             }
         }
@@ -162,25 +164,35 @@ public class Auto {
         if (strassennetz.stehtAnKreuzung(this)) {
             // Neue Richtung bestimmen
             List<Himmelsrichtung> r = aktuellerAbschnitt.getRichtungen();
-            r.remove(this.getRichtung().gegenueber());
+            //r.remove(this.getRichtung().gegenueber());
+            r.remove(this.getRichtung());
             Himmelsrichtung abbiegerichtung = r.get(new Random().nextInt(r.size()));
-            if(abbiegerichtung.equals(this.richtung.get().naechstes())){
-                // Rechtsabbieger
-                int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
-                int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
-                wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
-            } else if(abbiegerichtung.naechstes().equals(this.richtung.get())){
-                // Linksabbieger
-                int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
-                int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
-                wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
+            // nur Wendepunkt bestimmen wenn es noch keinen gibt
+            if (this.wendepunkte.size() == 0) {
+                if (abbiegerichtung.equals(this.richtung.get().naechstes())) {
+                    // Rechtsabbieger
+                    int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
+                    int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
+                    Wendepunkt w = new Wendepunkt(x, y, abbiegerichtung);
+                    System.out.println(String.format("x: %d, y: %d, h: %s", w.x, w.y, w.richtung.name()));
+                    wendepunkte.add(w);
+                } else if (abbiegerichtung.naechstes().equals(this.richtung.get())) {
+                    // Linksabbieger
+                    int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
+                    int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
+                    Wendepunkt w = new Wendepunkt(x, y, abbiegerichtung);
+                    System.out.println(String.format("x: %d, y: %d, h: %s", w.x, w.y, w.richtung.name()));
+                    wendepunkte.add(w);
+                }
             }
             if (aktuellerAbschnitt.isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, aktuellerAbschnitt)) {
+                    System.out.println("rote Ampel");
                     return;
                 } else if (abbiegerichtung.equals(richtung.get().naechstes())) {
                     // links abbiegen
                     if (kreuzungBlockiert(p,mittelpunktX,mittelpunktY,List.of(richtung.get().gegenueber()))) {
+                        System.out.println("Kreuzung blockiert");
                         return;
                     }
                 }
@@ -192,6 +204,7 @@ public class Auto {
                         // gerade fahren
                         Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
                         if (kreuzungBlockiert(p, mittelpunktX, mittelpunktY, List.of(rechtsVonUns))) {
+                            System.out.println("STVO");
                             return;
                         }
                     } else {
@@ -199,6 +212,7 @@ public class Auto {
                         Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
                         Himmelsrichtung gegenueberVonuns = richtung.get().gegenueber();
                         if (kreuzungBlockiert(p, mittelpunktX, mittelpunktY, List.of(rechtsVonUns, gegenueberVonuns))) {
+                            System.out.println("STVO");
                             return;
                         }
                     }
@@ -206,7 +220,7 @@ public class Auto {
             }
         }
         // U-Turn
-        if (distanzBisMitteKleiner(-50, mittelpunktX, mittelpunktY)) {
+        if (distanzBisMitteKleiner(-50, mittelpunktX, mittelpunktY) && this.wendepunkte.size() == 0) {
             Position naechsterAbschnitt = new Position(p.getPositionX() + this.richtung.get().getX(), p.getPositionY() + this.richtung.get().getY());
             if (!(strassennetz.getAbschnitte().containsKey(naechsterAbschnitt) && strassennetz.getAbschnitte().get(naechsterAbschnitt).getRichtungen().contains(this.getRichtung().gegenueber()))) {
                 // Distanz des Wendepunkts vom Mittelpunkt
@@ -223,21 +237,26 @@ public class Auto {
         }
         // fahren und Wendepunkte dabei beachten
         int distanz = (wendepunkte.size() > 0) ? wendepunkte.peek().distanzBisWendepunkt(this.positionX.get(), this.positionY.get()) : 0;
-        if (wendepunkte.size() > 0 &&  distanz < geschwindigkeit) {
+        if (wendepunkte.size() > 0 &&  distanz <= geschwindigkeit) {
             Wendepunkt w = wendepunkte.remove();
             this.richtung.set(w.getRichtung());
             this.positionX.set(w.getX() + w.getRichtung().getX() * (geschwindigkeit - distanz));
             this.positionY.set(w.getY() + w.getRichtung().getY() * (geschwindigkeit - distanz));
+            System.out.println("NEU ABGEBOGEN");
         } else {
-            this.positionX.add(this.richtung.get().getX() * geschwindigkeit);
-            this.positionY.add(this.richtung.get().getY() * geschwindigkeit);
+            this.positionX.set(this.positionX.get() + (this.richtung.get().getX() * geschwindigkeit));
+            this.positionY.set(this.positionY.get() + (this.richtung.get().getY() * geschwindigkeit));
+            //System.out.println("NEU WEITER GEFAHREN");
         }
         // Auto in neuen Strassenabschnitt verlegen
         Position neu = new Position(positionX.get(), positionY.get());
         if (!neu.equals(p)) {
             strassennetz.getAutos().get(p).remove(this);
+            strassennetz.getAutos().computeIfAbsent(neu, k -> new ArrayList<>());
             strassennetz.getAutos().get(neu).add(this);
+            System.out.println("HANDOVER");
         }
+        //System.out.println(String.format("x: %d, y: %d", positionX.get(), positionY.get()));
     }
 
     /**
@@ -302,10 +321,14 @@ public class Auto {
      * @return ob nächste Position des Autos verfügbar ist (ohne Kollision mit anderem Auto)
      */
     public boolean autoKollision(Position p, Rectangle newR) {
-        for (Auto a : strassennetz.getAutos().get(p)) {
-            if (newR.intersects(a.getRectangle().getLayoutBounds()) && !this.equals(a)) {
-                return true;
+        List<Auto> brums = strassennetz.getAutos().get(p);
+        if (brums != null) {
+            for (Auto a : brums) {
+                if (newR.intersects(a.getRectangle().getLayoutBounds()) && !this.equals(a)) {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }
