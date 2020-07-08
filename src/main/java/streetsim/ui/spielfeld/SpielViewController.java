@@ -85,34 +85,36 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
 
         rootView.setOnDragDetected(e -> {
-            hideMenu();
-            Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
+            if(!netz.isSimuliert()) {
+                hideMenu();
+                Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
 
 
-            if (s != null) {
+                if (s != null) {
 
-                Dragboard dragboard = rootView.startDragAndDrop(TransferMode.MOVE);
-                ClipboardContent content = new ClipboardContent();
-                Gson gson = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, StrassenAdapter.getInstance())
-                        .create();
-                String serializedStrasse = gson.toJson(s, Strassenabschnitt.class);
+                    Dragboard dragboard = rootView.startDragAndDrop(TransferMode.MOVE);
+                    ClipboardContent content = new ClipboardContent();
+                    Gson gson = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, StrassenAdapter.getInstance())
+                            .create();
+                    String serializedStrasse = gson.toJson(s, Strassenabschnitt.class);
 
-                content.put(DragDataFormats.ABSCHNITTFORMAT, serializedStrasse);
+                    content.put(DragDataFormats.ABSCHNITTFORMAT, serializedStrasse);
 
-                ImageView imageView;
+                    ImageView imageView;
 
-                if (s instanceof Gerade) imageView = new GeradeView();
-                else if (s instanceof Kreuzung) imageView = new KreuzungView();
-                else if (s instanceof Kurve) imageView = new KurveView();
-                else imageView = new TStueckView();
+                    if (s instanceof Gerade) imageView = new GeradeView();
+                    else if (s instanceof Kreuzung) imageView = new KreuzungView();
+                    else if (s instanceof Kurve) imageView = new KurveView();
+                    else imageView = new TStueckView();
 
-                for (int i = 0; i < s.getRotiertCounter(); i++) {
-                    imageView.setRotate(imageView.getRotate() + 90);
+                    for (int i = 0; i < s.getRotiertCounter(); i++) {
+                        imageView.setRotate(imageView.getRotate() + 90);
+                    }
+                    Image img = imageView.snapshot(null, null);
+
+                    dragboard.setDragView(img);
+                    dragboard.setContent(content);
                 }
-                Image img = imageView.snapshot(null, null);
-
-                dragboard.setDragView(img);
-                dragboard.setContent(content);
             }
         });
 
@@ -214,7 +216,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         });
 
         rootView.setOnMouseClicked(e -> {
-            if (e.getButton().equals(MouseButton.SECONDARY)) {
+            if (e.getButton().equals(MouseButton.SECONDARY) && !netz.isSimuliert()) {
                 double x = e.getX();
                 double y = e.getY();
                 Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));
@@ -244,8 +246,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         hamburger.setOnAction(e -> {
             if (hamburger.getId().equals("menu-stripes")) { //menu eingeklappt -> aufklappen
                 showMenu();
-//                netz.setSimuliert(false);
-//                navCon.pause();
+                netz.setSimuliert(false);
+                navCon.pause();
             } else { //menu aufgeklappt -> einklappen
                 hideMenu();
             }
