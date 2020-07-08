@@ -17,8 +17,8 @@ public class AmpelController extends AbstractModelController<Ampel> {
     public AmpelController(Ampel model, ImageView rootView) {
         super(model, rootView);
         ausrichtung();
-        handlerAnmelden();
         init();
+        handlerAnmelden();
     }
 
     public void setAbsolutePosX(double absolutePosX) {
@@ -36,20 +36,19 @@ public class AmpelController extends AbstractModelController<Ampel> {
     public void handlerAnmelden() {
 
         model.isRotProperty().addListener(change ->{
-            if (model.isRot() && !model.isGelb() && !model.isGruen()) rootView.setImage(ampelRot);
+            if (model.isRot() && !model.isGelb() && !model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelRot));
         });
 
         model.isGelbProperty().addListener(change ->{
-            if (model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelRotGelb);
-            else if (!model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelGelb);
+            if (model.isRot() && model.isGelb() && !model.isGruen()) Platform.runLater(()-> rootView.setImage(ampelRotGelb));
+            else if (!model.isRot() && model.isGelb() && !model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelGelb));
         });
 
         model.isGruenProperty().addListener(change ->{
-            if (!model.isRot() && !model.isGelb() && model.isGruen()) rootView.setImage(ampelGruen);
+            if (!model.isRot() && !model.isGelb() && model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelGruen));
         });
 
         model.richtungProperty().addListener(c -> {
-            ausrichtung();
         });
     }
 
