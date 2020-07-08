@@ -42,7 +42,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     private MenueController menCon;
     private SpielfeldController spielfeldCon;
     private OverlayController overlayController;
-    private boolean autoOverlay = false;
     private Button hamburger;
 
     public SpielViewController(Strassennetz netz, StreetSimApp app) {
@@ -246,6 +245,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         hamburger.setOnAction(e -> {
             if (hamburger.getId().equals("menu-stripes")) { //menu eingeklappt -> aufklappen
                 showMenu();
+//                netz.setSimuliert(false);
+//                navCon.pause();
             } else { //menu aufgeklappt -> einklappen
                 hideMenu();
             }
