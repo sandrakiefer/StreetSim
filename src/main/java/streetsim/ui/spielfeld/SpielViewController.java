@@ -1,6 +1,10 @@
 package streetsim.ui.spielfeld;
 
 import com.google.gson.Gson;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -39,6 +43,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     private SpielfeldController spielfeldCon;
     private OverlayController overlayController;
     private boolean autoOverlay = false;
+    private Button hamburger;
 
     public SpielViewController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
@@ -60,7 +65,17 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         spielfeldView = spielfeldCon.getRootView();
         overlayView = overlayController.getRootView();
 
-        spielView.setRight(menView);
+        hamburger = new Button();
+        hamburger.getStyleClass().add("navbtn");
+        hamburger.setPickOnBounds(true);
+        hamburger.setId("menu-cross");
+        hamburger.setAlignment(Pos.TOP_RIGHT);
+
+        StackPane menStack = new StackPane();
+        menStack.getChildren().addAll(menView, hamburger);
+        menStack.setAlignment(Pos.TOP_RIGHT);
+
+        spielView.setRight(menStack);
         spielView.setLeft(navView);
 
         rootView.getChildren().addAll(hv, spielfeldView, spielView, overlayView);
@@ -69,8 +84,9 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
-//TODO: menue view ausklappbar per button sowie einklappen bei dragdetect
+
         rootView.setOnDragDetected(e -> {
+            hideMenu();
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
 
 
@@ -102,7 +118,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         });
 
         rootView.setOnDragOver(event -> {
-            //TODO: MenüView ausblenden
+            hideMenu();
 
             boolean dropSupported = true;
             Dragboard dragboard = event.getDragboard();
@@ -123,7 +139,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                             if (s != null) dropSupported = false;
                             break;
                         default:
-                            dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
+                            dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString) && s != null;
                             break;
                     }
                     if (dropSupported) event.acceptTransferModes(TransferMode.COPY);
@@ -131,6 +147,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             } else {
                 dropSupported = event.getTransferMode() == TransferMode.MOVE && dragboard.hasContent(DragDataFormats.ABSCHNITTFORMAT) && s == null;
                 if (dropSupported) event.acceptTransferModes(TransferMode.MOVE);
+
             }
 
 
@@ -138,10 +155,12 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         });
 
         rootView.setOnDragDropped(event -> {
+            showMenu();
             Dragboard dragboard = event.getDragboard();
             if (dragboard.hasString()) {
                 String dataString = dragboard.getString();
                 Strassenabschnitt s = netz.strasseAnPos((int) Math.round(event.getX()), (int) Math.round(event.getY()));
+
                 switch (dataString) {
                     case DragDataFormats.AMPEL_FORMAT:
                         netz.ampelnAktivieren(s);
@@ -222,10 +241,29 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             }
             overlayController.disable();
         });
+
+        hamburger.setOnAction(e -> {
+            if (hamburger.getId().equals("menu-stripes")) { //menu eingeklappt -> aufklappen
+                showMenu();
+            } else { //menu aufgeklappt -> einklappen
+                hideMenu();
+            }
+        });
+
+        netz.simuliertProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) hideMenu();
+            else showMenu();
+        });
     }
 
-    /*
-    //TODO:
-    Im Pausemenü sobald gedragged wird soll das Seitenmenü eingeklappt werden und erst nach bearbeiten wieder eingeblendet
-     */
+    private void showMenu(){
+        hamburger.setId("menu-cross");
+        menView.setVisible(true);
+    }
+
+    private void hideMenu(){
+        hamburger.setId("menu-stripes");
+        menView.setVisible(false);
+    }
+
 }

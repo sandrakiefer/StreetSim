@@ -3,10 +3,13 @@ package streetsim.ui.spielfeld.elemente;
 import com.sun.javafx.binding.StringFormatter;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import streetsim.business.*;
 import streetsim.business.abschnitte.Gerade;
@@ -30,6 +33,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     Map<Position, List<Auto>> autoMap;
     ObservableList<Auto> autos;
     List<ImageView> alleAbschnitte;
+    Label name;
 
     public SpielfeldController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
@@ -41,7 +45,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         abschnitte = netz.getAbschnitte();
         autos = netz.getAutoList();
         autoMap = netz.getAutos();
-
+        name = ((SpielfeldView) rootView).name;
 
         alleAbschnitte = new LinkedList<>();
         handlerAnmelden();
@@ -50,6 +54,11 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
+
+        netz.nameProperty().addListener((observable, oldValue, newValue) -> {
+            nameAnpassen(newValue);
+        });
+
         abschnitte.addListener((MapChangeListener<Position, Strassenabschnitt>) change -> {
             if (change.wasAdded()) {
                 Strassenabschnitt s = change.getValueAdded();
@@ -195,7 +204,8 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     public void posBelegt(int x, int y) {
 
     }
-    public Map<Position, List<Auto>> getAutoMap(){
+
+    public Map<Position, List<Auto>> getAutoMap() {
         return autoMap;
     }
 
@@ -204,6 +214,12 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
             strasseAdden(s);
             //TODO: Autos adden
         }
+        nameAnpassen(netz.getName());
+    }
+
+    private void nameAnpassen(String newValue) {
+        name.setText(newValue != null ? newValue : "Untitled");
+
     }
 
 }

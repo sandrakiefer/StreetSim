@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -31,9 +32,9 @@ public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
     private transient Map<Position, List<Auto>> autos;
-    private SimpleListProperty<Auto> autoList;
+    private transient SimpleListProperty<Auto> autoList;
     private BooleanProperty simuliert;
-    private String name;
+    private SimpleStringProperty name = new SimpleStringProperty();
     public static Strassennetz instance;
 
     private Strassennetz() {
@@ -61,7 +62,7 @@ public class Strassennetz {
         int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
         int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
         int distanz = a.distanzBisMitte(mittelpunktX, mittelpunktY);
-        if (distanz > 20 && distanz < 30) {
+        if (distanz > Strassenabschnitt.HALTELINIENABSTAND - 10 && distanz < Strassenabschnitt.HALTELINIENABSTAND) {
             return true;
         } else {
             return false;
@@ -333,7 +334,7 @@ public class Strassennetz {
         entfAlleAutos();
         alleAmpelnDeaktivieren();
         entfAlleStrassen();
-        name = null;
+        name.set(null);
         instance.simuliert.setValue(false);
     }
 
@@ -375,10 +376,16 @@ public class Strassennetz {
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (instance.simuliert.get()) {
-                    for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
-                        for (Auto a : entry.getValue()) {
+                    for (Auto a : autoList) {
+                    //for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
+                        //for (Auto a : entry.getValue()) {
                             a.fahre();
-                        }
+                        //}
+                    }
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 } else {
                     Thread.currentThread().interrupt();
@@ -407,11 +414,11 @@ public class Strassennetz {
     }
 
     public String getName() {
-        return instance.name;
+        return instance.name.get();
     }
 
     public void setName(String name) {
-        instance.name = name;
+        instance.name.set(name);
     }
 
     public ObservableMap<Position, Strassenabschnitt> getAbschnitte() {
@@ -456,6 +463,9 @@ public class Strassennetz {
         //s.autoAdden(brum);*/
     }
 
+    public SimpleStringProperty nameProperty() {
+        return name;
+    }
 }
 
 

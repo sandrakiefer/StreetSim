@@ -3,7 +3,6 @@ package streetsim.business;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Pos;
 import javafx.scene.shape.Rectangle;
 
 import java.util.*;
@@ -38,7 +37,7 @@ public class Auto {
         this.laenge = 32;
         this.strassennetz = Strassennetz.getInstance();
         this.autoModell = autoModell;
-        this.wendepunkte = new LinkedList();
+        this.wendepunkte = new LinkedList<>();
         initRectangle();
         positionierung();
     }
@@ -56,25 +55,57 @@ public class Auto {
             // Trennung nach Richtung aus welcher der Punkt angepasst wird (rechts/links)
             if (offX < 0) {
                 this.richtung.set(Himmelsrichtung.SUEDEN);
-                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - this.breite) / 2));
+                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - (this.breite + 1)) / 2));
             } else {
                 this.richtung.set(Himmelsrichtung.NORDEN);
-                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + this.breite) / 2));
+                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + (this.breite + 1)) / 2));
             }
-            if (Math.abs(offY) < 30) {
-                // TODO: für Jan
-                this.positionY.set(Integer.signum(offY) * 30 + this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE));
+            if (Math.abs(offY) < Strassenabschnitt.HALTELINIENABSTAND) {
+                this.positionY.set(Integer.signum(offY) * Strassenabschnitt.HALTELINIENABSTAND + this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + (Strassenabschnitt.GROESSE / 2));
             }
         } else {
             // Trennung nach Richtung aus welcher der Punkt angepasst wird (oben/unten)
             if (offY < 0) {
                 this.richtung.set(Himmelsrichtung.WESTEN);
-                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - this.breite) / 2));
+                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - (this.breite + 1)) / 2));
             } else {
                 this.richtung.set(Himmelsrichtung.OSTEN);
-                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + this.breite) / 2));
+                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + (this.breite + 1)) / 2));
+            }
+            if (Math.abs(offX) < Strassenabschnitt.HALTELINIENABSTAND) {
+                this.positionX.set(Integer.signum(offX) * Strassenabschnitt.HALTELINIENABSTAND + this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + (Strassenabschnitt.GROESSE / 2));
             }
         }
+        if (!positionAufStrasse()) {
+            this.rotiere();
+            positionierung();
+        }
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    private boolean positionAufStrasse() {
+        Position p = new Position(this.getPositionX(), this.getPositionY());
+        Strassenabschnitt s = strassennetz.getAbschnitte().get(p);
+        int kleinerAls = Strassenabschnitt.GROESSE / 2 - Strassenabschnitt.HALTELINIENABSTAND;
+        int groesserAls = Strassenabschnitt.GROESSE / 2 + Strassenabschnitt.HALTELINIENABSTAND;
+        if (this.positionY.get() % Strassenabschnitt.GROESSE <= kleinerAls && !s.getRichtungen().contains(Himmelsrichtung.NORDEN)) {
+            // im Norden stehen, aber keine Strasse
+            return false;
+        } else if (this.positionY.get() % Strassenabschnitt.GROESSE >= groesserAls && !s.getRichtungen().contains(Himmelsrichtung.SUEDEN)) {
+            // im Süden stehen, aber keine Strasse
+            return false;
+        } else if (this.positionX.get() % Strassenabschnitt.GROESSE <= kleinerAls && !s.getRichtungen().contains(Himmelsrichtung.WESTEN)) {
+            // im Westen stehen, aber keine Strasse
+            return false;
+        } else if (this.positionX.get() % Strassenabschnitt.GROESSE >= groesserAls && !s.getRichtungen().contains(Himmelsrichtung.OSTEN)) {
+            // im Osten stehen, aber keine Strasse
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -129,19 +160,24 @@ public class Auto {
         int mittelpunktY = aktuellerAbschnitt.getPositionY() + aktuellerAbschnitt.getGroesse() / 2;
         if (strassennetz.stehtAnKreuzung(this)) {
             // Neue Richtung bestimmen
-            List<Himmelsrichtung> r = aktuellerAbschnitt.getRichtungen();
+            List<Himmelsrichtung> r = new ArrayList<>(aktuellerAbschnitt.getRichtungen());
             r.remove(this.getRichtung().gegenueber());
             Himmelsrichtung abbiegerichtung = r.get(new Random().nextInt(r.size()));
-            if(abbiegerichtung.equals(this.richtung.get().naechstes())){
-                // Rechtsabbieger
-                int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
-                int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
-                wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
-            } else if(abbiegerichtung.naechstes().equals(this.richtung.get())){
-                // Linksabbieger
-                int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
-                int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
-                wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
+            // nur Wendepunkt bestimmen wenn es noch keinen gibt
+            if (this.wendepunkte.size() == 0) {
+                if (abbiegerichtung.equals(this.richtung.get().naechstes())) {
+                    // Rechtsabbieger
+                    int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
+                    int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
+                    Wendepunkt w = new Wendepunkt(x, y, abbiegerichtung);
+                    wendepunkte.add(w);
+                } else if (abbiegerichtung.naechstes().equals(this.richtung.get())) {
+                    // Linksabbieger
+                    int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
+                    int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
+                    Wendepunkt w = new Wendepunkt(x, y, abbiegerichtung);
+                    wendepunkte.add(w);
+                }
             }
             if (aktuellerAbschnitt.isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, aktuellerAbschnitt)) {
@@ -174,36 +210,44 @@ public class Auto {
             }
         }
         // U-Turn
-        if (distanzBisMitteKleiner(-50, mittelpunktX, mittelpunktY)) {
-            Position naechsterAbschnitt = new Position(p.getPositionX() + this.richtung.get().getX(), p.getPositionY() + this.richtung.get().getY());
+        int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
+        System.out.println(distanzBisMitte + " " + -Strassenabschnitt.HALTELINIENABSTAND + " " + this.wendepunkte.size());
+        if (distanzBisMitte < -Strassenabschnitt.HALTELINIENABSTAND && this.wendepunkte.size() == 0) {
+            System.out.println("1. OK");
+            Position naechsterAbschnitt = new Position(p.getPositionX() + this.richtung.get().getX() * Strassenabschnitt.GROESSE, p.getPositionY() + this.richtung.get().getY() * Strassenabschnitt.GROESSE);
+            System.out.println(strassennetz.getAbschnitte().containsKey(naechsterAbschnitt));
             if (!(strassennetz.getAbschnitte().containsKey(naechsterAbschnitt) && strassennetz.getAbschnitte().get(naechsterAbschnitt).getRichtungen().contains(this.getRichtung().gegenueber()))) {
+                System.out.println("2. OK");
                 // Distanz des Wendepunkts vom Mittelpunkt
-                int wendepunktDistanz = 60;
+                int wendepunktDistanz = 56;
                 int basisX = mittelpunktX + richtung.get().getX() * wendepunktDistanz;
                 int basisY = mittelpunktY + richtung.get().getY() * wendepunktDistanz;
-                int w1x = basisX + (richtung.get().naechstes().getX() * breite / 2);
-                int w1y = basisY + (richtung.get().naechstes().getY() * breite / 2);
-                int w2x = basisX + (richtung.get().vorheriges().getX() * breite / 2);
-                int w2y = basisY + (richtung.get().vorheriges().getY() * breite / 2);
+                int w1x = basisX + (richtung.get().naechstes().getX() * ((breite / 2) + 1));
+                int w1y = basisY + (richtung.get().naechstes().getY() * ((breite / 2) + 1));
+                int w2x = basisX + (richtung.get().vorheriges().getX() * ((breite / 2) + 1));
+                int w2y = basisY + (richtung.get().vorheriges().getY() * ((breite / 2) + 1));
                 wendepunkte.add(new Wendepunkt(w1x, w1y, richtung.get().vorheriges()));
                 wendepunkte.add(new Wendepunkt(w2x, w2y, richtung.get().gegenueber()));
+                System.out.println(String.format("W1 = x:%d, y:%d, h:%s", w1x, w1y, richtung.get().vorheriges().name()));
+                System.out.println(String.format("W2 = x:%d, y:%d, h:%s", w2x, w2y, richtung.get().gegenueber().name()));
             }
         }
         // fahren und Wendepunkte dabei beachten
         int distanz = (wendepunkte.size() > 0) ? wendepunkte.peek().distanzBisWendepunkt(this.positionX.get(), this.positionY.get()) : 0;
-        if (wendepunkte.size() > 0 &&  distanz < geschwindigkeit) {
+        if (wendepunkte.size() > 0 &&  distanz <= geschwindigkeit) {
             Wendepunkt w = wendepunkte.remove();
             this.richtung.set(w.getRichtung());
             this.positionX.set(w.getX() + w.getRichtung().getX() * (geschwindigkeit - distanz));
             this.positionY.set(w.getY() + w.getRichtung().getY() * (geschwindigkeit - distanz));
         } else {
-            this.positionX.add(this.richtung.get().getX() * geschwindigkeit);
-            this.positionY.add(this.richtung.get().getY() * geschwindigkeit);
+            this.positionX.set(this.positionX.get() + (this.richtung.get().getX() * geschwindigkeit));
+            this.positionY.set(this.positionY.get() + (this.richtung.get().getY() * geschwindigkeit));
         }
         // Auto in neuen Strassenabschnitt verlegen
         Position neu = new Position(positionX.get(), positionY.get());
         if (!neu.equals(p)) {
             strassennetz.getAutos().get(p).remove(this);
+            strassennetz.getAutos().computeIfAbsent(neu, k -> new ArrayList<>());
             strassennetz.getAutos().get(neu).add(this);
         }
     }
@@ -222,22 +266,6 @@ public class Auto {
     }
 
     /**
-     * Überprüfung der Distanz nach gegebener Schranke
-     *
-     * @param schranke Grenze ab welcher true zurückgegeben wird
-     * @param mittelpunktX Mittelpunkt-Koordinate-X des aktuellen Abschnitts
-     * @param mittelpunktY Mittelpunkt-Koordinate-Y des aktuellen Abschnitts
-     * @return Distanz bis Mitte ist kleiner als Schranke (Vorzeichen definiert Richtung)
-     */
-    public boolean distanzBisMitteKleiner(int schranke, int mittelpunktX, int mittelpunktY) {
-        int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
-        if (distanzBisMitte > 0 && distanzBisMitte < schranke) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Überprüfung ob Autos eines Abschnittes
      * (fahren in angegebener Himmelsrichtung)
      * sich im relevanten Bereich zum Abbiegen
@@ -253,7 +281,9 @@ public class Auto {
         for (Auto a: strassennetz.getAutos().get(p)) {
             if (h.contains(a.getRichtung())) {
                 // Bereichsprüfung
-                if (distanzBisMitteKleiner(40, mittelpunktX,mittelpunktY)) {
+                int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
+                // TODO: Prüfung größer 0 nötig?
+                if (distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND) {
                     return true;
                 }
             }
@@ -270,10 +300,14 @@ public class Auto {
      * @return ob nächste Position des Autos verfügbar ist (ohne Kollision mit anderem Auto)
      */
     public boolean autoKollision(Position p, Rectangle newR) {
-        for (Auto a : strassennetz.getAutos().get(p)) {
-            if (newR.intersects(a.getRectangle().getLayoutBounds()) && !this.equals(a)) {
-                return true;
+        List<Auto> brums = strassennetz.getAutos().get(p);
+        if (brums != null) {
+            for (Auto a : brums) {
+                if (newR.intersects(a.getRectangle().getLayoutBounds()) && !this.equals(a)) {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }
@@ -292,9 +326,6 @@ public class Auto {
         double neuerPunkt[] = {zwPunkt[0] + mittelpunkt[0], zwPunkt[1] + mittelpunkt[1]};
         this.setPositionX((int)Math.round(neuerPunkt[0]));
         this.setPositionY((int)Math.round(neuerPunkt[1]));
-        //System.out.println("ALT " + alterPunkt.toString());
-        //System.out.println("NEU (nichtrund) " + neuerPunkt.toString());
-        //System.out.println("NEU " + this.getPositionX() + " " + this.getPositionY());
         this.setRichtung(richtung.get().naechstes());
     }
 

@@ -10,11 +10,10 @@ public class Position {
 
     private final int positionX;
     private final int positionY;
-    private static final int KACHELGROESSE = Strassenabschnitt.GROESSE;
 
     public Position(int positionX, int positionY) {
-        this.positionX = positionX - (positionX % KACHELGROESSE);
-        this.positionY = positionY - (positionY % KACHELGROESSE);
+        this.positionX = positionX - ((positionX + Strassenabschnitt.GROESSE) % Strassenabschnitt.GROESSE);
+        this.positionY = positionY - ((positionY + Strassenabschnitt.GROESSE) % Strassenabschnitt.GROESSE);
     }
 
     public int getPositionX() {

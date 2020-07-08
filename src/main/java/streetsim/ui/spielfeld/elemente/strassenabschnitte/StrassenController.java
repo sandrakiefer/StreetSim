@@ -34,28 +34,26 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
     @Override
     public void handlerAnmelden() {
         //TODO: platform run later entfernt muss vielleicht wieder rein
-        model.positionXProperty().addListener(c ->  rootView.setLayoutX(model.getPositionX()));
-        model.positionYProperty().addListener(c ->  rootView.setLayoutY(model.getPositionY()));
+        model.positionXProperty().addListener(c -> rootView.setLayoutX(model.getPositionX()));
+        model.positionYProperty().addListener(c -> rootView.setLayoutY(model.getPositionY()));
 
         //TODO: platform run later entfernt muss vielleicht wieder rein
-        model.getAmpeln().forEach( f -> {
-            f.getRelPosX().addListener( change ->{
+        model.getAmpeln().forEach(f -> {
+            f.getRelPosX().addListener(change -> {
                 alleAmpeln.get(f).setAbsolutePosX(model.getPositionX() + f.getRelPosX().intValue());
             });
 
-            f.getRelPosY().addListener( change ->{
+            f.getRelPosY().addListener(change -> {
                 alleAmpeln.get(f).setAbsolutePosY(model.getPositionY() + f.getRelPosY().intValue());
             });
         });
 
-        model.richtungenProperty().addListener((observable, oldValue, newValue) -> {
-            if (model.getRichtungen().size() > 0) {
-                rootView.setRotate(rootView.getRotate() + 90);
-            }
+        model.rotiertCounterProperty().addListener((observable, oldValue, newValue) -> {
+            rootView.setRotate(rootView.getRotate() + 90);
         });
 
         model.ampelAktivProperty().addListener(c -> {
-            if (!model.ampelAktivProperty().getValue()){
+            if (!model.ampelAktivProperty().getValue()) {
                 getAlleAmpeln().forEach(a -> a.getRootView().setVisible(false));
             } else {
                 getAlleAmpeln().forEach(a -> a.getRootView().setVisible(true));
@@ -63,7 +61,7 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
         });
     }
 
-    public void initAmpelPos(){
+    public void initAmpelPos() {
         model.getAmpeln().forEach(f -> {
             AmpelView ampelView = new AmpelView();
             ampelView.setVisible(false);
@@ -77,12 +75,12 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
         });
     }
 
-    public Collection<AmpelController> getAlleAmpeln(){
+    public Collection<AmpelController> getAlleAmpeln() {
         return alleAmpeln.values();
     }
 
-    private void init(){
-        for (int i=0; i<model.getRotiertCounter(); i++) {
+    private void init() {
+        for (int i = 0; i < model.getRotiertCounter(); i++) {
             rootView.setRotate(rootView.getRotate() + 90);
         }
     }
