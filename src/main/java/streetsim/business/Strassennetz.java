@@ -31,7 +31,7 @@ public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
     private transient Map<Position, List<Auto>> autos;
-    private SimpleListProperty<Auto> autoList;
+    private transient SimpleListProperty<Auto> autoList;
     private BooleanProperty simuliert;
     private String name;
     public static Strassennetz instance;
