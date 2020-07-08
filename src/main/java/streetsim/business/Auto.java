@@ -134,7 +134,6 @@ public class Auto {
         Position p = new Position(positionX.get(), positionY.get());
         Rectangle newR = new Rectangle(this.rectangle.getX() + this.richtung.get().getX() * geschwindigkeit,this.rectangle.getY() + this.richtung.get().getY() * geschwindigkeit,breite,laenge);
         if (autoKollision(p, newR)) {
-            System.out.println("aktuelle Kollision");
             return;
         }
         // falls Front des Autos in nächsten Abschnitt reinragt
@@ -143,7 +142,6 @@ public class Auto {
         Position vorneP = new Position(vorneX, vorneY);
         if (!vorneP.equals(p)) {
             if (autoKollision(vorneP, newR)) {
-                System.out.println("front Kollision");
                 return;
             }
         }
@@ -153,7 +151,6 @@ public class Auto {
         Position hintenP = new Position(hintenX, hintenY);
         if (!hintenP.equals(p)) {
             if (autoKollision(hintenP, newR)) {
-                System.out.println("heck Kollision");
                 return;
             }
         }
@@ -163,9 +160,8 @@ public class Auto {
         int mittelpunktY = aktuellerAbschnitt.getPositionY() + aktuellerAbschnitt.getGroesse() / 2;
         if (strassennetz.stehtAnKreuzung(this)) {
             // Neue Richtung bestimmen
-            List<Himmelsrichtung> r = aktuellerAbschnitt.getRichtungen();
-            //r.remove(this.getRichtung().gegenueber());
-            r.remove(this.getRichtung());
+            List<Himmelsrichtung> r = new ArrayList<>(aktuellerAbschnitt.getRichtungen());
+            r.remove(this.getRichtung().gegenueber());
             Himmelsrichtung abbiegerichtung = r.get(new Random().nextInt(r.size()));
             // nur Wendepunkt bestimmen wenn es noch keinen gibt
             if (this.wendepunkte.size() == 0) {
@@ -174,25 +170,22 @@ public class Auto {
                     int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
                     int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
                     Wendepunkt w = new Wendepunkt(x, y, abbiegerichtung);
-                    System.out.println(String.format("x: %d, y: %d, h: %s", w.x, w.y, w.richtung.name()));
                     wendepunkte.add(w);
                 } else if (abbiegerichtung.naechstes().equals(this.richtung.get())) {
                     // Linksabbieger
                     int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
                     int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
                     Wendepunkt w = new Wendepunkt(x, y, abbiegerichtung);
-                    System.out.println(String.format("x: %d, y: %d, h: %s", w.x, w.y, w.richtung.name()));
                     wendepunkte.add(w);
                 }
             }
             if (aktuellerAbschnitt.isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, aktuellerAbschnitt)) {
-                    System.out.println("rote Ampel");
+
                     return;
                 } else if (abbiegerichtung.equals(richtung.get().naechstes())) {
                     // links abbiegen
                     if (kreuzungBlockiert(p,mittelpunktX,mittelpunktY,List.of(richtung.get().gegenueber()))) {
-                        System.out.println("Kreuzung blockiert");
                         return;
                     }
                 }
@@ -204,7 +197,6 @@ public class Auto {
                         // gerade fahren
                         Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
                         if (kreuzungBlockiert(p, mittelpunktX, mittelpunktY, List.of(rechtsVonUns))) {
-                            System.out.println("STVO");
                             return;
                         }
                     } else {
@@ -212,7 +204,6 @@ public class Auto {
                         Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
                         Himmelsrichtung gegenueberVonuns = richtung.get().gegenueber();
                         if (kreuzungBlockiert(p, mittelpunktX, mittelpunktY, List.of(rechtsVonUns, gegenueberVonuns))) {
-                            System.out.println("STVO");
                             return;
                         }
                     }
@@ -242,11 +233,9 @@ public class Auto {
             this.richtung.set(w.getRichtung());
             this.positionX.set(w.getX() + w.getRichtung().getX() * (geschwindigkeit - distanz));
             this.positionY.set(w.getY() + w.getRichtung().getY() * (geschwindigkeit - distanz));
-            System.out.println("NEU ABGEBOGEN");
         } else {
             this.positionX.set(this.positionX.get() + (this.richtung.get().getX() * geschwindigkeit));
             this.positionY.set(this.positionY.get() + (this.richtung.get().getY() * geschwindigkeit));
-            //System.out.println("NEU WEITER GEFAHREN");
         }
         // Auto in neuen Strassenabschnitt verlegen
         Position neu = new Position(positionX.get(), positionY.get());
@@ -254,9 +243,7 @@ public class Auto {
             strassennetz.getAutos().get(p).remove(this);
             strassennetz.getAutos().computeIfAbsent(neu, k -> new ArrayList<>());
             strassennetz.getAutos().get(neu).add(this);
-            System.out.println("HANDOVER");
         }
-        //System.out.println(String.format("x: %d, y: %d", positionX.get(), positionY.get()));
     }
 
     /**
@@ -347,9 +334,6 @@ public class Auto {
         double neuerPunkt[] = {zwPunkt[0] + mittelpunkt[0], zwPunkt[1] + mittelpunkt[1]};
         this.setPositionX((int)Math.round(neuerPunkt[0]));
         this.setPositionY((int)Math.round(neuerPunkt[1]));
-        //System.out.println("ALT " + alterPunkt.toString());
-        //System.out.println("NEU (nichtrund) " + neuerPunkt.toString());
-        //System.out.println("NEU " + this.getPositionX() + " " + this.getPositionY());
         this.setRichtung(richtung.get().naechstes());
     }
 
