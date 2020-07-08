@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
+import org.w3c.dom.css.Rect;
 
 import java.util.*;
 
@@ -136,19 +137,25 @@ public class Auto {
         if (autoKollision(p, newR)) {
             return;
         }
+        // TODO
         // falls Front des Autos in nächsten Abschnitt reinragt
-        int vorneX = positionX.get() + richtung.get().getX() * (laenge / 2);
-        int vorneY = positionY.get() + richtung.get().getY() * (laenge / 2);
+        int vorneX = positionX.get() + richtung.get().getX() * ((laenge / 2) + geschwindigkeit);
+        int vorneY = positionY.get() + richtung.get().getY() * ((laenge / 2) + geschwindigkeit);
         Position vorneP = new Position(vorneX, vorneY);
+        newR.setX(newR.getX() + (richtung.get().getX() * laenge/2));
+        newR.setY(newR.getY() + (richtung.get().getX() * laenge/2));
         if (!vorneP.equals(p)) {
             if (autoKollision(vorneP, newR)) {
                 return;
             }
         }
+        // TODO
         // falls Heck des Autos in nächsten Abschnitt reinragt
-        int hintenX = positionX.get() - richtung.get().getX() * (laenge / 2);
-        int hintenY = positionY.get() - richtung.get().getY() * (laenge / 2);
+        int hintenX = positionX.get() - richtung.get().getX() * ((laenge / 2) - geschwindigkeit);
+        int hintenY = positionY.get() - richtung.get().getY() * ((laenge / 2) - geschwindigkeit);
         Position hintenP = new Position(hintenX, hintenY);
+        newR.setX(newR.getX() - (richtung.get().getX() * laenge));
+        newR.setY(newR.getY() - (richtung.get().getY() * laenge));
         if (!hintenP.equals(p)) {
             if (autoKollision(hintenP, newR)) {
                 return;
@@ -276,14 +283,13 @@ public class Auto {
             return false;
         }
         for (Auto a: strassennetz.getAutos().get(p)) {
-            if (h.contains(a.getRichtung())) {
+            //if (h.contains(a.getRichtung())) {
                 // Bereichsprüfung
                 int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
-                // TODO: Prüfung größer 0 nötig?
-                if (distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND) {
+                if (distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND && distanzBisMitte > 0) {
                     return true;
                 }
-            }
+            //}
         }
         return false;
     }
