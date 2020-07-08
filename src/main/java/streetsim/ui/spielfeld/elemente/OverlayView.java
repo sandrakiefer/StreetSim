@@ -20,6 +20,8 @@ class OverlayView extends Pane {
     MenuButton geschwindigkeit;
     Slider speed;
     CustomMenuItem menuItem;
+    ImageView deaktView;
+    Image aktImage, deaktImage;
 
     OverlayView(){
         super();
@@ -42,7 +44,9 @@ class OverlayView extends Pane {
         rotiereStrasse.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
 
         deaktiviereAmpeln = new Button();
-        ImageView deaktView = new ImageView(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "ampelweg.png")));
+        deaktImage = new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "ampelweg.png"));
+        aktImage = new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "icons", "ampelda.png"));
+        deaktView = new ImageView(deaktImage);
         deaktView.setFitWidth(BUTTON_SIZE);
         deaktView.setFitHeight(BUTTON_SIZE);
         deaktiviereAmpeln.setGraphic(deaktView);
