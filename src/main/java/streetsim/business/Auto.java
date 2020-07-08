@@ -56,25 +56,57 @@ public class Auto {
             // Trennung nach Richtung aus welcher der Punkt angepasst wird (rechts/links)
             if (offX < 0) {
                 this.richtung.set(Himmelsrichtung.SUEDEN);
-                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - this.breite) / 2));
+                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - (this.breite + 1)) / 2));
             } else {
                 this.richtung.set(Himmelsrichtung.NORDEN);
-                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + this.breite) / 2));
+                this.positionX.set(this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + (this.breite + 1)) / 2));
             }
-            if (Math.abs(offY) < 30) {
-                // TODO: für Jan
-                this.positionY.set(Integer.signum(offY) * 30 + this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE));
+            if (Math.abs(offY) < Strassenabschnitt.HALTELINIENABSTAND) {
+                this.positionY.set(Integer.signum(offY) * Strassenabschnitt.HALTELINIENABSTAND + this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + (Strassenabschnitt.GROESSE / 2));
             }
         } else {
             // Trennung nach Richtung aus welcher der Punkt angepasst wird (oben/unten)
             if (offY < 0) {
                 this.richtung.set(Himmelsrichtung.WESTEN);
-                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - this.breite) / 2));
+                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE - (this.breite + 1)) / 2));
             } else {
                 this.richtung.set(Himmelsrichtung.OSTEN);
-                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + this.breite) / 2));
+                this.positionY.set(this.positionY.get() - (this.positionY.get() % Strassenabschnitt.GROESSE) + ((Strassenabschnitt.GROESSE + (this.breite + 1)) / 2));
+            }
+            if (Math.abs(offX) < Strassenabschnitt.HALTELINIENABSTAND) {
+                this.positionX.set(Integer.signum(offX) * Strassenabschnitt.HALTELINIENABSTAND + this.positionX.get() - (this.positionX.get() % Strassenabschnitt.GROESSE) + (Strassenabschnitt.GROESSE / 2));
             }
         }
+        if (!positionAufStrasse()) {
+            this.rotiere();
+            positionierung();
+        }
+    }
+
+    /**
+     *
+     *
+     * @return
+     */
+    private boolean positionAufStrasse() {
+        Position p = new Position(this.getPositionX(), this.getPositionY());
+        Strassenabschnitt s = strassennetz.getAbschnitte().get(p);
+        int kleinerAls = Strassenabschnitt.GROESSE / 2 - Strassenabschnitt.HALTELINIENABSTAND;
+        int groesserAls = Strassenabschnitt.GROESSE / 2 + Strassenabschnitt.HALTELINIENABSTAND;
+        if (this.positionY.get() % Strassenabschnitt.GROESSE <= kleinerAls && !s.getRichtungen().contains(Himmelsrichtung.NORDEN)) {
+            // im Norden stehen, aber keine Strasse
+            return false;
+        } else if (this.positionY.get() % Strassenabschnitt.GROESSE >= groesserAls && !s.getRichtungen().contains(Himmelsrichtung.SUEDEN)) {
+            // im Süden stehen, aber keine Strasse
+            return false;
+        } else if (this.positionX.get() % Strassenabschnitt.GROESSE <= kleinerAls && !s.getRichtungen().contains(Himmelsrichtung.WESTEN)) {
+            // im Westen stehen, aber keine Strasse
+            return false;
+        } else if (this.positionX.get() % Strassenabschnitt.GROESSE >= groesserAls && !s.getRichtungen().contains(Himmelsrichtung.OSTEN)) {
+            // im Osten stehen, aber keine Strasse
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -134,13 +166,13 @@ public class Auto {
             Himmelsrichtung abbiegerichtung = r.get(new Random().nextInt(r.size()));
             if(abbiegerichtung.equals(this.richtung.get().naechstes())){
                 // Rechtsabbieger
-                int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
-                int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
+                int x = mittelpunktX + ((this.richtung.get().gegenueber().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
+                int y = mittelpunktY + ((this.richtung.get().gegenueber().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
                 wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
             } else if(abbiegerichtung.naechstes().equals(this.richtung.get())){
                 // Linksabbieger
-                int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * this.breite / 2);
-                int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * this.laenge / 2);
+                int x = mittelpunktX + ((this.richtung.get().getX() + this.richtung.get().naechstes().getX()) * ((this.breite / 2) + 1));
+                int y = mittelpunktY + ((this.richtung.get().getY() + this.richtung.get().naechstes().getY()) * ((this.laenge / 2) + 1));
                 wendepunkte.add(new Wendepunkt(x,y,abbiegerichtung));
             }
             if (aktuellerAbschnitt.isAmpelAktiv()) {
@@ -181,10 +213,10 @@ public class Auto {
                 int wendepunktDistanz = 60;
                 int basisX = mittelpunktX + richtung.get().getX() * wendepunktDistanz;
                 int basisY = mittelpunktY + richtung.get().getY() * wendepunktDistanz;
-                int w1x = basisX + (richtung.get().naechstes().getX() * breite / 2);
-                int w1y = basisY + (richtung.get().naechstes().getY() * breite / 2);
-                int w2x = basisX + (richtung.get().vorheriges().getX() * breite / 2);
-                int w2y = basisY + (richtung.get().vorheriges().getY() * breite / 2);
+                int w1x = basisX + (richtung.get().naechstes().getX() * ((breite / 2) + 1));
+                int w1y = basisY + (richtung.get().naechstes().getY() * ((breite / 2) + 1));
+                int w2x = basisX + (richtung.get().vorheriges().getX() * ((breite / 2) + 1));
+                int w2y = basisY + (richtung.get().vorheriges().getY() * ((breite / 2) + 1));
                 wendepunkte.add(new Wendepunkt(w1x, w1y, richtung.get().vorheriges()));
                 wendepunkte.add(new Wendepunkt(w2x, w2y, richtung.get().gegenueber()));
             }

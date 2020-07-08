@@ -21,6 +21,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
     private SimpleIntegerProperty positionY = new SimpleIntegerProperty(this, "positionY");
     private SimpleListProperty<Himmelsrichtung> richtungen;
     public static final int GROESSE = 128;
+    public static final int HALTELINIENABSTAND = 48;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
     private int rotiertCounter;
