@@ -1,21 +1,25 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import streetsim.business.Auto;
-import streetsim.business.Himmelsrichtung;
-import streetsim.business.Strassenabschnitt;
-import streetsim.business.Strassennetz;
+import javafx.stage.Stage;
+import streetsim.business.*;
 import streetsim.business.abschnitte.TStueck;
 import streetsim.business.exceptions.WeltLeerException;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 import streetsim.ui.Szenen;
+import streetsim.ui.utils.PopUpAssist;
 
 import java.io.File;
+import java.util.*;
 
 /**
  * Verwaltung von Aktionen in der Navigationsleiste
@@ -24,6 +28,11 @@ public class NavigationController extends AbstractController<StreetSimApp> {
 
     private final Button startPause, speichern, beende;
     private final MenuItem ampeln, autos, strassen, alles;
+    private Stage popup;
+
+    private Map<Position, Strassenabschnitt> abschnitte;
+    private Map<Position, List<Auto>> autoMap;
+    private List<Auto> autoList;
 
     public NavigationController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
@@ -37,6 +46,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         strassen = ((NavigationView) rootView).strassen;
         alles = ((NavigationView) rootView).alles;
 
+        speicherStand();
         handlerAnmelden();
     }
 
@@ -110,7 +120,19 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      * Platzierung rückgängig machen
      */
     public void zurueck() {
-        //TODO: Frage ob wirklich beendet werden soll / speicherhinweis
+        if (!standGespeichert()) {
+            QuitPopUpController quit = new QuitPopUpController(netz, app, this);
+            PopUpAssist popAssist = PopUpAssist.getInstance();
+            popup = popAssist.createPopUp(quit.getRootView(), app.getHauptStage());
+            popAssist.center(popup, app.getHauptStage());
+            popup.show();
+        } else {
+            beenden();
+        }
+    }
+
+    public void beenden(){
+        popUpSchliessen();
         netz.reset();
         app.wechsleSzene(Szenen.STARTSEITE);
     }
@@ -119,11 +141,30 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      * Strassennetz abspeichern
      */
     public void speicherNetz() {
+        popUpSchliessen();
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         fileChooser.setInitialFileName(netz.getName());
         File file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
-        if (file != null) netz.speicherNetz(file);
+        if (file != null) {
+            netz.speicherNetz(file);
+            speicherStand();
+        }
     }
 
+    public void popUpSchliessen(){
+        if (popup != null) popup.close();
+    }
+
+    private boolean standGespeichert(){
+        return netz.getAbschnitte().equals(abschnitte) &&
+               netz.getAutoList().equals(autoList) &&
+               netz.getAutos().equals(autoMap);
+    }
+
+    private void speicherStand(){
+        abschnitte = new HashMap<>(netz.getAbschnitte());
+        autoMap = new HashMap<>(netz.getAutos());
+        autoList = new ArrayList<>(netz.getAutoList());
+    }
 }
