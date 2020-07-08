@@ -2,3 +2,9 @@ $mainSize: 24pt;
 $secondarySize: 20pt;
 $thirdSize: 14pt;
 
+.navbtn {
+  -fx-min-height: $mainSize;
+  -fx-min-width: $mainSize;
+  -fx-max-height: $mainSize;
+  -fx-max-width: $mainSize;
+}
