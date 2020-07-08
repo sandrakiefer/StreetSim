@@ -16,7 +16,7 @@ public class Auto {
     public enum AutoModell {ROT, POLIZEI, BLAU}
 
     private int geschwindigkeit;
-    private static final int MAXGESCHWINDIGKEIT = 1;
+    private static final int MAXGESCHWINDIGKEIT = 8;
     private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>(this, "richtung");
 
     private final Queue<Wendepunkt> wendepunkte;
@@ -181,7 +181,6 @@ public class Auto {
             }
             if (aktuellerAbschnitt.isAmpelAktiv()) {
                 if (strassennetz.stehtAnAmpel(this, aktuellerAbschnitt)) {
-
                     return;
                 } else if (abbiegerichtung.equals(richtung.get().naechstes())) {
                     // links abbiegen
@@ -211,11 +210,16 @@ public class Auto {
             }
         }
         // U-Turn
-        if (distanzBisMitteKleiner(-50, mittelpunktX, mittelpunktY) && this.wendepunkte.size() == 0) {
-            Position naechsterAbschnitt = new Position(p.getPositionX() + this.richtung.get().getX(), p.getPositionY() + this.richtung.get().getY());
+        int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
+        System.out.println(distanzBisMitte + " " + -Strassenabschnitt.HALTELINIENABSTAND + " " + this.wendepunkte.size());
+        if (distanzBisMitte < -Strassenabschnitt.HALTELINIENABSTAND && this.wendepunkte.size() == 0) {
+            System.out.println("1. OK");
+            Position naechsterAbschnitt = new Position(p.getPositionX() + this.richtung.get().getX() * Strassenabschnitt.GROESSE, p.getPositionY() + this.richtung.get().getY() * Strassenabschnitt.GROESSE);
+            System.out.println(strassennetz.getAbschnitte().containsKey(naechsterAbschnitt));
             if (!(strassennetz.getAbschnitte().containsKey(naechsterAbschnitt) && strassennetz.getAbschnitte().get(naechsterAbschnitt).getRichtungen().contains(this.getRichtung().gegenueber()))) {
+                System.out.println("2. OK");
                 // Distanz des Wendepunkts vom Mittelpunkt
-                int wendepunktDistanz = 60;
+                int wendepunktDistanz = 56;
                 int basisX = mittelpunktX + richtung.get().getX() * wendepunktDistanz;
                 int basisY = mittelpunktY + richtung.get().getY() * wendepunktDistanz;
                 int w1x = basisX + (richtung.get().naechstes().getX() * ((breite / 2) + 1));
@@ -224,6 +228,8 @@ public class Auto {
                 int w2y = basisY + (richtung.get().vorheriges().getY() * ((breite / 2) + 1));
                 wendepunkte.add(new Wendepunkt(w1x, w1y, richtung.get().vorheriges()));
                 wendepunkte.add(new Wendepunkt(w2x, w2y, richtung.get().gegenueber()));
+                System.out.println(String.format("W1 = x:%d, y:%d, h:%s", w1x, w1y, richtung.get().vorheriges().name()));
+                System.out.println(String.format("W2 = x:%d, y:%d, h:%s", w2x, w2y, richtung.get().gegenueber().name()));
             }
         }
         // fahren und Wendepunkte dabei beachten
@@ -260,22 +266,6 @@ public class Auto {
     }
 
     /**
-     * Überprüfung der Distanz nach gegebener Schranke
-     *
-     * @param schranke Grenze ab welcher true zurückgegeben wird
-     * @param mittelpunktX Mittelpunkt-Koordinate-X des aktuellen Abschnitts
-     * @param mittelpunktY Mittelpunkt-Koordinate-Y des aktuellen Abschnitts
-     * @return Distanz bis Mitte ist kleiner als Schranke (Vorzeichen definiert Richtung)
-     */
-    public boolean distanzBisMitteKleiner(int schranke, int mittelpunktX, int mittelpunktY) {
-        int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
-        if (distanzBisMitte > 0 && distanzBisMitte < schranke) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Überprüfung ob Autos eines Abschnittes
      * (fahren in angegebener Himmelsrichtung)
      * sich im relevanten Bereich zum Abbiegen
@@ -291,7 +281,9 @@ public class Auto {
         for (Auto a: strassennetz.getAutos().get(p)) {
             if (h.contains(a.getRichtung())) {
                 // Bereichsprüfung
-                if (distanzBisMitteKleiner(40, mittelpunktX,mittelpunktY)) {
+                int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
+                // TODO: Prüfung größer 0 nötig?
+                if (distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND) {
                     return true;
                 }
             }
