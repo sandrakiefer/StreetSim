@@ -36,14 +36,12 @@ import java.util.stream.Collectors;
  */
 public class SpielViewController extends AbstractController<StreetSimApp> {
     private BorderPane spielView;
-    private Pane menView, navView, spielfeldView, overlayView, autoOverlayView;
+    private Pane menView, navView, spielfeldView, overlayView;
     private HintergrundView hv;
     private NavigationController navCon;
     private MenueController menCon;
     private SpielfeldController spielfeldCon;
-    private StrassenOverlayController overlayController;
-    private AutoOverlayController autoOverlayController;
-    private boolean autoOverlay = false;
+    private OverlayController overlayController;
     private Button hamburger;
 
     public SpielViewController(Strassennetz netz, StreetSimApp app) {
@@ -56,15 +54,15 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
         navCon = new NavigationController(netz, app);
         menCon = new MenueController(netz, app);
+
         spielfeldCon = new SpielfeldController(netz, app);
-        overlayController = new StrassenOverlayController(netz);
-        autoOverlayController = new AutoOverlayController(netz);
+        overlayController = new OverlayController(netz);
 
         menView = menCon.getRootView();
         navView = navCon.getRootView();
+
         spielfeldView = spielfeldCon.getRootView();
         overlayView = overlayController.getRootView();
-        autoOverlayView = autoOverlayController.getRootView();
 
         hamburger = new Button();
         hamburger.getStyleClass().add("navbtn");
@@ -219,35 +217,36 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             if (e.getButton().equals(MouseButton.SECONDARY)) {
                 double x = e.getX();
                 double y = e.getY();
-                if (netz.strasseAnPos((int) Math.round(x), (int) Math.round(y)) != null) {
+                Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));
+                if (s != null) {
                     Position p = new Position((int) Math.round(x), (int) Math.round(y));
-//                    spielfeldCon.getAutoMap().get(p).forEach(a -> {
-                        //überprüfen ob rechtsklick innerhalb des Autos geschehen ist um Auto Overlay zu aktivieren
-//                        if (x <= a.getPositionX()+ a.getBreite()/2 && x >= a.getPositionX()-a.getBreite()/2
-//                                && y >= a.getPositionY()-a.getLaenge()/2 && y <= a.getPositionY()+a.getLaenge()/2){
-//                            autoOverlayController.setPosition(a.getPositionX(), a.getPositionY());
-//                            autoOverlayController.enable();
-//                            autoOverlayController.setAuto(a);
-//                            System.out.println("autoOverlay roll out!!!!");
-//                            autoOverlay = true;
-//                            return;
-//                        }
-//                    });
-                    if(!autoOverlay) {
+                    if(spielfeldCon.getAutoMap().containsKey(p)) {
+                        for (Auto a : spielfeldCon.getAutoMap().get(p)) {
+//                        überprüfen ob rechtsklick innerhalb des Autos geschehen ist um Auto Overlay zu aktivieren
+                            if (x <= a.getPositionX() + (double) a.getBreite() / 2 && x >= a.getPositionX() - (double) a.getBreite() / 2
+                                    && y >= a.getPositionY() - (double) a.getLaenge() / 2 && y <= a.getPositionY() + (double) a.getLaenge() / 2) {
+                                overlayController.setAutoPosition(a.getPositionX(), a.getPositionY());
+                                overlayController.enableAuto();
+                                overlayController.aktAuto(a);
+                                System.out.println("autoOverlay roll out!!!!");
+                            }
+                            return;
+                        }
+                    } else {
                         overlayController.setPosition(p.getPositionX(), p.getPositionY());
-                        overlayController.enable();
+                        overlayController.enableStrasse(s);
                         return;
                     }
                 }
             }
-            autoOverlay = false;
             overlayController.disable();
-            autoOverlayController.disable();
         });
 
         hamburger.setOnAction(e -> {
             if (hamburger.getId().equals("menu-stripes")) { //menu eingeklappt -> aufklappen
                 showMenu();
+//                netz.setSimuliert(false);
+//                navCon.pause();
             } else { //menu aufgeklappt -> einklappen
                 hideMenu();
             }
