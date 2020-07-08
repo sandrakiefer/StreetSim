@@ -140,7 +140,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                             if (s != null) dropSupported = false;
                             break;
                         default:
-                            dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString);
+                            dropSupported = Arrays.stream(Auto.AutoModell.values()).map(Enum::name).collect(Collectors.toList()).contains(dataString) && s != null;
                             break;
                     }
                     if (dropSupported) event.acceptTransferModes(TransferMode.COPY);
