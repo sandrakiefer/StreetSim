@@ -18,7 +18,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
 
     private Button loescheStrasse, rotiereStrasse, deaktiviereAmpeln, loescheAuto;
     private MenuButton geschwindigkeit;
-    private MenuItem geschwSlider;
+    private Slider geschwSlider;
     private Auto aktuellesAuto;
     private ImageView deaktView;
     private Image aktImage, deaktImage;
@@ -31,10 +31,10 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         deaktiviereAmpeln = ((OverlayView) rootView).deaktiviereAmpeln;
         loescheAuto = ((OverlayView) rootView).loescheAuto;
         geschwindigkeit = ((OverlayView) rootView).geschwindigkeit;
-        geschwSlider = ((OverlayView) rootView).geschwindigkeit.getItems().get(0);
         deaktView = ((OverlayView) rootView).deaktView;
         aktImage = ((OverlayView) rootView).aktImage;
         deaktImage = ((OverlayView) rootView).deaktImage;
+        geschwSlider = ((OverlayView) rootView).speed;
         disable();
         handlerAnmelden();
     }
@@ -92,6 +92,10 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         loescheAuto.setOnAction(e -> loescheAuto(aktuellesAuto));
         rotiereStrasse.setOnAction(e -> rotiereStrasse(rotiereStrasse.getLayoutX(), rotiereStrasse.getLayoutY()));
         deaktiviereAmpeln.setOnAction(e -> deaktiviereAmpeln(deaktiviereAmpeln.getLayoutX(), deaktiviereAmpeln.getLayoutY()));
+
+        geschwSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            geschwindigkeitAuto(newValue);
+        });
     }
 
     private void loescheStrasse(double x, double y) {
@@ -119,5 +123,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
     public void aktAuto(Auto a) {
         aktuellesAuto = a;
     }
+
+    public void geschwindigkeitAuto(Number val){ netz.geschwindigkeitAnpassen(aktuellesAuto, val.floatValue()); }
 
 }

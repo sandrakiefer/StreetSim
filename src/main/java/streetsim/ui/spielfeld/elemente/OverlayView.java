@@ -67,13 +67,18 @@ class OverlayView extends Pane {
         geschwView.setFitHeight(BUTTON_SIZE);
         geschwindigkeit.setGraphic(geschwView);
         geschwindigkeit.setPadding(Insets.EMPTY);
-        geschwindigkeit.setPickOnBounds(true);
         geschwindigkeit.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
+
+        speed = new Slider(0.1,1,0);
+        speed.setBlockIncrement(0.1);
+        speed.setMajorTickUnit(1);
+        speed.setShowTickMarks(true);
+        speed.setSnapToTicks(true);
+        speed.setShowTickLabels(true);
 
         menuItem = new CustomMenuItem(speed);
         menuItem.setHideOnClick(false);
         geschwindigkeit.getItems().addAll(menuItem);
-
 
         getChildren().addAll(loescheStrasse, rotiereStrasse, deaktiviereAmpeln, loescheAuto, geschwindigkeit);
 
