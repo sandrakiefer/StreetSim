@@ -24,7 +24,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
     public static final int HALTELINIENABSTAND = 48;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
-    private int rotiertCounter;
+    private SimpleIntegerProperty rotiertCounter = new SimpleIntegerProperty();
 
     public Strassenabschnitt(){}
 
@@ -35,7 +35,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
         this.richtungen = new SimpleListProperty<>(FXCollections.observableArrayList(richtungen));
         this.ampeln = baueAmpeln(richtungen);
         ampelAktiv = new SimpleBooleanProperty();
-        rotiertCounter = 0;
+        rotiertCounter.set(0);
     }
 
     /**
@@ -63,7 +63,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
         for (Ampel a: ampeln) {
             a.rotiere();
         }
-        rotiertCounter = (rotiertCounter + 1) % 4;
+        rotiertCounter.set((rotiertCounter.get() + 1) % 4);
     }
     /**
      * Initialisierung der Ampeln mit den passenden Himmelsrichtungen
@@ -147,6 +147,10 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
     }
 
     public int getRotiertCounter() {
+        return rotiertCounter.get();
+    }
+
+    public SimpleIntegerProperty rotiertCounterProperty() {
         return rotiertCounter;
     }
 }
