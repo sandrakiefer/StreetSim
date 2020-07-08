@@ -1,6 +1,10 @@
 package streetsim.ui.spielfeld;
 
 import com.google.gson.Gson;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -40,6 +44,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     private StrassenOverlayController overlayController;
     private AutoOverlayController autoOverlayController;
     private boolean autoOverlay = false;
+    private Button hamburger;
 
     public SpielViewController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
@@ -61,7 +66,17 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         overlayView = overlayController.getRootView();
         autoOverlayView = autoOverlayController.getRootView();
 
-        spielView.setRight(menView);
+        hamburger = new Button();
+        hamburger.getStyleClass().add("navbtn");
+        hamburger.setPickOnBounds(true);
+        hamburger.setId("menu-cross");
+        hamburger.setAlignment(Pos.TOP_RIGHT);
+
+        StackPane menStack = new StackPane();
+        menStack.getChildren().addAll(menView, hamburger);
+        menStack.setAlignment(Pos.TOP_RIGHT);
+
+        spielView.setRight(menStack);
         spielView.setLeft(navView);
 
         rootView.getChildren().addAll(hv, spielfeldView, spielView, overlayView);
@@ -72,6 +87,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
 //TODO: menue view ausklappbar per button sowie einklappen bei dragdetect
         rootView.setOnDragDetected(e -> {
+            hideMenu();
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
 
 
@@ -103,7 +119,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         });
 
         rootView.setOnDragOver(event -> {
-            //TODO: MenüView ausblenden
+            hideMenu();
 
             boolean dropSupported = true;
             Dragboard dragboard = event.getDragboard();
@@ -140,6 +156,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         });
 
         rootView.setOnDragDropped(event -> {
+            showMenu();
             Dragboard dragboard = event.getDragboard();
             if (dragboard.hasString()) {
                 String dataString = dragboard.getString();
@@ -228,6 +245,28 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             autoOverlayController.disable();
         });
 
+        hamburger.setOnAction(e -> {
+            if (hamburger.getId().equals("menu-stripes")) { //menu eingeklappt -> aufklappen
+                showMenu();
+            } else { //menu aufgeklappt -> einklappen
+                hideMenu();
+            }
+        });
+
+        netz.simuliertProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) hideMenu();
+            else showMenu();
+        });
+    }
+
+    private void showMenu(){
+        hamburger.setId("menu-cross");
+        menView.setVisible(true);
+    }
+
+    private void hideMenu(){
+        hamburger.setId("menu-stripes");
+        menView.setVisible(false);
     }
 
     /*

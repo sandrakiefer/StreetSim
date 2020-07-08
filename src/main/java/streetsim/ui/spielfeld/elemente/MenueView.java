@@ -1,6 +1,7 @@
 package streetsim.ui.spielfeld.elemente;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
@@ -21,7 +22,7 @@ class MenueView extends VBox {
     List<AutoView> autoViews;
     AmpelView ampelView;
 
-    MenueView(List<AutoView> autoViews){
+    MenueView(List<AutoView> autoViews) {
         super();
 
         this.autoViews = autoViews;
@@ -36,6 +37,8 @@ class MenueView extends VBox {
         abschnittBox.getChildren().addAll(gerade, kreuzung, kurve, tstueck);
         auswahlAbschnitte.getChildren().addAll(abschnitte, abschnittBox);
         auswahlAbschnitte.setAlignment(Pos.TOP_LEFT);
+        auswahlAbschnitte.setSpacing(10);
+
 
         VBox autoAuswahl = new VBox();
         Label autos = new Label("Autos");
@@ -43,10 +46,12 @@ class MenueView extends VBox {
         autoBox.getChildren().add(autos);
         autoBox.getChildren().addAll(autoViews);
         autoBox.setAlignment(Pos.TOP_LEFT);
+        autoBox.getStyleClass().add("menu");
         ScrollPane auswahlAutos = new ScrollPane();
         auswahlAutos.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        auswahlAutos.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        auswahlAutos.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         auswahlAutos.setContent(autoBox);
+        autoAuswahl.getStyleClass().add("menu");
         autoAuswahl.getChildren().addAll(autos, auswahlAutos);
 
         VBox auswahlAmpeln = new VBox();
@@ -55,7 +60,9 @@ class MenueView extends VBox {
         auswahlAmpeln.getChildren().addAll(ampeln, ampelView);
         auswahlAmpeln.setAlignment(Pos.TOP_LEFT);
         getChildren().addAll(auswahlAbschnitte, autoAuswahl, auswahlAmpeln);
-        setAlignment(Pos.TOP_CENTER);
+        setAlignment(Pos.TOP_RIGHT);
+        getStyleClass().add("menu");
+        setSpacing(10);
 
     }
 }

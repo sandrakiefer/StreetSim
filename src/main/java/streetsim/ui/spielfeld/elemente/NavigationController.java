@@ -123,7 +123,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         fileChooser.setInitialFileName(netz.getName());
         File file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
-        netz.speicherNetz(file);
+        if (file != null) netz.speicherNetz(file);
     }
 
 }
