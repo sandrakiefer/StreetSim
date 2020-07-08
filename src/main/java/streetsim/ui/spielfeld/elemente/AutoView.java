@@ -10,13 +10,10 @@ public class AutoView extends ImageView {
 
     private final Auto.AutoModell autoModell;
 
-    Button b;
 
     public AutoView(Image image, Auto.AutoModell autoModell){
         super(image);
         this.autoModell = autoModell;
-        b = new Button("auto");
-        b.setPrefSize(32, 32);
 
     }
 
