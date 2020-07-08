@@ -85,7 +85,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
-//TODO: menue view ausklappbar per button sowie einklappen bei dragdetect
+
         rootView.setOnDragDetected(e -> {
             hideMenu();
             Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
@@ -269,8 +269,4 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         menView.setVisible(false);
     }
 
-    /*
-    //TODO:
-    Im Pausemenü sobald gedragged wird soll das Seitenmenü eingeklappt werden und erst nach bearbeiten wieder eingeblendet
-     */
 }

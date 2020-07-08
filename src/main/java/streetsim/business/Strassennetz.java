@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -33,7 +34,7 @@ public class Strassennetz {
     private transient Map<Position, List<Auto>> autos;
     private transient SimpleListProperty<Auto> autoList;
     private BooleanProperty simuliert;
-    private String name;
+    private SimpleStringProperty name = new SimpleStringProperty();
     public static Strassennetz instance;
 
     private Strassennetz() {
@@ -333,7 +334,7 @@ public class Strassennetz {
         entfAlleAutos();
         alleAmpelnDeaktivieren();
         entfAlleStrassen();
-        name = null;
+        name.set(null);
         instance.simuliert.setValue(false);
     }
 
@@ -413,11 +414,11 @@ public class Strassennetz {
     }
 
     public String getName() {
-        return instance.name;
+        return instance.name.get();
     }
 
     public void setName(String name) {
-        instance.name = name;
+        instance.name.set(name);
     }
 
     public ObservableMap<Position, Strassenabschnitt> getAbschnitte() {
@@ -462,6 +463,9 @@ public class Strassennetz {
         //s.autoAdden(brum);*/
     }
 
+    public SimpleStringProperty nameProperty() {
+        return name;
+    }
 }
 
 
