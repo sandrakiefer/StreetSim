@@ -211,13 +211,9 @@ public class Auto {
         }
         // U-Turn
         int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
-        System.out.println(distanzBisMitte + " " + -Strassenabschnitt.HALTELINIENABSTAND + " " + this.wendepunkte.size());
         if (distanzBisMitte < -Strassenabschnitt.HALTELINIENABSTAND && this.wendepunkte.size() == 0) {
-            System.out.println("1. OK");
             Position naechsterAbschnitt = new Position(p.getPositionX() + this.richtung.get().getX() * Strassenabschnitt.GROESSE, p.getPositionY() + this.richtung.get().getY() * Strassenabschnitt.GROESSE);
-            System.out.println(strassennetz.getAbschnitte().containsKey(naechsterAbschnitt));
             if (!(strassennetz.getAbschnitte().containsKey(naechsterAbschnitt) && strassennetz.getAbschnitte().get(naechsterAbschnitt).getRichtungen().contains(this.getRichtung().gegenueber()))) {
-                System.out.println("2. OK");
                 // Distanz des Wendepunkts vom Mittelpunkt
                 int wendepunktDistanz = 56;
                 int basisX = mittelpunktX + richtung.get().getX() * wendepunktDistanz;
@@ -228,8 +224,6 @@ public class Auto {
                 int w2y = basisY + (richtung.get().vorheriges().getY() * ((breite / 2) + 1));
                 wendepunkte.add(new Wendepunkt(w1x, w1y, richtung.get().vorheriges()));
                 wendepunkte.add(new Wendepunkt(w2x, w2y, richtung.get().gegenueber()));
-                System.out.println(String.format("W1 = x:%d, y:%d, h:%s", w1x, w1y, richtung.get().vorheriges().name()));
-                System.out.println(String.format("W2 = x:%d, y:%d, h:%s", w2x, w2y, richtung.get().gegenueber().name()));
             }
         }
         // fahren und Wendepunkte dabei beachten
@@ -278,6 +272,9 @@ public class Auto {
      * @return Kreuzung (Bereich zum Abbiegen) ist blockiert
      */
     public boolean kreuzungBlockiert(Position p, int mittelpunktX, int mittelpunktY, List<Himmelsrichtung> h) {
+        if (strassennetz.getAbschnitte().get(p).getRichtungen().size() <= 2) {
+            return false;
+        }
         for (Auto a: strassennetz.getAutos().get(p)) {
             if (h.contains(a.getRichtung())) {
                 // Bereichsprüfung
