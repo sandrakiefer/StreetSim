@@ -1,0 +1,1255 @@
+{
+  "abschnitte": [
+    [
+      {
+        "positionX": 768,
+        "positionY": 128
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 768,
+          "positionY": 128,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 256
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 512,
+          "positionY": 256,
+          "richtungen": [
+            "NORDEN",
+            "SUEDEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "NORDEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "SUEDEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 97.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 1
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 384
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 512,
+          "positionY": 384,
+          "richtungen": [
+            "NORDEN",
+            "SUEDEN"
+          ],
+          "ampeln": [
+            {
+              "rot": false,
+              "gelb": false,
+              "gruen": true,
+              "richtung": "NORDEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": false,
+              "gelb": false,
+              "gruen": true,
+              "richtung": "SUEDEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 97.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 1
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 512
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 512,
+          "positionY": 512,
+          "richtungen": [
+            "NORDEN",
+            "SUEDEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "NORDEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "SUEDEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 97.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 1
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 640
+      },
+      {
+        "type": "TStueck",
+        "properties": {
+          "positionX": 512,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "NORDEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": false,
+              "gelb": false,
+              "gruen": true,
+              "richtung": "NORDEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": true,
+          "rotiertCounter": 2
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 640,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 640,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 128
+      },
+      {
+        "type": "Kurve",
+        "properties": {
+          "positionX": 512,
+          "positionY": 128,
+          "richtungen": [
+            "SUEDEN",
+            "WESTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "SUEDEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 1
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 128,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 128,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 256,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 256,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 384,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 384,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 896,
+        "positionY": 128
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 896,
+          "positionY": 128,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 768,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 768,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 128
+      },
+      {
+        "type": "Kurve",
+        "properties": {
+          "positionX": 1024,
+          "positionY": 128,
+          "richtungen": [
+            "SUEDEN",
+            "WESTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "SUEDEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 1
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 896,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 896,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 896,
+        "positionY": 384
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 896,
+          "positionY": 384,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 256
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 1024,
+          "positionY": 256,
+          "richtungen": [
+            "NORDEN",
+            "SUEDEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "NORDEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "SUEDEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 97.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 1
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 384
+      },
+      {
+        "type": "Kreuzung",
+        "properties": {
+          "positionX": 1024,
+          "positionY": 384,
+          "richtungen": [
+            "NORDEN",
+            "OSTEN",
+            "SUEDEN",
+            "WESTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": false,
+              "gelb": false,
+              "gruen": true,
+              "richtung": "NORDEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": false,
+              "gelb": false,
+              "gruen": true,
+              "richtung": "SUEDEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            }
+          ],
+          "ampelAktiv": true,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1152,
+        "positionY": 384
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 1152,
+          "positionY": 384,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1152,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 1152,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1280,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 1280,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1408,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 1408,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1536,
+        "positionY": 640
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 1536,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 0
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 512
+      },
+      {
+        "type": "Gerade",
+        "properties": {
+          "positionX": 1024,
+          "positionY": 512,
+          "richtungen": [
+            "NORDEN",
+            "SUEDEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "NORDEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "SUEDEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 97.5
+            }
+          ],
+          "ampelAktiv": false,
+          "rotiertCounter": 1
+        }
+      }
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 640
+      },
+      {
+        "type": "TStueck",
+        "properties": {
+          "positionX": 1024,
+          "positionY": 640,
+          "richtungen": [
+            "WESTEN",
+            "NORDEN",
+            "OSTEN"
+          ],
+          "ampeln": [
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "WESTEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 97.5
+            },
+            {
+              "rot": false,
+              "gelb": false,
+              "gruen": true,
+              "richtung": "NORDEN",
+              "schaltet": false,
+              "relPosX": 10.5,
+              "relPosY": 1.5
+            },
+            {
+              "rot": true,
+              "gelb": false,
+              "gruen": false,
+              "richtung": "OSTEN",
+              "schaltet": false,
+              "relPosX": 106.5,
+              "relPosY": 1.5
+            }
+          ],
+          "ampelAktiv": true,
+          "rotiertCounter": 2
+        }
+      }
+    ]
+  ],
+  "autos": [
+    [
+      {
+        "positionX": 512,
+        "positionY": 640
+      },
+      [
+        {
+          "geschwindigkeit": 3,
+          "richtung": "OSTEN",
+          "wendepunkte": [
+            {
+              "x": 594,
+              "y": 722,
+              "richtung": "NORDEN"
+            }
+          ],
+          "positionX": 518,
+          "positionY": 722,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "ROT"
+        }
+      ]
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 256
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 896,
+        "positionY": 384
+      },
+      [
+        {
+          "geschwindigkeit": 5,
+          "richtung": "OSTEN",
+          "wendepunkte": [],
+          "positionX": 905,
+          "positionY": 466,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "BLAU"
+        },
+        {
+          "geschwindigkeit": 4,
+          "richtung": "WESTEN",
+          "wendepunkte": [],
+          "positionX": 967,
+          "positionY": 430,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "BLAU"
+        }
+      ]
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 128
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 768,
+        "positionY": 128
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 640,
+        "positionY": 640
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 1152,
+        "positionY": 384
+      },
+      [
+        {
+          "geschwindigkeit": 7,
+          "richtung": "OSTEN",
+          "wendepunkte": [],
+          "positionX": 1241,
+          "positionY": 466,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "POLIZEI"
+        }
+      ]
+    ],
+    [
+      {
+        "positionX": 1152,
+        "positionY": 640
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 640
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 384
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 128
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 896,
+        "positionY": 640
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 256
+      },
+      [
+        {
+          "geschwindigkeit": 8,
+          "richtung": "NORDEN",
+          "wendepunkte": [],
+          "positionX": 1106,
+          "positionY": 259,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "POLIZEI"
+        }
+      ]
+    ],
+    [
+      {
+        "positionX": 1024,
+        "positionY": 512
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 1536,
+        "positionY": 640
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 1408,
+        "positionY": 640
+      },
+      [
+        {
+          "geschwindigkeit": 3,
+          "richtung": "WESTEN",
+          "wendepunkte": [],
+          "positionX": 1417,
+          "positionY": 686,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "ROT"
+        },
+        {
+          "geschwindigkeit": 7,
+          "richtung": "OSTEN",
+          "wendepunkte": [],
+          "positionX": 1443,
+          "positionY": 722,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "BLAU"
+        }
+      ]
+    ],
+    [
+      {
+        "positionX": 128,
+        "positionY": 640
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 384,
+        "positionY": 640
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 256,
+        "positionY": 640
+      },
+      [
+        {
+          "geschwindigkeit": 4,
+          "richtung": "WESTEN",
+          "wendepunkte": [],
+          "positionX": 343,
+          "positionY": 686,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "POLIZEI"
+        }
+      ]
+    ],
+    [
+      {
+        "positionX": 768,
+        "positionY": 640
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 896,
+        "positionY": 128
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 512
+      },
+      []
+    ],
+    [
+      {
+        "positionX": 512,
+        "positionY": 384
+      },
+      [
+        {
+          "geschwindigkeit": 4,
+          "richtung": "SUEDEN",
+          "wendepunkte": [],
+          "positionX": 558,
+          "positionY": 437,
+          "breite": 32,
+          "laenge": 32,
+          "autoModell": "BLAU"
+        }
+      ]
+    ],
+    [
+      {
+        "positionX": 1280,
+        "positionY": 640
+      },
+      []
+    ]
+  ],
+  "simuliert": false,
+  "name": "17.json"
+}
