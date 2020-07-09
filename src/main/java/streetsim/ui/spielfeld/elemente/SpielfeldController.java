@@ -75,8 +75,10 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         autos.addListener((ListChangeListener<Auto>) change -> {
             if (change.next() && change.wasAdded()) {
+                System.out.println("new car");
                 autoAdden(autos.get(change.getFrom()));
             } else if (change.wasRemoved()) {
+                System.out.println("car weg");
                 entfAuto(change.getRemoved().toArray(Auto[]::new));
             }
         });
@@ -91,12 +93,11 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      */
     public void autoAdden(Auto a) {
 
-        AutoView av = new AutoView(AutoModelle.valueOf(a.getAutoModell().toString()).getView());
+        AutoView av = new AutoView(AutoModelle.valueOf(a.getAutoModell().name()).getView());
+        av.setLayoutX(a.getPositionX() - (double) a.getBreite() / 2);
+        av.setLayoutY(a.getPositionY() - (double) a.getLaenge() / 2);
         AutoController ac = new AutoController(a, av);
         autoController.put(a, ac);
-
-        ac.getRootView().setLayoutX(a.getPositionX() - (double) a.getBreite() / 2);
-        ac.getRootView().setLayoutY(a.getPositionY() - (double) a.getLaenge() / 2);
 
         ((SpielfeldView) rootView).addAmpelOderAuto(ac.getRootView());
     }
@@ -212,9 +213,12 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
     private void init() {
         for (Strassenabschnitt s : abschnitte.values()) {
             strasseAdden(s);
-            //TODO: Autos adden
         }
         nameAnpassen(netz.getName());
+
+        for (Auto a : netz.getAutoList()) {
+            autoAdden(a);
+        }
     }
 
     private void nameAnpassen(String newValue) {

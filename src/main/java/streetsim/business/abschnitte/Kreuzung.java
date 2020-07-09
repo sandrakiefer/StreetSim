@@ -21,4 +21,8 @@ public class Kreuzung extends Strassenabschnitt {
         return Arrays.asList(Himmelsrichtung.values());
     }
 
+    @Override
+    public String toString() {
+        return "Kreuzung" + super.toString();
+    }
 }

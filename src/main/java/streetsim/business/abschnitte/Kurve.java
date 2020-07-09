@@ -21,4 +21,9 @@ public class Kurve extends Strassenabschnitt {
         return Arrays.asList(Himmelsrichtung.OSTEN, Himmelsrichtung.SUEDEN);
     }
 
+    @Override
+    public String toString() {
+        return "Kurve" + super.toString();
+    }
+
 }
