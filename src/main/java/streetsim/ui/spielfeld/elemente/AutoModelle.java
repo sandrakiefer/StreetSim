@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Definiert die möglichen Auto Modelle
+ */
 public enum AutoModelle {
 
     BLAU(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "blauesAuto.png")), Auto.AutoModell.BLAU),
@@ -19,6 +22,7 @@ public enum AutoModelle {
     AutoModelle(Image img, Auto.AutoModell autoModell) {
         view = new AutoView(img, autoModell);
     }
+
 
     public AutoView getView() {
         return view;

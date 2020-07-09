@@ -7,6 +7,9 @@ import streetsim.business.Ampel;
 import streetsim.ui.spielfeld.AbstractModelController;
 import streetsim.ui.utils.ResourceAssist;
 
+/**
+ * Verwaltung von Aktionen von einer Ampel 
+ */
 public class AmpelController extends AbstractModelController<Ampel> {
     ResourceAssist assist = ResourceAssist.getInstance();
     Image ampelRot = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelRot.png"));
@@ -14,11 +17,6 @@ public class AmpelController extends AbstractModelController<Ampel> {
     Image ampelRotGelb = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelRotGelb.png"));
     Image ampelGruen = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelGruen.png"));
 
-    /**
-     *
-     * @param model
-     * @param rootView
-     */
     public AmpelController(Ampel model, ImageView rootView) {
         super(model, rootView);
         ausrichtung();
@@ -27,7 +25,7 @@ public class AmpelController extends AbstractModelController<Ampel> {
     }
 
     /**
-     *
+     * setzt die endgültige X Koordinate für Ampel fest
      * @param absolutePosX
      */
     public void setAbsolutePosX(double absolutePosX) {
@@ -35,7 +33,7 @@ public class AmpelController extends AbstractModelController<Ampel> {
     }
 
     /**
-     *
+     * Setzt die endgültige Y Koordinate für Ampel fest
      * @param absolutePosY
      */
     public void setAbsolutePosY(double absolutePosY) {

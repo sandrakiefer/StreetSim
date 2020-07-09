@@ -54,11 +54,16 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
-
+        /**
+         * setzt den Namen der Strasseninstanz
+         */
         netz.nameProperty().addListener((observable, oldValue, newValue) -> {
             nameAnpassen(newValue);
         });
 
+        /**
+         * wird beim Hinzufügen und Entfernen von Strassenabschnitten angestossen und passt die View an
+         */
         abschnitte.addListener((MapChangeListener<Position, Strassenabschnitt>) change -> {
             if (change.wasAdded()) {
                 Strassenabschnitt s = change.getValueAdded();
@@ -73,6 +78,9 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView) rootView).setHoehe(app.getHauptStage().getHeight()));
 
+        /**
+         * wird beim Hinzufügen und Entfernen von autos angestossenund passt die View an
+         */
         autos.addListener((ListChangeListener<Auto>) change -> {
             if (change.next() && change.wasAdded()) {
                 autoAdden(autos.get(change.getFrom()));

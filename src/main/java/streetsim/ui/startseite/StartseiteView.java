@@ -17,14 +17,18 @@ public class StartseiteView extends BorderPane {
 
         // Erste Ansicht
         fortfahren = new Button("Drücke eine beliebige Taste um fortzufahren");
+        fortfahren.setId("startbuttons");
         fortfahrPane = new VBox();
         fortfahrPane.setAlignment(Pos.CENTER);
         fortfahrPane.getChildren().add(fortfahren);
 
         // Zweite Ansicht
         starten = new Button("Neues Spiel starten");
+        starten.setId("startbuttons");
         laden = new Button("Spiel laden");
+        laden.setId("startbuttons");
         startPane = new VBox();
+        startPane.setId("abstand");
         startPane.getChildren().addAll(starten, laden);
         startPane.setAlignment(Pos.CENTER);
 

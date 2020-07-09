@@ -19,6 +19,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Verwaltung von Aktionen aller Strassen
+ */
 public class StrassenController extends AbstractModelController<Strassenabschnitt> {
 
     HashMap<Ampel, AmpelController> alleAmpeln;
@@ -33,11 +36,14 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
 
     @Override
     public void handlerAnmelden() {
-        //TODO: platform run later entfernt muss vielleicht wieder rein
+
         model.positionXProperty().addListener(c -> rootView.setLayoutX(model.getPositionX()));
         model.positionYProperty().addListener(c -> rootView.setLayoutY(model.getPositionY()));
 
-        //TODO: platform run later entfernt muss vielleicht wieder rein
+        /**
+         * meldet für alle Ampeln des Straßenabschnitt einen Listener an der die endgültige Position der Ampel setzt
+         * wenn sich die relative Position verändert zb. beim rotieren oder verschieben
+         */
         model.getAmpeln().forEach(f -> {
             f.getRelPosX().addListener(change -> {
                 alleAmpeln.get(f).setAbsolutePosX(model.getPositionX() + f.getRelPosX().intValue());
@@ -48,10 +54,17 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
             });
         });
 
+        /**
+         * wird angestossen wenn der Strassenabschnitt rotiert wird und rotiert dementschprechend die dazu-
+         * gehörigen Ampeln
+         */
         model.rotiertCounterProperty().addListener((observable, oldValue, newValue) -> {
             rootView.setRotate(rootView.getRotate() + 90);
         });
 
+        /**
+         * wird angestossen sobald die Ampeln für den Strassenabschnitt eingeschaltet wurden
+         */
         model.ampelAktivProperty().addListener(c -> {
             if (!model.ampelAktivProperty().getValue()) {
                 getAlleAmpeln().forEach(a -> a.getRootView().setVisible(false));
@@ -61,6 +74,9 @@ public class StrassenController extends AbstractModelController<Strassenabschnit
         });
     }
 
+    /**
+     * Beim Initialisieren des Strassenabschnitts werden ebenfalls die dazugehörigen Ampeln initialisiert
+     */
     public void initAmpelPos() {
         model.getAmpeln().forEach(f -> {
             AmpelView ampelView = new AmpelView();

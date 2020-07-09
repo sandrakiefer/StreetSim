@@ -87,11 +87,19 @@ public class MenueController extends AbstractController<StreetSimApp> {
         });
     }
 
+    /**
+     * setzt die breite der View auf 0
+     * und aktualisiert die Property breite
+     */
     public void setWidthOnHide(){
         rootView.setPrefWidth(0);
         breite.set(0);
     }
 
+    /**
+     * setzt die breite der View auf die originale größe
+     * und aktualisiert die Property breite
+     */
     public void setWidthOnShow(){
         rootView.setPrefWidth(ogBreite);
         breite.set(ogBreite);
