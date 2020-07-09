@@ -85,7 +85,9 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
-
+        /**
+         *
+         */
         rootView.setOnDragDetected(e -> {
             if(e.getX() >= (app.getHauptStage().getWidth() - menView.getWidth()) && !menView.isVisible() ||
                 e.getX() < (app.getHauptStage().getWidth() - menView.getWidth())) {
@@ -122,7 +124,9 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                 }
             }
         });
-
+        /**
+         * Für Strassenabschnitt/Ampeln/Auto wird überprüft ob an aktueller Position gedropped werden darf
+         */
         rootView.setOnDragOver(event -> {
             hideMenu();
 
@@ -158,7 +162,12 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             event.consume();
             showMenu();
         });
-
+        /**
+         * wird beim Droppen von einem Strassenabschnitt/Ampel/Auto angestoßen
+         * Strassenabschnitt: Es wird über die dataString im Dragboard zwischen den einzelnen Abschnitten unterschieden und dem Netz hinzugefügt
+         * Ampeln: Die Ampeln auf dem Strassenabschnitt werden aktiviert und angezeigt
+         * Autos: Das Auto wird dem Strassenabschnitt hinzugefügt und im Netz aktiviert sowie angezeigt (überprüfung ob Strassenabschnitt und Auto an Position existieren)
+         */
         rootView.setOnDragDropped(event -> {
             showMenu();
             Dragboard dragboard = event.getDragboard();
@@ -219,6 +228,11 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
         });
 
+        /**
+         * bei einem rechtsklick wird überprüft ob sich die Maus über einem Strassenabschnitt und/oder Auto befindet
+         * Strassenabschnitt: Es wird das Overlay für den angeklickten Strassenabschnitt aktiviert und angezeigt (für Auto deaktiviert)
+         * Auto: Es wird das Overlay für den angeklickten Strassenabschnitt aktiviert und angezeigt (für Strassenabschnitt deaktiviert)
+         */
         rootView.setOnMouseClicked(e -> {
             if (e.getButton().equals(MouseButton.SECONDARY) && !netz.isSimuliert()) {
                 double x = e.getX();
