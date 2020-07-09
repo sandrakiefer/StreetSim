@@ -22,28 +22,6 @@ import java.util.List;
  */
 public class MenueController extends AbstractController<StreetSimApp> {
 
-//    enum AutoModelle {
-//
-//        BLAU(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "blauesAuto.png")), Auto.AutoModell.BLAU),
-//        POLIZEI(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "polizeiAuto.png")), Auto.AutoModell.POLIZEI),
-//        ROT(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "autos", "rotesAuto.png")), Auto.AutoModell.ROT);
-//
-//        private final AutoView view;
-//
-//        AutoModelle(Image img, Auto.AutoModell autoModell) {
-//            view = new AutoView(img, autoModell);
-//        }
-//
-//        public AutoView getView() {
-//            return view;
-//        }
-//
-//        public static List<AutoView> getAllViews() {
-//            return Arrays.stream(AutoModelle.values()).map(AutoModelle::getView).collect(Collectors.toList());
-//        }
-//    }
-
-
     GeradeView gerade;
     KreuzungView kreuzung;
     KurveView kurve;
@@ -73,6 +51,10 @@ public class MenueController extends AbstractController<StreetSimApp> {
         handlerAnmelden();
     }
 
+    /**
+     * meldet für alle views ein Drag Detected event an
+     * und übergibt dem Dragboard den Namen der ausgewählten View als String mit und setzt die DragView zu dem Image der View
+     */
     @Override
     public void handlerAnmelden() {
         alleViews.forEach(e -> {
