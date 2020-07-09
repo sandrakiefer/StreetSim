@@ -41,7 +41,8 @@ public class StreetSimApp extends Application {
         //TODO: fixe groesse
         this.hauptStage = primaryStage;
         this.hauptStage.setTitle("StreetSim");
-        //        this.hauptStage.setFullScreen(true);
+        this.hauptStage.setFullScreen(true);
+        this.hauptStage.setResizable(false);
         this.hauptStage.setHeight(HOEHE);
         this.hauptStage.setWidth(BREITE);
 
