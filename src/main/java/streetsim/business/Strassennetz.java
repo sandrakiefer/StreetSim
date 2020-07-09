@@ -101,7 +101,6 @@ public class Strassennetz {
                 instance.autos.put(p, new ArrayList<>());
             }
             if (instance.posBelegt(a)) {
-                //TODO: Auto an nächstmöglicher Position ablegen @UI @Logik? (optional)
                 throw new SchonBelegtException();
             } else {
                 instance.autos.get(p).add(a);
@@ -367,8 +366,6 @@ public class Strassennetz {
                     }
                 } else {
                     Thread.currentThread().interrupt();
-                    // TODO: Jan brauchen wir das? bin mir nicht sicher (Jungs meinen nein)
-                    // instance.alleAmpelnDeaktivieren();
                 }
             }
         }).start();
