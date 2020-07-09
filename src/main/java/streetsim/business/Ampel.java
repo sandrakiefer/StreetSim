@@ -30,7 +30,7 @@ public class Ampel {
         gelb = new SimpleBooleanProperty(false);
         gruen = new SimpleBooleanProperty(false);
     }
-    //:TODO Schaltung nochmal überprüfen/reihenfolge der einzelnen Zustände wichtig für UI
+
     /**
      * Schaltung zwischen den verschiedenen Ampelphasen
      * rot -> rot und gelb -> gruen -> gelb -> rot
