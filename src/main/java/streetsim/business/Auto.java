@@ -368,6 +368,10 @@ public class Auto {
         this.geschwindigkeit = Math.min(Math.round(geschwindigkeitsfaktor * MAXGESCHWINDIGKEIT), MAXGESCHWINDIGKEIT);
     }
 
+    public float getGeschwindigkeitsfaktor() {
+        return (this.geschwindigkeit * 1.0f) / MAXGESCHWINDIGKEIT;
+    }
+
     public Himmelsrichtung getRichtung() {
         return richtung.get();
     }
