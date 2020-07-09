@@ -1,11 +1,9 @@
 package streetsim.business;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.shape.Rectangle;
-import org.w3c.dom.css.Rect;
 
 import java.util.*;
 
@@ -460,4 +458,5 @@ public class Auto {
     public Auto.AutoModell getAutoModell(){
         return this.autoModell;
     }
+
 }

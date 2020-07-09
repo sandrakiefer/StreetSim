@@ -169,4 +169,5 @@ public class Ampel {
     public SimpleObjectProperty<Himmelsrichtung> richtungProperty() {
         return richtung;
     }
+
 }

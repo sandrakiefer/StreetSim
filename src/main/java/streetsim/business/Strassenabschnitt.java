@@ -153,4 +153,5 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
     public SimpleIntegerProperty rotiertCounterProperty() {
         return rotiertCounter;
     }
+
 }
