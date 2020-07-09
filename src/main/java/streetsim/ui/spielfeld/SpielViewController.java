@@ -1,6 +1,7 @@
 package streetsim.ui.spielfeld;
 
 import com.google.gson.Gson;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -87,15 +88,13 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
 
         rootView.setOnDragDetected(e -> {
-            if(e.getX() >= (app.getHauptStage().getWidth() - menView.getWidth()) && !menView.isVisible() ||
+            if (e.getX() >= (app.getHauptStage().getWidth() - menView.getWidth()) && !menView.isVisible() ||
                 e.getX() < (app.getHauptStage().getWidth() - menView.getWidth())) {
                 if (!netz.isSimuliert()) {
-                    hideMenu();
                     Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
 
 
                     if (s != null) {
-
                         Dragboard dragboard = rootView.startDragAndDrop(TransferMode.MOVE);
                         ClipboardContent content = new ClipboardContent();
                         Gson gson = FxGson.coreBuilder().registerTypeAdapter(Strassenabschnitt.class, StrassenAdapter.getInstance())
@@ -124,7 +123,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         });
 
         rootView.setOnDragOver(event -> {
-            hideMenu();
 
             boolean dropSupported = true;
             Dragboard dragboard = event.getDragboard();
@@ -156,11 +154,9 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
             }
             event.consume();
-            showMenu();
         });
 
         rootView.setOnDragDropped(event -> {
-            showMenu();
             Dragboard dragboard = event.getDragboard();
             if (dragboard.hasString()) {
                 String dataString = dragboard.getString();
@@ -216,7 +212,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             event.setDropCompleted(true);
             event.consume();
 
-
         });
 
         rootView.setOnMouseClicked(e -> {
@@ -226,11 +221,11 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                 Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));
                 if (s != null) {
                     Position p = new Position((int) Math.round(x), (int) Math.round(y));
-                    if(spielfeldCon.getAutoMap().containsKey(p)) {
+                    if (spielfeldCon.getAutoMap().containsKey(p)) {
                         for (Auto a : spielfeldCon.getAutoMap().get(p)) {
 //                        überprüfen ob rechtsklick innerhalb des Autos geschehen ist um Auto Overlay zu aktivieren
                             if ((x < a.getPositionX() + (double) a.getBreite() / 2 && x > a.getPositionX() - (double) a.getBreite() / 2)
-                                    && (y > a.getPositionY() - (double) a.getLaenge() / 2 && y < a.getPositionY() + (double) a.getLaenge() / 2)) {
+                                && (y > a.getPositionY() - (double) a.getLaenge() / 2 && y < a.getPositionY() + (double) a.getLaenge() / 2)) {
                                 overlayController.setAutoPosition(a.getPositionX(), a.getPositionY());
                                 overlayController.enableAuto();
                                 overlayController.aktAuto(a);
@@ -260,18 +255,23 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             if (newValue) hideMenu();
             else showMenu();
         });
+
+        rootView.setOnDragEntered(e -> hideMenu());
+        rootView.setOnDragExited(e -> showMenu());
     }
 
-    private void showMenu(){
-        hamburger.setId("menu-cross");
-        menView.setVisible(true);
-        menCon.setWidthOnShow();
+    private void showMenu() {
+        Platform.runLater(() -> {
+            hamburger.setId("menu-cross");
+            menView.setVisible(true);
+        });
     }
 
-    private void hideMenu(){
-        hamburger.setId("menu-stripes");
-        menView.setVisible(false);
-        menCon.setWidthOnHide();
+    private void hideMenu() {
+        Platform.runLater(() -> {
+            hamburger.setId("menu-stripes");
+            menView.setVisible(false);
+        });
     }
 
 }
