@@ -7,15 +7,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-import java.util.Stack;
-
-public class SpielfeldView extends StackPane {
+class SpielfeldView extends StackPane {
 
     Pane abschnitte;
     Pane autosUndAmpeln;
     Label name;
 
-    public SpielfeldView() {
+    SpielfeldView() {
         super();
         abschnitte = new Pane();
         autosUndAmpeln = new Pane();
@@ -26,30 +24,30 @@ public class SpielfeldView extends StackPane {
 
     }
 
-    public void addAbschnitt(ImageView imageView) {
+    void addAbschnitt(ImageView imageView) {
         abschnitte.getChildren().addAll(imageView);
     }
 
-    public void entferneAbschnitt(ImageView imageView) {
+    void entferneAbschnitt(ImageView imageView) {
         abschnitte.getChildren().remove(imageView);
     }
 
-    public void addAmpelOderAuto(ImageView imageView) {
+    void addAmpelOderAuto(ImageView imageView) {
         autosUndAmpeln.getChildren().addAll(imageView);
     }
 
-    public void entferneAmpelOderAuto(ImageView imageView) {
+    void entferneAmpelOderAuto(ImageView imageView) {
         autosUndAmpeln.getChildren().remove(imageView);
     }
 
-    public void setBreite(double breite) {
+    void setBreite(double breite) {
         Platform.runLater(() -> {
             abschnitte.setPrefWidth(breite);
             autosUndAmpeln.setPrefWidth(breite);
         });
     }
 
-    public void setHoehe(double hoehe) {
+    void setHoehe(double hoehe) {
         Platform.runLater(() -> {
             abschnitte.setPrefHeight(hoehe);
             autosUndAmpeln.setPrefHeight(hoehe);

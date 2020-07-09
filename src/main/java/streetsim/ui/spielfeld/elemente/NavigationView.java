@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import streetsim.ui.utils.StyleAssist;
 
 class NavigationView extends HBox {

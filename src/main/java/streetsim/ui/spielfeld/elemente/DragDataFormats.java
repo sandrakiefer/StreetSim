@@ -2,8 +2,10 @@ package streetsim.ui.spielfeld.elemente;
 
 import javafx.scene.input.DataFormat;
 
-import java.util.List;
-
+/**
+ * Konstanten, die für Drag and Drop Aktionen den Inhalt des
+ * {@link javafx.scene.input.Dragboard}s festlegt.
+ */
 public class DragDataFormats {
 
     public static final String GERADE_FORMAT ="GERADE";

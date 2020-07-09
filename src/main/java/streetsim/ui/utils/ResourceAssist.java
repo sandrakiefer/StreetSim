@@ -1,6 +1,5 @@
 package streetsim.ui.utils;
 
-import java.io.File;
 import java.io.InputStream;
 
 /**
@@ -20,7 +19,7 @@ public class ResourceAssist {
     }
 
     /**
-     * Eine Methode, die aus einzelnen Subfoldern einen Betriebssystemabhängigen Pfad
+     * Eine Methode, die aus einzelnen Subfoldern Pfad
      * korrekt zusammenbaut und die gewünschte Ressource als InputStream zurückgibt.
      *
      * Beispiel:
@@ -29,8 +28,6 @@ public class ResourceAssist {
      * <code>
      *     resourceAssistInstance.holeRessourceAusOrdnern("assets", "icons", "foto.png");
      * </code>
-     * (erzeugt unter Windows entsprechend intern "assets\icons\foto.png")
-     *
      *
      * @param pfadteile einzelne Ordner des Pfades
      * @return InputStream

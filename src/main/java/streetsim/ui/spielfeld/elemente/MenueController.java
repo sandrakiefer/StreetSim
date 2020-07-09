@@ -1,6 +1,5 @@
 package streetsim.ui.spielfeld.elemente;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -19,35 +18,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Verwaltung von Aktionen im Menü
+ * Controller für Aktionen im Seitenmenü.
+ *
+ * {@inheritDoc}
  */
 public class MenueController extends AbstractController<StreetSimApp> {
 
-    GeradeView gerade;
-    KreuzungView kreuzung;
-    KurveView kurve;
-    TStueckView tstueck;
-    List<AutoView> autoViews;
-    List<ImageView> alleViews;
-    AmpelView ampelView;
+    private final List<ImageView> alleViews;
 
-    private double ogBreite;
-    private static SimpleDoubleProperty breite = new SimpleDoubleProperty();
-
+    /**
+     * {@inheritDoc}
+     */
     public MenueController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
 
         rootView = new MenueView(AutoModelle.getAllViews());
 
-        breite.set(rootView.getPrefWidth());
-
-        ogBreite = rootView.getWidth();
-        gerade = ((MenueView) rootView).gerade;
-        kreuzung = ((MenueView) rootView).kreuzung;
-        kurve = ((MenueView) rootView).kurve;
-        tstueck = ((MenueView) rootView).tstueck;
-        autoViews = ((MenueView) rootView).autoViews;
-        ampelView = ((MenueView) rootView).ampelView;
+        GeradeView gerade = ((MenueView) rootView).gerade;
+        KreuzungView kreuzung = ((MenueView) rootView).kreuzung;
+        KurveView kurve = ((MenueView) rootView).kurve;
+        TStueckView tstueck = ((MenueView) rootView).tstueck;
+        List<AutoView> autoViews = ((MenueView) rootView).autoViews;
+        AmpelView ampelView = ((MenueView) rootView).ampelView;
         ampelView.setImage(new Image(ResourceAssist.getInstance().holeRessourceAusOrdnern("assets", "ampeln", "ampelRotGelb.png")));
 
         List<ImageView> viewList = List.of(gerade, kreuzung, kurve, tstueck, ampelView);
@@ -59,53 +51,31 @@ public class MenueController extends AbstractController<StreetSimApp> {
     }
 
     /**
-     * meldet für alle views ein Drag Detected event an
-     * und übergibt dem Dragboard den Namen der ausgewählten View als String mit und setzt die DragView zu dem Image der View
+     * Meldet für alle views ein DragDetected-Event an
+     * und übergibt dem {@link Dragboard} den Namen der ausgewählten View als String mit
+     * und setzt die DragView zu dem Image der View.
      */
     @Override
     public void handlerAnmelden() {
-        alleViews.forEach(e -> {
-            e.setOnDragDetected(event -> {
+        alleViews.forEach(e -> e.setOnDragDetected(event -> {
 
-                Dragboard dragboard = e.startDragAndDrop(TransferMode.COPY);
+            Dragboard dragboard = e.startDragAndDrop(TransferMode.COPY);
 
-                ClipboardContent content = new ClipboardContent();
+            ClipboardContent content = new ClipboardContent();
 
-                String df;
-                if (e instanceof GeradeView) df = DragDataFormats.GERADE_FORMAT;
-                else if (e instanceof KreuzungView) df = DragDataFormats.KREUZUNG_FORMAT;
-                else if (e instanceof KurveView) df = DragDataFormats.KURVE_FORMAT;
-                else if (e instanceof TStueckView) df = DragDataFormats.TSTUECK_FORMAT;
-                else if (e instanceof AmpelView) df = DragDataFormats.AMPEL_FORMAT;
-                else df = ((AutoView) e).getAutoModell().name();
+            String df;
+            if (e instanceof GeradeView) df = DragDataFormats.GERADE_FORMAT;
+            else if (e instanceof KreuzungView) df = DragDataFormats.KREUZUNG_FORMAT;
+            else if (e instanceof KurveView) df = DragDataFormats.KURVE_FORMAT;
+            else if (e instanceof TStueckView) df = DragDataFormats.TSTUECK_FORMAT;
+            else if (e instanceof AmpelView) df = DragDataFormats.AMPEL_FORMAT;
+            else df = ((AutoView) e).getAutoModell().name();
 
-                dragboard.setDragView(e.getImage());
-                content.putString(df);
-                dragboard.setContent(content);
+            dragboard.setDragView(e.getImage());
+            content.putString(df);
+            dragboard.setContent(content);
 
-            });
-        });
+        }));
     }
 
-    /**
-     * setzt die breite der View auf 0
-     * und aktualisiert die Property breite
-     */
-    public void setWidthOnHide(){
-        rootView.setPrefWidth(0);
-        breite.set(0);
-    }
-
-    /**
-     * setzt die breite der View auf die originale größe
-     * und aktualisiert die Property breite
-     */
-    public void setWidthOnShow(){
-        rootView.setPrefWidth(ogBreite);
-        breite.set(ogBreite);
-    }
-
-    public static double getBreite(){
-        return breite.doubleValue();
-    }
 }

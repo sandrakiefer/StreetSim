@@ -1,15 +1,16 @@
 package streetsim.ui.spielfeld.elemente;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import streetsim.business.Ampel;
 import streetsim.business.Strassenabschnitt;
 import streetsim.ui.utils.ResourceAssist;
-import streetsim.ui.utils.StyleAssist;
 
 class OverlayView extends Pane {
 

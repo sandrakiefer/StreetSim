@@ -4,8 +4,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import streetsim.ui.utils.ResourceAssist;
 
+/**
+ * Ein View Container für Geraden
+ */
 public class GeradeView extends ImageView {
 
+    /**
+     * Konstruktor, welcher ein vordefiniertes Bild lädt.
+     */
     public GeradeView(){
         super();
 

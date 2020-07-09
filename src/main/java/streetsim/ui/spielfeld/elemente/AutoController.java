@@ -1,16 +1,19 @@
 package streetsim.ui.spielfeld.elemente;
 
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import streetsim.business.Auto;
 import streetsim.ui.spielfeld.AbstractModelController;
-import streetsim.ui.utils.ResourceAssist;
 
-import java.awt.*;
-
+/**
+ * Controller für Autos.
+ *
+ * {@inheritDoc}
+ */
 public class AutoController extends AbstractModelController<Auto> {
 
+    /**
+     * {@inheritDoc}
+     */
     public AutoController(Auto model, ImageView rootView) {
         super(model, rootView);
 
@@ -18,6 +21,9 @@ public class AutoController extends AbstractModelController<Auto> {
         handlerAnmelden();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handlerAnmelden() {
         model.positionXProperty().addListener(c -> rootView.setLayoutX(model.getPositionX() - (double) model.getBreite()/2));
