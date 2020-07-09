@@ -7,27 +7,27 @@
 
 #play {
   -fx-shape: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z";
-  -fx-background-color: white;
+  -fx-background-color: #FFFFFF;
 }
 
 #pause {
   -fx-shape: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z";
-  -fx-background-color: white;
+  -fx-background-color: #778899;
 }
 
 #delete {
   -fx-shape: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z";
-  -fx-background-color: lightslategrey;
+  -fx-background-color: #778899;
 }
 
 #save {
   -fx-shape: "M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z";
-  -fx-background-color: lightslategrey;
+  -fx-background-color: #778899;
 }
 
 #exit {
   -fx-shape: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z";
-  -fx-background-color: red;
+  -fx-background-color: #bf0000;
 }
 
 .menu-button > .arrow-button {
@@ -50,29 +50,23 @@
 
 #menu-stripes {
   -fx-shape: "M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z";
-  -fx-background-color: lightslategrey;
+  -fx-background-color: #778899;
 }
 
 #menu-cross {
   -fx-shape: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z";
-  -fx-background-color: lightslategrey;
+  -fx-background-color: #778899;
 }
 
 .menu {
-  -fx-background-color: white;
+  -fx-background-color: #FFFFFF;
 }
 
-#startbuttons {
-  -fx-background-color: #2f6cb9;
-  -fx-text-fill: white;
-  -fx-font-weight: bold;
-  -fx-padding: 10 10 10 10;
-  -fx-border-radius: 0;
-}
-
-#abstand {
-  -fx-spacing: 10;
-  -fx-padding: 10;
+.navbtn {
+  -fx-min-height: 24pt;
+  -fx-min-width: 24pt;
+  -fx-max-height: 24pt;
+  -fx-max-width: 24pt;
 }
 
 #text1 {
@@ -89,6 +83,19 @@
 
 #menu-controls {
   -fx-padding: 10 10 0 0;
+}
+
+#startbuttons {
+  -fx-background-color: #2f6cb9;
+  -fx-text-fill: #FFFFFF;
+  -fx-font-weight: bold;
+  -fx-padding: 10 10 10 10;
+  -fx-border-radius: 0;
+}
+
+#abstand {
+  -fx-spacing: 10;
+  -fx-padding: 10;
 }
 
 /*# sourceMappingURL=style.css.map */

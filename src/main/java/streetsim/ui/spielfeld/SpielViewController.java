@@ -79,6 +79,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         hamburger.setAlignment(Pos.TOP_RIGHT);
         hamburgerPadding.setAlignment(Pos.TOP_RIGHT);
         hamburgerPadding.getChildren().add(hamburger);
+        hamburgerPadding.setMaxSize(hamburger.getWidth(), hamburger.getHeight());
 
         StackPane menStack = new StackPane();
         menStack.getChildren().addAll(menView, hamburgerPadding);
