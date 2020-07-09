@@ -46,7 +46,6 @@ public class InfoController extends AbstractController<StreetSimApp> {
      * @param info Warntext, der angezeigt wird
      */
     public void zeige(String info) {
-        System.out.println(info);
         nachricht.setText(info);
 
         popup = popAssist.createPopUp(rootView, app.getHauptStage());
