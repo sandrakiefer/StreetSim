@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import org.hildan.fxgson.FxGson;
 import streetsim.business.*;
 import streetsim.business.abschnitte.Gerade;
@@ -86,9 +88,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
     @Override
     public void handlerAnmelden() {
-        /**
-         *
-         */
+
         rootView.setOnDragDetected(e -> {
             if (e.getX() >= (app.getHauptStage().getWidth() - menView.getWidth()) && !menView.isVisible() ||
                 e.getX() < (app.getHauptStage().getWidth() - menView.getWidth())) {
@@ -115,7 +115,10 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         for (int i = 0; i < s.getRotiertCounter(); i++) {
                             imageView.setRotate(imageView.getRotate() + 90);
                         }
-                        Image img = imageView.snapshot(null, null);
+                        SnapshotParameters sp = new SnapshotParameters();
+                        sp.setFill(Color.TRANSPARENT);
+
+                        Image img = imageView.snapshot(sp, null);
 
                         dragboard.setDragView(img);
                         dragboard.setContent(content);
