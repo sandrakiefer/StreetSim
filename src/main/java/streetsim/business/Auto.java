@@ -137,27 +137,14 @@ public class Auto {
         if (autoKollision(p, newR)) {
             return;
         }
-        // TODO
-        // falls Front des Autos in nächsten Abschnitt reinragt
-        int vorneX = positionX.get() + richtung.get().getX() * ((laenge / 2) + geschwindigkeit);
-        int vorneY = positionY.get() + richtung.get().getY() * ((laenge / 2) + geschwindigkeit);
+        // falls Front des Autos in nächsten Abschnitt reinragt (Kollisionscheck Handover)
+        int vorneX = positionX.get() + richtung.get().getX() * laenge;
+        int vorneY = positionY.get() + richtung.get().getY() * laenge;
         Position vorneP = new Position(vorneX, vorneY);
-        newR.setX(newR.getX() + (richtung.get().getX() * laenge/2));
-        newR.setY(newR.getY() + (richtung.get().getX() * laenge/2));
+        //newR.setX(newR.getX() + (richtung.get().getX() * laenge/2));
+        //newR.setY(newR.getY() + (richtung.get().getX() * laenge/2));
         if (!vorneP.equals(p)) {
             if (autoKollision(vorneP, newR)) {
-                return;
-            }
-        }
-        // TODO
-        // falls Heck des Autos in nächsten Abschnitt reinragt
-        int hintenX = positionX.get() - richtung.get().getX() * ((laenge / 2) - geschwindigkeit);
-        int hintenY = positionY.get() - richtung.get().getY() * ((laenge / 2) - geschwindigkeit);
-        Position hintenP = new Position(hintenX, hintenY);
-        newR.setX(newR.getX() - (richtung.get().getX() * laenge));
-        newR.setY(newR.getY() - (richtung.get().getY() * laenge));
-        if (!hintenP.equals(p)) {
-            if (autoKollision(hintenP, newR)) {
                 return;
             }
         }
