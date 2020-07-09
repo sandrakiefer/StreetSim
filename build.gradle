@@ -14,9 +14,24 @@ plugins {
 }
 
 mainClassName = 'streetsim.ui.StreetSimApp'
+/*
 run {
-    applicationDefaultJvmArgs = ['-Xmx4096m']
+    //applicationDefaultJvmArgs = ['-Xmx4096m']
+    //applicationDefaultJvmArgs = ['-Djdk.gtk.version=2']
+    System.setProperty('jdk.gtk.version', '2')
+}*/
+
+
+run {
+    jvmArgs = [
+            '-Djdk.gtk.version=2',
+    ]
 }
+/*
+compileJava {
+    options.forkOptions.jvmArgs += "-Djdk.gtk.version=2"
+}*/
+
 
 tasks.withType(JavaExec) {
     jvmArgs = ['-Xmx4096m']

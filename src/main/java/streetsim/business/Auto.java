@@ -1,5 +1,6 @@
 package streetsim.business;
 
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -209,7 +210,7 @@ public class Auto {
             Position naechsterAbschnitt = new Position(p.getPositionX() + this.richtung.get().getX() * Strassenabschnitt.GROESSE, p.getPositionY() + this.richtung.get().getY() * Strassenabschnitt.GROESSE);
             if (!(strassennetz.getAbschnitte().containsKey(naechsterAbschnitt) && strassennetz.getAbschnitte().get(naechsterAbschnitt).getRichtungen().contains(this.getRichtung().gegenueber()))) {
                 // Distanz des Wendepunkts vom Mittelpunkt
-                int wendepunktDistanz = 56;
+                int wendepunktDistanz = 60;
                 int basisX = mittelpunktX + richtung.get().getX() * wendepunktDistanz;
                 int basisY = mittelpunktY + richtung.get().getY() * wendepunktDistanz;
                 int w1x = basisX + (richtung.get().naechstes().getX() * ((breite / 2) + OFFSET));
@@ -273,7 +274,8 @@ public class Auto {
             //if (h.contains(a.getRichtung())) {
                 // Bereichsprüfung
                 int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
-                if (!a.getRichtung().equals(this.getRichtung()) && distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND - 4 && distanzBisMitte > -(Strassenabschnitt.HALTELINIENABSTAND - 4)) {
+                // TODO -6 anpassen
+                if (!a.getRichtung().equals(this.getRichtung()) && distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND - 6 && distanzBisMitte > -(Strassenabschnitt.HALTELINIENABSTAND - 6)) {
                     return true;
                 }
             //}
