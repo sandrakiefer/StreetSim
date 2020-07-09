@@ -180,17 +180,21 @@ public class Auto {
                 } else if (abbiegerichtung.equals(richtung.get().naechstes())) {
                     // links abbiegen
                     if (kreuzungBlockiert(p,mittelpunktX,mittelpunktY,List.of(richtung.get().gegenueber()))) {
+                        System.out.println("Linksabbieger an ampel kreuzung blockiert");
                         return;
                     }
                 }
             } else {
+                System.out.println("Check STVO");
                 // Abbiegerichtung beachten
                 // Rechtsabbieger dürfen immer fahren
                 if (!abbiegerichtung.equals(richtung.get().naechstes())) {
+                    System.out.println("Kein Rechtsabbieger");
                     if (abbiegerichtung.equals(richtung.get())) {
                         // gerade fahren
                         Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
                         if (kreuzungBlockiert(p, mittelpunktX, mittelpunktY, List.of(rechtsVonUns))) {
+                            System.out.println("STVO gerade fahren kreuzung blockiert");
                             return;
                         }
                     } else {
@@ -198,6 +202,7 @@ public class Auto {
                         Himmelsrichtung rechtsVonUns = richtung.get().vorheriges();
                         Himmelsrichtung gegenueberVonuns = richtung.get().gegenueber();
                         if (kreuzungBlockiert(p, mittelpunktX, mittelpunktY, List.of(rechtsVonUns, gegenueberVonuns))) {
+                            System.out.println("STVO links abbiegen kreuzung blockiert");
                             return;
                         }
                     }
@@ -270,12 +275,14 @@ public class Auto {
         if (strassennetz.getAbschnitte().get(p).getRichtungen().size() <= 2) {
             return false;
         }
+        System.out.println("Wir checken jetzt " + strassennetz.getAutos().get(p).size() + " Autos");
         for (Auto a: strassennetz.getAutos().get(p)) {
             //if (h.contains(a.getRichtung())) {
                 // Bereichsprüfung
-                int distanzBisMitte = this.distanzBisMitte(mittelpunktX, mittelpunktY);
+                int distanzBisMitte = a.distanzBisMitte(mittelpunktX, mittelpunktY);
+                System.out.println("Distanz: " + distanzBisMitte + " mittelpunkt: " + mittelpunktX + ":" + mittelpunktY + " Auto: " + this.getPositionX() + ":" + this.getPositionY());
                 // TODO -6 anpassen
-                if (!a.getRichtung().equals(this.getRichtung()) && distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND - 6 && distanzBisMitte > -(Strassenabschnitt.HALTELINIENABSTAND - 6)) {
+                if (a.getRichtung() != this.getRichtung() && distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND - 6 && distanzBisMitte > -(Strassenabschnitt.HALTELINIENABSTAND - 6)) {
                     return true;
                 }
             //}
