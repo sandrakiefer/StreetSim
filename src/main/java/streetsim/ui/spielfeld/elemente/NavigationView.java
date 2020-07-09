@@ -12,6 +12,7 @@ class NavigationView extends HBox {
 
     Button startPause, beende;
     MenuItem ampeln, autos, strassen, alles, speichern, speichernUnter;
+    MenuButton entferne;
 
     NavigationView() {
         super();
@@ -24,7 +25,7 @@ class NavigationView extends HBox {
         autos = new MenuItem("Autos zurücksetzen");
         strassen = new MenuItem("Straßen zurücksetzen");
         alles = new MenuItem("Alles zurücksetzen");
-        MenuButton entferne = new MenuButton();
+        entferne = new MenuButton();
         entferne.getItems().addAll(ampeln, autos, strassen, alles);
         entferne.setId("delete");
         entferne.setPickOnBounds(true);
