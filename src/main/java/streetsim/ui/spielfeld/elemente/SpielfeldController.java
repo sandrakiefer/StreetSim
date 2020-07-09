@@ -75,10 +75,8 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
 
         autos.addListener((ListChangeListener<Auto>) change -> {
             if (change.next() && change.wasAdded()) {
-                System.out.println("new car");
                 autoAdden(autos.get(change.getFrom()));
             } else if (change.wasRemoved()) {
-                System.out.println("car weg");
                 entfAuto(change.getRemoved().toArray(Auto[]::new));
             }
         });

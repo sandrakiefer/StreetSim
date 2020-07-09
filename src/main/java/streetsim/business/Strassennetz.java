@@ -234,7 +234,6 @@ public class Strassennetz {
                     .create();
             instance = gson.fromJson(json, Strassennetz.class);
             instance.autos.forEach((key, value) -> instance.autoList.addAll(value));
-            System.out.println(instance.abschnitte);
         } catch (IOException e) {
             throw new DateiParseException("Datei konnte nicht gelesen werden.", e);
         }

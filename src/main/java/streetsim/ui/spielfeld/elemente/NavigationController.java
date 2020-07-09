@@ -170,7 +170,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
             netz.speicherNetz(file);
             speicherStand();
         } else {
-            System.err.println("ERROR");
+            speicherNetzUnter();
         }
     }
 
