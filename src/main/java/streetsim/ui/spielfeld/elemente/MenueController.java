@@ -39,6 +39,8 @@ public class MenueController extends AbstractController<StreetSimApp> {
 
         rootView = new MenueView(AutoModelle.getAllViews());
 
+        breite.set(rootView.getPrefWidth());
+
         ogBreite = rootView.getWidth();
         gerade = ((MenueView) rootView).gerade;
         kreuzung = ((MenueView) rootView).kreuzung;

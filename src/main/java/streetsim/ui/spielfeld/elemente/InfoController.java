@@ -1,8 +1,10 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
@@ -29,28 +31,26 @@ public class InfoController extends AbstractController<StreetSimApp> {
     }
 
     public void zeige(String info) {
+        System.out.println(info);
         nachricht.setText(info);
 
         popup = popAssist.createPopUp(rootView, app.getHauptStage());
-
-        popup.setWidth(app.getHauptStage().getWidth() - rootView.getWidth() - MenueController.getBreite());
-
-        popup.initModality(Modality.NONE);
-
+        popAssist.center(popup, app.getHauptStage());
+        popup.initStyle(StageStyle.TRANSPARENT);
         popup.setAlwaysOnTop(true);
 
-        //TODO: showen, und nach timeout schliessen
         popup.show();
         new Thread(() -> {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(4000);
+                Platform.runLater(() -> {
+                    popup.close();
+                    rootView = new InfoView();
+                });
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
-        popup.close();
-//        popup.hide();
-        //TODO: integrieren und aufrufen
 
     }
 }

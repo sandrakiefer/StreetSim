@@ -6,4 +6,7 @@ package streetsim.business.exceptions;
  */
 public class KeinAbschnittException extends RuntimeException {
 
+    public KeinAbschnittException(String message) {
+        super(message);
+    }
 }

@@ -194,10 +194,9 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                                 try {
                                     netz.autoAdden(a);
                                 } catch (KeinAbschnittException | SchonBelegtException e) {
-                                    // TODO infotext in ui?
+                                    infoController.zeige(e.getMessage());
                                     event.setDropCompleted(true);
                                     event.consume();
-                                    infoController.zeige(e.toString());
                                     return;
                                 }
                             }

@@ -101,13 +101,13 @@ public class Strassennetz {
                 instance.autos.put(p, new ArrayList<>());
             }
             if (instance.posBelegt(a)) {
-                throw new SchonBelegtException();
+                throw new SchonBelegtException("An dieser Position ist schon ein Auto.");
             } else {
                 instance.autos.get(p).add(a);
                 instance.autoList.add(a);
             }
         } else {
-            throw new KeinAbschnittException();
+            throw new KeinAbschnittException("An dieser Position ist keine Straße.");
         }
     }
 
@@ -120,7 +120,7 @@ public class Strassennetz {
     public void strasseAdden(Strassenabschnitt s) throws SchonBelegtException {
         Position p = new Position(s.getPositionX(), s.getPositionY());
         if (instance.abschnitte.containsKey(p)) {
-            throw new SchonBelegtException();
+            throw new SchonBelegtException("Hier ist bereits eine Straße");
         } else {
             instance.abschnitte.put(p, s);
         }
