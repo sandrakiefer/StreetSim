@@ -40,3 +40,7 @@
   -fx-padding: 0;
 }
 
+.menu-button:disabled, .menu-button:disabled > * {
+  -fx-opacity: 1.0 ;
+}
+

@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -18,6 +20,7 @@ import streetsim.ui.StreetSimApp;
 import streetsim.ui.Szenen;
 import streetsim.ui.utils.PopUpAssist;
 
+import javax.swing.event.HyperlinkEvent;
 import java.io.File;
 import java.util.*;
 
@@ -28,6 +31,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
 
     private final Button startPause, beende;
     private final MenuItem ampeln, autos, strassen, alles, speichern, speichernUnter;
+    private MenuButton entferne;
     private Stage popup;
 
     private Map<Position, Strassenabschnitt> abschnitte;
@@ -43,6 +47,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         speichern = ((NavigationView) rootView).speichern;
         speichernUnter = ((NavigationView) rootView).speichernUnter;
         beende = ((NavigationView) rootView).beende;
+        entferne = ((NavigationView) rootView).entferne;
 
         ampeln = ((NavigationView) rootView).ampeln;
         autos = ((NavigationView) rootView).autos;
@@ -64,11 +69,13 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         strassen.setOnAction(e -> entfAlleStrassen());
         alles.setOnAction(e -> feldLeeren());
 
+        netz.simuliertProperty().addListener((obs, oldV, newV) -> entferne.setDisable(newV));
+
         startPause.setOnAction(e -> {
-            try{
-                if(!netz.isSimuliert()) start();
+            try {
+                if (!netz.isSimuliert()) start();
                 else pause();
-            } catch(WeltLeerException ex){
+            } catch (WeltLeerException ex) {
                 //TODO: user informieren dass Welt leer ist
             }
         });
@@ -135,13 +142,13 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         }
     }
 
-    public void beenden(){
+    public void beenden() {
         popUpSchliessen();
         netz.reset();
         app.wechsleSzene(Szenen.STARTSEITE);
     }
 
-    public void speicherNetzUnter(){
+    public void speicherNetzUnter() {
         popUpSchliessen();
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
@@ -161,17 +168,17 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         }
     }
 
-    public void popUpSchliessen(){
+    public void popUpSchliessen() {
         if (popup != null) popup.close();
     }
 
-    private boolean standGespeichert(){
+    private boolean standGespeichert() {
         return netz.getAbschnitte().equals(abschnitte) &&
                netz.getAutoList().equals(autoList) &&
                netz.getAutos().equals(autoMap);
     }
 
-    private void speicherStand(){
+    private void speicherStand() {
         abschnitte = new HashMap<>(netz.getAbschnitte());
         autoMap = new HashMap<>(netz.getAutos());
         autoList = new ArrayList<>(netz.getAutoList());
