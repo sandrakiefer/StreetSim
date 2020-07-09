@@ -3,6 +3,7 @@ package streetsim.ui.spielfeld;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,8 +12,10 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import org.hildan.fxgson.FxGson;
 import streetsim.business.*;
 import streetsim.business.abschnitte.Gerade;
@@ -69,14 +72,19 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         Pane spielfeldView = spielfeldCon.getRootView();
         Pane overlayView = overlayController.getRootView();
 
+        HBox hamburgerPadding = new HBox();
+        hamburgerPadding.setId("menu-controls");
         hamburger = new Button();
         hamburger.getStyleClass().add("navbtn");
         hamburger.setPickOnBounds(true);
         hamburger.setId("menu-cross");
         hamburger.setAlignment(Pos.TOP_RIGHT);
+        hamburgerPadding.setAlignment(Pos.TOP_RIGHT);
+        hamburgerPadding.getChildren().add(hamburger);
+        hamburgerPadding.setMaxSize(hamburger.getWidth(), hamburger.getHeight());
 
         StackPane menStack = new StackPane();
-        menStack.getChildren().addAll(menView, hamburger);
+        menStack.getChildren().addAll(menView, hamburgerPadding);
         menStack.setAlignment(Pos.TOP_RIGHT);
 
         spielView.setRight(menStack);
@@ -118,7 +126,10 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                         for (int i = 0; i < s.getRotiertCounter(); i++) {
                             imageView.setRotate(imageView.getRotate() + 90);
                         }
-                        Image img = imageView.snapshot(null, null);
+                        SnapshotParameters sp = new SnapshotParameters();
+                        sp.setFill(Color.TRANSPARENT);
+
+                        Image img = imageView.snapshot(sp, null);
 
                         dragboard.setDragView(img);
                         dragboard.setContent(content);

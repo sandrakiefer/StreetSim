@@ -1,0 +1,14 @@
+@import "colors";
+
+#startbuttons {
+  -fx-background-color: $babypopoBLAU;
+  -fx-text-fill: $richtigesWEISS;
+  -fx-font-weight: bold;
+  -fx-padding: 10 10 10 10;
+  -fx-border-radius: 0;
+}
+
+#abstand {
+  -fx-spacing: 10;
+  -fx-padding: 10;
+}
