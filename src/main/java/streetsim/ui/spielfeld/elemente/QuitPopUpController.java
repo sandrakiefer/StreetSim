@@ -28,7 +28,10 @@ public class QuitPopUpController extends AbstractController<StreetSimApp> {
     @Override
     public void handlerAnmelden() {
 
-        speichern.setOnAction(e -> aufrufer.speicherNetz());
+        speichern.setOnAction(e -> {
+            aufrufer.speicherNetz();
+            aufrufer.beenden();
+        });
         verwerfen.setOnAction(e -> aufrufer.beenden());
         abbrechen.setOnAction(e -> aufrufer.popUpSchliessen());
 
