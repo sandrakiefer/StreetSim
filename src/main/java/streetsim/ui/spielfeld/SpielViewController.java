@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.hildan.fxgson.FxGson;
@@ -67,14 +68,18 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         spielfeldView = spielfeldCon.getRootView();
         overlayView = overlayController.getRootView();
 
+        HBox hamburgerPadding = new HBox();
+        hamburgerPadding.setId("menu-controls");
         hamburger = new Button();
         hamburger.getStyleClass().add("navbtn");
         hamburger.setPickOnBounds(true);
         hamburger.setId("menu-cross");
         hamburger.setAlignment(Pos.TOP_RIGHT);
+        hamburgerPadding.setAlignment(Pos.TOP_RIGHT);
+        hamburgerPadding.getChildren().add(hamburger);
 
         StackPane menStack = new StackPane();
-        menStack.getChildren().addAll(menView, hamburger);
+        menStack.getChildren().addAll(menView, hamburgerPadding);
         menStack.setAlignment(Pos.TOP_RIGHT);
 
         spielView.setRight(menStack);
