@@ -69,7 +69,7 @@ class OverlayView extends Pane {
         geschwindigkeit.setPadding(Insets.EMPTY);
         geschwindigkeit.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
 
-        speed = new Slider(0.1,1,0);
+        speed = new Slider(0.1,1,0.5);
         speed.setBlockIncrement(0.1);
         speed.setMajorTickUnit(1);
         speed.setShowTickMarks(true);

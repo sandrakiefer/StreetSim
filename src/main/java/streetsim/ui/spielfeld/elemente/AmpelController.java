@@ -14,6 +14,11 @@ public class AmpelController extends AbstractModelController<Ampel> {
     Image ampelRotGelb = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelRotGelb.png"));
     Image ampelGruen = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelGruen.png"));
 
+    /**
+     *
+     * @param model
+     * @param rootView
+     */
     public AmpelController(Ampel model, ImageView rootView) {
         super(model, rootView);
         ausrichtung();
@@ -21,17 +26,37 @@ public class AmpelController extends AbstractModelController<Ampel> {
         handlerAnmelden();
     }
 
+    /**
+     *
+     * @param absolutePosX
+     */
     public void setAbsolutePosX(double absolutePosX) {
         rootView.setLayoutX(absolutePosX);
     }
 
+    /**
+     *
+     * @param absolutePosY
+     */
     public void setAbsolutePosY(double absolutePosY) {
         rootView.setLayoutY(absolutePosY);
     }
 
+    /**
+     *
+     * @return
+     */
     public double getAbsolutePosX(){ return rootView.getLayoutX(); }
+
+    /**
+     *
+     * @return
+     */
     public double getAbsolutePosY(){ return rootView.getLayoutY(); }
 
+    /**
+     *
+     */
     @Override
     public void handlerAnmelden() {
 
@@ -48,10 +73,13 @@ public class AmpelController extends AbstractModelController<Ampel> {
             if (!model.isRot() && !model.isGelb() && model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelGruen));
         });
 
-        model.richtungProperty().addListener(c -> {
+        model.richtungProperty().addListener(c -> { ausrichtung();
         });
     }
 
+    /**
+     * rotiert die ampel
+     */
     private void ausrichtung(){
         switch (model.getRichtung()) {
             case NORDEN:
@@ -73,6 +101,9 @@ public class AmpelController extends AbstractModelController<Ampel> {
         return model;
     }
 
+    /**
+     * gibt der Ampel eine View beim initialisieren (benötigt um zu serialisieren)
+     */
     private void init(){
         if (model.isRot() && !model.isGelb() && !model.isGruen()) rootView.setImage(ampelRot);
         else if (model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelRotGelb);

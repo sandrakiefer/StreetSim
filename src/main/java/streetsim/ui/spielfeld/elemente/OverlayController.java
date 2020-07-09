@@ -39,14 +39,30 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         handlerAnmelden();
     }
 
+    /**
+     * setzt die position fuer die buttons des ausgewaehlten Strassenabschnitts
+     * @param x koordinate des Strassenabschnitts
+     * @param y koordinate des Strassenabschnitts
+     */
     public void setPosition(double x, double y) {
         ((OverlayView) rootView).setPosition(x, y);
     }
 
+    /**
+     * setzt die position fuer die buttons des ausgewaehlten Autos
+     * @param x koordinate des Autos
+     * @param y koordinate des Autos
+     */
     public void setAutoPosition(double x, double y) {
         ((OverlayView) rootView).setAutoPos(x, y);
     }
 
+    /**
+     * macht die Buttons fuers loeschen, rotieren des strassenabschnitts und das aktivieren/deaktivieren der Ampeln
+     * und die rootview sichtbar
+     * zusätzlich noch die Buttons fuers loeschen und das anpassen der Geschwindigkeit der autos unsichtbar
+     * @param s
+     */
     public void enableStrasse(Strassenabschnitt s) {
         deaktView.setImage(s.isAmpelAktiv() ? deaktImage : aktImage);
         s.ampelAktivProperty().addListener((observable, oldValue, newValue) -> deaktView.setImage(s.isAmpelAktiv() ? deaktImage : aktImage));
@@ -63,6 +79,10 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         rootView.setVisible(true);
     }
 
+    /**
+     * macht die Buttons fuers loeschen und das anpassen der Geschwindigkeit der autos und die rootview sichtbar
+     * zusätzlich noch die Buttons fuers loeschen, rotieren des strassenabschnitts und das aktivieren/deaktivieren der Ampeln unsichtbar
+     */
     public void enableAuto() {
         loescheStrasse.setDisable(true);
         loescheStrasse.setVisible(false);
@@ -77,6 +97,9 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         rootView.setVisible(true);
     }
 
+    /**
+     * deaktiviert alle Buttons und macht die overlay view unsichtbar
+     */
     public void disable() {
         loescheStrasse.setDisable(true);
         rotiereStrasse.setDisable(true);
@@ -86,6 +109,10 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         rootView.setVisible(false);
     }
 
+    /**
+     * meldet die onClick Events für das loeschen, rotieren und das deaktivieren der Ampeln eines Strassenabschnitts
+     * und das loeschen eines Autos sowie dessen Geschwindigkeitsanpassung über den Slider an
+     */
     @Override
     public void handlerAnmelden() {
         loescheStrasse.setOnAction(e -> loescheStrasse(loescheStrasse.getLayoutX(), loescheStrasse.getLayoutY()));
@@ -120,10 +147,19 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         disable();
     }
 
+    /**
+     * setzt das aktuell ausgewählte auto und passt den Geschiwindigkeitsslider an
+     * @param a angeklicktes Auto
+     */
     public void aktAuto(Auto a) {
         aktuellesAuto = a;
+        geschwSlider.setValue(a.getGeschwindigkeitsfaktor());
     }
 
+    /**
+     * passt die Geschwindigkeit des Autos
+     * @param val
+     */
     public void geschwindigkeitAuto(Number val){ netz.geschwindigkeitAnpassen(aktuellesAuto, val.floatValue()); }
 
 }
