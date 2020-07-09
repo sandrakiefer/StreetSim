@@ -154,6 +154,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         fileChooser.setInitialFileName(netz.getName());
         file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
+        abspeichern();
     }
 
     /**
@@ -161,10 +162,15 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      */
     public void speicherNetz() {
         if (netz.getName() == null) speicherNetzUnter();
+        else abspeichern();
+    }
 
+    private void abspeichern(){
         if (file != null) {
             netz.speicherNetz(file);
             speicherStand();
+        } else {
+            speicherNetzUnter();
         }
     }
 

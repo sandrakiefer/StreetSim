@@ -21,4 +21,8 @@ public class Gerade extends Strassenabschnitt {
         return Arrays.asList(Himmelsrichtung.WESTEN, Himmelsrichtung.OSTEN);
     }
 
+    @Override
+    public String toString() {
+        return "Gerade" + super.toString();
+    }
 }

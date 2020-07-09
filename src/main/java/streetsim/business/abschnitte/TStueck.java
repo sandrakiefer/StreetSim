@@ -21,4 +21,9 @@ public class TStueck extends Strassenabschnitt {
         return Arrays.asList(Himmelsrichtung.OSTEN, Himmelsrichtung.SUEDEN, Himmelsrichtung.WESTEN);
     }
 
+    @Override
+    public String toString() {
+        return "TStueck" + super.toString();
+    }
+
 }

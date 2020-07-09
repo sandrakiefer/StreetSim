@@ -11,8 +11,6 @@ import java.awt.*;
 
 public class AutoController extends AbstractModelController<Auto> {
 
-    private ResourceAssist assist = ResourceAssist.getInstance();
-
     public AutoController(Auto model, ImageView rootView) {
         super(model, rootView);
 
