@@ -85,7 +85,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     public void handlerAnmelden() {
 
         rootView.setOnDragDetected(e -> {
-            if(e.getX() >= app.getHauptStage().getWidth() - menView.getWidth() && !menView.isVisible()) {
+            if(e.getX() >= (app.getHauptStage().getWidth() - menView.getWidth()) && !menView.isVisible() ||
+                e.getX() < (app.getHauptStage().getWidth() - menView.getWidth())) {
                 if (!netz.isSimuliert()) {
                     hideMenu();
                     Strassenabschnitt s = netz.strasseAnPos((int) Math.round(e.getX()), (int) Math.round(e.getY()));
