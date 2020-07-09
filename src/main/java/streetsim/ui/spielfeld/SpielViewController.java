@@ -123,9 +123,8 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                 }
             }
         });
-        /**
-         * Für Strassenabschnitt/Ampeln/Auto wird überprüft ob an aktueller Position gedropped werden darf
-         */
+
+        //Für Strassenabschnitt/Ampeln/Auto wird überprüft ob an aktueller Position gedropped werden darf
         rootView.setOnDragOver(event -> {
 
             boolean dropSupported = true;

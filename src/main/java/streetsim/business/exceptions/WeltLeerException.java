@@ -6,4 +6,7 @@ package streetsim.business.exceptions;
  */
 public class WeltLeerException extends RuntimeException {
 
+    public WeltLeerException(String message) {
+        super(message);
+    }
 }

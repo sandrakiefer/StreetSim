@@ -5,9 +5,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import streetsim.business.Strassennetz;
+import streetsim.business.exceptions.DateiParseException;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 import streetsim.ui.Szenen;
+import streetsim.ui.spielfeld.elemente.InfoController;
 import streetsim.ui.utils.FadeAssist;
 
 import java.io.File;
@@ -21,6 +23,7 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
     private final VBox fortfahrPane, startPane;
     private final StackPane kontrollPane;
     private final FadeAssist fadeAssist;
+    private InfoController infoController;
 
     public StartseiteController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
@@ -31,6 +34,7 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         fortfahrPane = ((StartseiteView) rootView).fortfahrPane;
         startPane = ((StartseiteView) rootView).startPane;
         kontrollPane = ((StartseiteView) rootView).kontrollPane;
+        infoController = new InfoController(app);
 
         starten.setDisable(true);
         laden.setDisable(true);
@@ -47,7 +51,11 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         File file = fileChooser.showOpenDialog(app.getHauptStage().getOwner());
         if (file != null) {
-            netz.ladeNetz(file);
+            try {
+                netz.ladeNetz(file);
+            } catch(DateiParseException dpe) {
+                infoController.zeige(dpe.getMessage());
+            }
             app.wechsleSzene(Szenen.SPIEL_VIEW);
         }
     }
