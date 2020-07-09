@@ -33,7 +33,7 @@ public class Ampel {
 
     /**
      * Schaltung zwischen den verschiedenen Ampelphasen
-     * rot -> rot und gelb -> gruen -> gelb -> rot
+     * rot zu rot und gelb zu grün zu gelb zu rot
      */
     public void schalte() {
         if (!schaltet) {
