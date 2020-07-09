@@ -31,7 +31,7 @@ import java.util.Map;
 public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
-    private transient Map<Position, List<Auto>> autos;
+    private Map<Position, List<Auto>> autos;
     private SimpleListProperty<Auto> autoList;
     private BooleanProperty simuliert;
     private SimpleStringProperty name = new SimpleStringProperty();
@@ -58,7 +58,7 @@ public class Strassennetz {
      */
     public boolean stehtAnKreuzung(Auto a) {
         Position p = new Position(a.getPositionX(), a.getPositionY());
-        Strassenabschnitt s = abschnitte.get(p);
+        Strassenabschnitt s = instance.abschnitte.get(p);
         int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
         int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
         int distanz = a.distanzBisMitte(mittelpunktX, mittelpunktY);
@@ -247,7 +247,7 @@ public class Strassennetz {
      */
     public void rotiereStrasse(Strassenabschnitt s) {
         Position p = new Position(s.getPositionX(), s.getPositionY());
-        if (autos.containsKey(p)) { autos.get(p).forEach(a -> a.rotiere()); }
+        if (instance.autos.containsKey(p)) { instance.autos.get(p).forEach(Auto::rotiere); }
         s.rotiere();
     }
 
@@ -334,7 +334,7 @@ public class Strassennetz {
         entfAlleAutos();
         alleAmpelnDeaktivieren();
         entfAlleStrassen();
-        name.set(null);
+        instance.name.set(null);
         instance.simuliert.setValue(false);
     }
 
@@ -376,7 +376,7 @@ public class Strassennetz {
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 if (instance.simuliert.get()) {
-                    for (Auto a : autoList) {
+                    for (Auto a : instance.autoList) {
                     //for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
                         //for (Auto a : entry.getValue()) {
                             a.fahre();
@@ -426,23 +426,23 @@ public class Strassennetz {
     }
 
     public void setAbschnitte(ObservableMap<Position, Strassenabschnitt> abschnitte) {
-        this.abschnitte = abschnitte;
+        instance.abschnitte = abschnitte;
     }
 
     public void setAutos(ObservableMap<Position, List<Auto>> autos) {
-        this.autos = autos;
+        instance.autos = autos;
     }
 
     public ObservableList<Auto> getAutoList() {
-        return autoList.get();
+        return instance.autoList.get();
     }
 
     public SimpleListProperty<Auto> autoListProperty() {
-        return autoList;
+        return instance.autoList;
     }
 
     public Map<Position, List<Auto>> getAutos() {
-        return autos;
+        return instance.autos;
     }
 
     public static void main(String[] args) {
