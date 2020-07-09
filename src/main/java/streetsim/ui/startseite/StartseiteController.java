@@ -31,6 +31,9 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         fortfahrPane = ((StartseiteView) rootView).fortfahrPane;
         startPane = ((StartseiteView) rootView).startPane;
         kontrollPane = ((StartseiteView) rootView).kontrollPane;
+
+        starten.setDisable(true);
+        laden.setDisable(true);
         fadeAssist = FadeAssist.getInstance();
         handlerAnmelden();
     }
@@ -63,6 +66,8 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         fortfahren.setOnAction(e -> {
             fadeAssist.crossFade(fortfahrPane, startPane);
             kontrollPane.getChildren().remove(fortfahrPane);
+            starten.setDisable(false);
+            laden.setDisable(false);
         });
         starten.setOnAction(e -> erstelle());
         laden.setOnAction(e -> ladeNetz());

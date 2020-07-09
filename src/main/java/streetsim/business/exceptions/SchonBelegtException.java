@@ -6,4 +6,7 @@ package streetsim.business.exceptions;
  */
 public class SchonBelegtException extends RuntimeException {
 
+    public SchonBelegtException(String message) {
+        super(message);
+    }
 }
