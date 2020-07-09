@@ -158,4 +158,5 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
     public String toString() {
         return String.format("(%d,%d)", positionX.get(), positionY.get());
     }
+
 }

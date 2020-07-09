@@ -1,6 +1,8 @@
 package streetsim.business;
+
 import com.google.gson.*;
 import java.lang.reflect.Type;
+
 public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonDeserializer<Strassenabschnitt> {
 
     public static StrassenAdapter instance;
@@ -33,4 +35,5 @@ public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonD
         return null;
 
     }
+
 }
