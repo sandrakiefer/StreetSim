@@ -37,6 +37,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
     private Map<Position, Strassenabschnitt> abschnitte;
     private Map<Position, List<Auto>> autoMap;
     private List<Auto> autoList;
+    private InfoController infoController;
 
     private File file;
 
@@ -53,6 +54,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         autos = ((NavigationView) rootView).autos;
         strassen = ((NavigationView) rootView).strassen;
         alles = ((NavigationView) rootView).alles;
+        infoController = new InfoController(app);
 
         speicherStand();
         handlerAnmelden();
@@ -76,7 +78,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
                 if (!netz.isSimuliert()) start();
                 else pause();
             } catch (WeltLeerException ex) {
-                //TODO: user informieren dass Welt leer ist
+                infoController.zeige(ex.getMessage());
             }
         });
     }

@@ -346,8 +346,8 @@ public class Strassennetz {
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void starteSimulation() throws WeltLeerException {
-        if (instance.abschnitte.isEmpty()) {
-            throw new WeltLeerException();
+        if (instance.abschnitte.isEmpty() || instance.autoList.isEmpty()) {
+            throw new WeltLeerException("Das Spielfeld ist leer. Es gibt nichts zu simulieren.");
         }
         instance.simuliert.setValue(true);
         // Ampelschaltung
