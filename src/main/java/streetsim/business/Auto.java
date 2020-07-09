@@ -27,7 +27,6 @@ public class Auto {
     private int breite;
     private int laenge;
     private AutoModell autoModell;
-    private final transient Strassennetz strassennetz;
     private transient Rectangle rectangle;
 
     public Auto(int positionX, int positionY, AutoModell autoModell) {
@@ -36,7 +35,6 @@ public class Auto {
         this.positionY = new SimpleIntegerProperty(positionY);
         this.breite = 32;
         this.laenge = 32;
-        this.strassennetz = Strassennetz.getInstance();
         this.autoModell = autoModell;
         this.wendepunkte = new LinkedList<>();
         richtung = new SimpleObjectProperty<>();
@@ -134,7 +132,7 @@ public class Auto {
      */
     public void fahre() {
         Position p = new Position(positionX.get(), positionY.get());
-        Strassenabschnitt aktuellerAbschnitt = strassennetz.getAbschnitte().get(p);
+        Strassenabschnitt aktuellerAbschnitt = Strassennetz.getInstance().getAbschnitte().get(p);
         int mittelpunktX = aktuellerAbschnitt.getPositionX() + aktuellerAbschnitt.getGroesse() / 2;
         int mittelpunktY = aktuellerAbschnitt.getPositionY() + aktuellerAbschnitt.getGroesse() / 2;
 
@@ -147,7 +145,7 @@ public class Auto {
         }
 
         // Kreuzungs- und Ampel-Überprüfung
-        if (strassennetz.stehtAnKreuzung(this)) {
+        if (Strassennetz.getInstance().stehtAnKreuzung(this)) {
             // Neue Richtung bestimmen
             List<Himmelsrichtung> r = new ArrayList<>(aktuellerAbschnitt.getRichtungen());
             r.remove(this.getRichtung().gegenueber());
@@ -264,9 +262,9 @@ public class Auto {
     private void pruefeHandover(Position alt){
         Position neu = new Position(positionX.get(), positionY.get());
         if (!neu.equals(alt)) {
-            strassennetz.getAutos().get(alt).remove(this);
-            strassennetz.getAutos().computeIfAbsent(neu, k -> new ArrayList<>());
-            strassennetz.getAutos().get(neu).add(this);
+            Strassennetz.getInstance().getAutos().get(alt).remove(this);
+            Strassennetz.getInstance().getAutos().computeIfAbsent(neu, k -> new ArrayList<>());
+            Strassennetz.getInstance().getAutos().get(neu).add(this);
         }
     }
 
@@ -299,7 +297,7 @@ public class Auto {
         if (Strassennetz.getInstance().getAbschnitte().get(p).getRichtungen().size() <= 2) {
             return false;
         }
-        for (Auto a: strassennetz.getAutos().get(p)) {
+        for (Auto a: Strassennetz.getInstance().getAutos().get(p)) {
             //if (h.contains(a.getRichtung())) {
             // Bereichsprüfung
             int distanzBisMitte = a.distanzBisMitte(mittelpunktX, mittelpunktY);
@@ -321,13 +319,13 @@ public class Auto {
      * @return ob nächste Position des Autos verfügbar ist (ohne Kollision mit anderem Auto)
      */
     public boolean autoKollision(Position p, Rectangle newR) {
-        List<Auto> brums = new ArrayList<>(strassennetz.getAutos().get(p));
+        List<Auto> brums = new ArrayList<>(Strassennetz.getInstance().getAutos().get(p));
         brums.remove(this);
         int vorneX = positionX.get() + richtung.get().getX() * laenge;
         int vorneY = positionY.get() + richtung.get().getY() * laenge;
         Position vorneP = new Position(vorneX, vorneY);
-        if(strassennetz.getAutos().containsKey(vorneP)){
-            brums.addAll(strassennetz.getAutos().get(vorneP));
+        if(Strassennetz.getInstance().getAutos().containsKey(vorneP)){
+            brums.addAll(Strassennetz.getInstance().getAutos().get(vorneP));
         }
         for (Auto a : brums) {
             if (newR.intersects(a.getRectangle().getBoundsInLocal()) && !this.equals(a)) {

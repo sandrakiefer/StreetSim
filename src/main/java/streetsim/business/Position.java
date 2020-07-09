@@ -38,4 +38,8 @@ public class Position {
         return Objects.hash(positionX, positionY);
     }
 
+    @Override
+    public String toString() {
+        return String.format("Position(%d,%d)", positionX, positionY);
+    }
 }

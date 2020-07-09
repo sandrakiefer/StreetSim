@@ -74,10 +74,11 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
         app.getHauptStage().heightProperty().addListener(c -> ((SpielfeldView) rootView).setHoehe(app.getHauptStage().getHeight()));
 
         autos.addListener((ListChangeListener<Auto>) change -> {
-            System.out.println("DING DONG");
             if (change.next() && change.wasAdded()) {
+                System.out.println("new car");
                 autoAdden(autos.get(change.getFrom()));
             } else if (change.wasRemoved()) {
+                System.out.println("car weg");
                 entfAuto(change.getRemoved().toArray(Auto[]::new));
             }
         });

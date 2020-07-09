@@ -32,7 +32,7 @@ public class Strassennetz {
 
     private ObservableMap<Position, Strassenabschnitt> abschnitte;
     private Map<Position, List<Auto>> autos;
-    private SimpleListProperty<Auto> autoList;
+    private transient SimpleListProperty<Auto> autoList;
     private BooleanProperty simuliert;
     private SimpleStringProperty name = new SimpleStringProperty();
     public static Strassennetz instance;
@@ -233,6 +233,8 @@ public class Strassennetz {
                     .setPrettyPrinting()
                     .create();
             instance = gson.fromJson(json, Strassennetz.class);
+            instance.autos.forEach((key, value) -> instance.autoList.addAll(value));
+            System.out.println(instance.abschnitte);
         } catch (IOException e) {
             throw new DateiParseException("Datei konnte nicht gelesen werden.", e);
         }
