@@ -3,11 +3,12 @@ package streetsim.ui.utils;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
+/**
+ * Utility-Klasse um PopUp Fenster zu erstellen.
+ */
 public class PopUpAssist {
 
     public static PopUpAssist instance;
@@ -19,6 +20,12 @@ public class PopUpAssist {
         return instance;
     }
 
+    /**
+     * PopUp wird als Modal-Window erzeugt.
+     * @param pane View, die in dem PopUp angezeigt werden soll.
+     * @param owner Stage, die unter dem PopUp liegt.
+     * @return das fertige PopUp.
+     */
     public Stage createPopUp(Pane pane, Stage owner){
         Stage newWindow = new Stage();
 
@@ -29,6 +36,11 @@ public class PopUpAssist {
         return newWindow;
     }
 
+    /**
+     * Zentriert ein (am besten mit {@link #createPopUp(Pane, Stage)} erzeugtes PopUp.
+     * @param newWindow PopUp Fenster, das zentriert werden soll.
+     * @param owner Darunterliegende Stage.
+     */
     public void center(Stage newWindow, Stage owner) {
         Platform.runLater(() -> {
             double x = owner.getX() + (owner.getWidth() / 2);
@@ -38,15 +50,4 @@ public class PopUpAssist {
         });
     }
 
-    public void fullSize(Stage newWindow, Stage owner) {
-        Platform.runLater(() -> {
-            newWindow.setWidth(owner.getWidth());
-            newWindow.setHeight(owner.getHeight());
-        });
-    }
-
-    public void transparentize(Stage newWindow) {
-        newWindow.initStyle(StageStyle.TRANSPARENT);
-        newWindow.getScene().setFill(Color.TRANSPARENT);
-    }
 }

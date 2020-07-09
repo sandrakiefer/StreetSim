@@ -69,7 +69,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
      * Initialisierung der Ampeln mit den passenden Himmelsrichtungen
      *
      * @param richtungen Himmelsrichtung in welche die Ampeln aufgestellt werden
-     * @return
+     * @return Liste aus Ampeln der entsprechenden Richtungen.
      */
     public static List<Ampel> baueAmpeln(List<Himmelsrichtung> richtungen) {
         List<Ampel> ampeln = new ArrayList<>();

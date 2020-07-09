@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Definiert die möglichen Auto Modelle
+ * Legt Auto-Modelle mit ihren zugehörigen Bildern und {@link AutoView}s fest
  */
 public enum AutoModelle {
 
@@ -28,6 +28,10 @@ public enum AutoModelle {
         return view;
     }
 
+    /**
+     * Eine Methode, die alle möglichen {@link AutoView}s übergibt.
+     * @return Liste aller Views
+     */
     public static List<AutoView> getAllViews() {
         return Arrays.stream(AutoModelle.values()).map(AutoModelle::getView).collect(Collectors.toList());
     }

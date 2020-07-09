@@ -43,9 +43,21 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
     }
 
     /**
-     * stößt gleichnamige Methode in der Business-Schicht an
-     * lädt ein Strassennetz
+     * {@inheritDoc}
      */
+    @Override
+    public void handlerAnmelden() {
+        rootView.setOnKeyPressed(e -> fortfahren.fire());
+        fortfahren.setOnAction(e -> {
+            fadeAssist.crossFade(fortfahrPane, startPane);
+            kontrollPane.getChildren().remove(fortfahrPane);
+            starten.setDisable(false);
+            laden.setDisable(false);
+        });
+        starten.setOnAction(e -> erstelle());
+        laden.setOnAction(e -> ladeNetz());
+    }
+
     private void ladeNetz() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
@@ -60,24 +72,8 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         }
     }
 
-    /**
-     * erzeugt in der Startseite eine neue Strassennetz-Instanz
-     * wechselt die View zu "SPIEL_VIEW"
-     */
     private void erstelle() {
         app.wechsleSzene(Szenen.SPIEL_VIEW);
     }
 
-    @Override
-    public void handlerAnmelden() {
-        rootView.setOnKeyPressed(e -> fortfahren.fire());
-        fortfahren.setOnAction(e -> {
-            fadeAssist.crossFade(fortfahrPane, startPane);
-            kontrollPane.getChildren().remove(fortfahrPane);
-            starten.setDisable(false);
-            laden.setDisable(false);
-        });
-        starten.setOnAction(e -> erstelle());
-        laden.setOnAction(e -> ladeNetz());
-    }
 }

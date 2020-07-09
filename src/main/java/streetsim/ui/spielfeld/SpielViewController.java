@@ -2,14 +2,15 @@ package streetsim.ui.spielfeld;
 
 import com.google.gson.Gson;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -36,39 +37,40 @@ import java.util.stream.Collectors;
 
 /**
  * Verwaltung der folgenden drei Controller:
- * Spielfeldcontroller, NavigationsController, MenueController
+ * {@link SpielfeldController}, {@link NavigationController}, {@link MenueController}
  */
 public class SpielViewController extends AbstractController<StreetSimApp> {
-    private BorderPane spielView;
-    private Pane menView, navView, spielfeldView, overlayView;
-    private HintergrundView hv;
-    private NavigationController navCon;
-    private MenueController menCon;
-    private SpielfeldController spielfeldCon;
-    private OverlayController overlayController;
-    private InfoController infoController;
-    private Button hamburger;
 
+    private final Pane menView;
+    private final NavigationController navCon;
+    private final SpielfeldController spielfeldCon;
+    private final OverlayController overlayController;
+    private final InfoController infoController;
+    private final Button hamburger;
+
+    /**
+     * {@inheritDoc}
+     */
     public SpielViewController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
 
         rootView = new StackPane();
-        spielView = new BorderPane();
+        BorderPane spielView = new BorderPane();
 
-        hv = new HintergrundView();
+        HintergrundView hv = new HintergrundView();
 
         navCon = new NavigationController(netz, app);
-        menCon = new MenueController(netz, app);
+        MenueController menCon = new MenueController(netz, app);
         infoController = new InfoController(app);
 
         spielfeldCon = new SpielfeldController(netz, app);
         overlayController = new OverlayController(netz);
 
         menView = menCon.getRootView();
-        navView = navCon.getRootView();
+        Pane navView = navCon.getRootView();
 
-        spielfeldView = spielfeldCon.getRootView();
-        overlayView = overlayController.getRootView();
+        Pane spielfeldView = spielfeldCon.getRootView();
+        Pane overlayView = overlayController.getRootView();
 
         HBox hamburgerPadding = new HBox();
         hamburgerPadding.setId("menu-controls");
@@ -92,6 +94,9 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
         handlerAnmelden();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void handlerAnmelden() {
 
@@ -133,7 +138,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             }
         });
 
-        //Für Strassenabschnitt/Ampeln/Auto wird überprüft ob an aktueller Position gedropped werden darf
+        //Für Straßenabschnitt/Ampeln/Auto wird überprüft, ob an aktueller Position gedropped werden darf.
         rootView.setOnDragOver(event -> {
 
             boolean dropSupported = true;
@@ -167,11 +172,12 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
             }
             event.consume();
         });
-        /**
-         * wird beim Droppen von einem Strassenabschnitt/Ampel/Auto angestoßen
-         * Strassenabschnitt: Es wird über die dataString im Dragboard zwischen den einzelnen Abschnitten unterschieden und dem Netz hinzugefügt
-         * Ampeln: Die Ampeln auf dem Strassenabschnitt werden aktiviert und angezeigt
-         * Autos: Das Auto wird dem Strassenabschnitt hinzugefügt und im Netz aktiviert sowie angezeigt (überprüfung ob Strassenabschnitt und Auto an Position existieren)
+
+        /*
+         * Wird beim Droppen von einem Straßenabschnitt/Ampel/Auto angestoßen.
+         * Straßenabschnitt: Es wird über die dataString im Dragboard zwischen den einzelnen Abschnitten unterschieden und dem Netz hinzugefügt.
+         * Ampeln: Die Ampeln auf dem Straßenabschnitt werden aktiviert und angezeigt
+         * Autos: Das Auto wird dem Straßenabschnitt hinzugefügt und im Netz aktiviert sowie angezeigt (überprüfung ob Straßenabschnitt und Auto an Position existieren)
          */
         rootView.setOnDragDropped(event -> {
             Dragboard dragboard = event.getDragboard();
@@ -231,10 +237,10 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
         });
 
-        /**
-         * bei einem rechtsklick wird überprüft ob sich die Maus über einem Strassenabschnitt und/oder Auto befindet
-         * Strassenabschnitt: Es wird das Overlay für den angeklickten Strassenabschnitt aktiviert und angezeigt (für Auto deaktiviert)
-         * Auto: Es wird das Overlay für den angeklickten Strassenabschnitt aktiviert und angezeigt (für Strassenabschnitt deaktiviert)
+        /*
+         * bei einem Rechtsklick wird überprüft ob sich die Maus über einem Straßenabschnitt und/oder Auto befindet
+         * Straßenabschnitt: Es wird das Overlay für den angeklickten Straßenabschnitt aktiviert und angezeigt (für Auto deaktiviert)
+         * Auto: Es wird das Overlay für den angeklickten Straßenabschnitt aktiviert und angezeigt (für Straßenabschnitt deaktiviert)
          */
         rootView.setOnMouseClicked(e -> {
             if (e.getButton().equals(MouseButton.SECONDARY) && !netz.isSimuliert()) {

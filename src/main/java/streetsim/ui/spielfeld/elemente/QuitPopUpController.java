@@ -4,13 +4,23 @@ import javafx.scene.control.Button;
 import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
-import streetsim.ui.spielfeld.elemente.QuitPopUpView;
 
+/**
+ * Klasse, die beim Verlassen vor ungespeicherten Änderungen warnt.
+ * Der Controller und dessen View wird lediglich in einem PopUp verwendet.
+ */
 public class QuitPopUpController extends AbstractController<StreetSimApp> {
 
-    private Button speichern, verwerfen, abbrechen;
-    private NavigationController aufrufer;
-    
+    private final Button speichern, verwerfen, abbrechen;
+    private final NavigationController aufrufer;
+
+    /**
+     * Konstruktor, der die View initialisiert und zusätzlich den Aufrufer festlegt, um
+     * mit seinen Methoden Aktionen durchzuführen.
+     * @param netz Straßennetz Model Objekt
+     * @param app Hauptanwendung
+     * @param aufrufer Aufrufer des Controllers
+     */
     public QuitPopUpController(Strassennetz netz, StreetSimApp app, NavigationController aufrufer) {
         super(netz, app);
         

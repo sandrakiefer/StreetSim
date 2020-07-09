@@ -8,15 +8,23 @@ import streetsim.ui.spielfeld.AbstractModelController;
 import streetsim.ui.utils.ResourceAssist;
 
 /**
- * Verwaltung von Aktionen von einer Ampel 
+ * Controller für Ampeln.
+ *
+ * {@inheritDoc}
  */
 public class AmpelController extends AbstractModelController<Ampel> {
-    ResourceAssist assist = ResourceAssist.getInstance();
-    Image ampelRot = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelRot.png"));
-    Image ampelGelb = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelGelb.png"));
-    Image ampelRotGelb = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelRotGelb.png"));
-    Image ampelGruen = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelGruen.png"));
 
+    private final ResourceAssist assist = ResourceAssist.getInstance();
+
+    private final Image ampelRot = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelRot.png"));
+    private final Image ampelGelb = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelGelb.png"));
+    private final Image ampelRotGelb = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelRotGelb.png"));
+    private final Image ampelGruen = new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelGruen.png"));
+
+
+    /**
+     * {@inheritDoc}
+     */
     public AmpelController(Ampel model, ImageView rootView) {
         super(model, rootView);
         ausrichtung();
@@ -25,35 +33,23 @@ public class AmpelController extends AbstractModelController<Ampel> {
     }
 
     /**
-     * setzt die endgültige X Koordinate für Ampel fest
-     * @param absolutePosX
+     * setzt die endgültige X Koordinate für Ampel fest.
+     * @param absolutePosX X-Koordinate
      */
     public void setAbsolutePosX(double absolutePosX) {
         rootView.setLayoutX(absolutePosX);
     }
 
     /**
-     * Setzt die endgültige Y Koordinate für Ampel fest
-     * @param absolutePosY
+     * Setzt die endgültige Y Koordinate für Ampel fest.
+     * @param absolutePosY Y-Koordinate
      */
     public void setAbsolutePosY(double absolutePosY) {
         rootView.setLayoutY(absolutePosY);
     }
 
     /**
-     *
-     * @return
-     */
-    public double getAbsolutePosX(){ return rootView.getLayoutX(); }
-
-    /**
-     *
-     * @return
-     */
-    public double getAbsolutePosY(){ return rootView.getLayoutY(); }
-
-    /**
-     *
+     * {@inheritDoc}
      */
     @Override
     public void handlerAnmelden() {
@@ -67,17 +63,13 @@ public class AmpelController extends AbstractModelController<Ampel> {
             else if (!model.isRot() && model.isGelb() && !model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelGelb));
         });
 
-        model.isGruenProperty().addListener(change ->{
+        model.isGruenProperty().addListener(change -> {
             if (!model.isRot() && !model.isGelb() && model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelGruen));
         });
 
-        model.richtungProperty().addListener(c -> { ausrichtung();
-        });
+        model.richtungProperty().addListener(c -> ausrichtung());
     }
 
-    /**
-     * rotiert die ampel
-     */
     private void ausrichtung(){
         switch (model.getRichtung()) {
             case NORDEN:
@@ -95,13 +87,6 @@ public class AmpelController extends AbstractModelController<Ampel> {
         }
     }
 
-    public Ampel getModel(){
-        return model;
-    }
-
-    /**
-     * gibt der Ampel eine View beim initialisieren (benötigt um zu serialisieren)
-     */
     private void init(){
         if (model.isRot() && !model.isGelb() && !model.isGruen()) rootView.setImage(ampelRot);
         else if (model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelRotGelb);

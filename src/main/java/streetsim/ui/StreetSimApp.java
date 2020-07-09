@@ -1,32 +1,32 @@
 package streetsim.ui;
 
-import javafx.scene.Scene;
-import streetsim.business.Strassennetz;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import streetsim.business.Strassennetz;
 import streetsim.ui.spielfeld.SpielViewController;
 import streetsim.ui.startseite.StartseiteController;
-import streetsim.ui.utils.ResourceAssist;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Verwaltung der gesamten Applikation
+ * Haupt-JavaFX-Anwendung
  */
 public class StreetSimApp extends Application {
 
     public static final int BREITE = 1920;
     public static final int HOEHE = 1080;
 
-    //TODO: before release: change back to private
-    protected Strassennetz netz;
-    protected Map<Szenen, Pane> szenen;
-    protected Scene aktuelleSzene;
+    private Strassennetz netz;
+    private Map<Szenen, Pane> szenen;
+    private Scene aktuelleSzene;
     private Stage hauptStage;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init() throws Exception {
         super.init();
@@ -35,8 +35,11 @@ public class StreetSimApp extends Application {
         netz = Strassennetz.getInstance();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         //TODO: fixe groesse
         this.hauptStage = primaryStage;
@@ -53,9 +56,7 @@ public class StreetSimApp extends Application {
 
         this.hauptStage.setScene(aktuelleSzene);
         this.hauptStage.show();
-        this.hauptStage.setOnHidden(e -> {
-            System.exit(0);
-        });
+        this.hauptStage.setOnHidden(e -> System.exit(0));
 
     }
 
@@ -73,10 +74,6 @@ public class StreetSimApp extends Application {
         if (szenen.containsKey(s)) {
             aktuelleSzene.setRoot(szenen.get(s));
         }
-    }
-
-    public Scene getAktuelleSzene() {
-        return aktuelleSzene;
     }
 
     public Stage getHauptStage() {

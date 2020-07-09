@@ -7,7 +7,7 @@ class InfoView extends HBox {
 
     Label nachricht;
 
-    public InfoView() {
+    InfoView() {
         super();
         this.nachricht = new Label();
         getChildren().add(this.nachricht);

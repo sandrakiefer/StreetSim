@@ -1,10 +1,7 @@
 package streetsim.ui.spielfeld.elemente;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,15 +11,23 @@ import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 
+/**
+ * Klasse für Aktionen um Straßen/Autos zu editieren.
+ *
+ * {@inheritDoc}
+ */
 public class OverlayController extends AbstractController<StreetSimApp> {
 
-    private Button loescheStrasse, rotiereStrasse, deaktiviereAmpeln, loescheAuto;
-    private MenuButton geschwindigkeit;
-    private Slider geschwSlider;
+    private final Button loescheStrasse, rotiereStrasse, deaktiviereAmpeln, loescheAuto;
+    private final MenuButton geschwindigkeit;
+    private final Slider geschwSlider;
+    private final Image aktImage, deaktImage;
+    private final ImageView deaktView;
     private Auto aktuellesAuto;
-    private ImageView deaktView;
-    private Image aktImage, deaktImage;
 
+    /**
+     * {@inheritDoc}
+     */
     public OverlayController(Strassennetz netz) {
         super(netz);
         rootView = new OverlayView();
@@ -40,28 +45,28 @@ public class OverlayController extends AbstractController<StreetSimApp> {
     }
 
     /**
-     * setzt die position fuer die buttons des ausgewaehlten Strassenabschnitts
-     * @param x koordinate des Strassenabschnitts
-     * @param y koordinate des Strassenabschnitts
+     * Setzt die Position für die Buttons des ausgewählten Straßenabschnitts.
+     * @param x Koordinate des Straßenabschnitts
+     * @param y Koordinate des Straßenabschnitts
      */
     public void setPosition(double x, double y) {
         ((OverlayView) rootView).setPosition(x, y);
     }
 
     /**
-     * setzt die position fuer die buttons des ausgewaehlten Autos
-     * @param x koordinate des Autos
-     * @param y koordinate des Autos
+     * Setzt die position für die Buttons des ausgewählten Autos.
+     * @param x Koordinate des Autos
+     * @param y Koordinate des Autos
      */
     public void setAutoPosition(double x, double y) {
         ((OverlayView) rootView).setAutoPos(x, y);
     }
 
     /**
-     * macht die Buttons fuers loeschen, rotieren des strassenabschnitts und das aktivieren/deaktivieren der Ampeln
-     * und die rootview sichtbar
-     * zusätzlich noch die Buttons fuers loeschen und das anpassen der Geschwindigkeit der autos unsichtbar
-     * @param s
+     * Macht die Buttons für das Löschen, Rotieren des Straßenabschnitts und das (De-)Aktivieren der Ampeln
+     * und die RootView sichtbar.
+     * Zusätzlich werden die Buttons für das Löschen und das Anpassen der Geschwindigkeit der Autos unsichtbar.
+     * @param s Straßenabschnitt, welches editiert werden soll.
      */
     public void enableStrasse(Strassenabschnitt s) {
         deaktView.setImage(s.isAmpelAktiv() ? deaktImage : aktImage);
@@ -80,8 +85,8 @@ public class OverlayController extends AbstractController<StreetSimApp> {
     }
 
     /**
-     * macht die Buttons fuers loeschen und das anpassen der Geschwindigkeit der autos und die rootview sichtbar
-     * zusätzlich noch die Buttons fuers loeschen, rotieren des strassenabschnitts und das aktivieren/deaktivieren der Ampeln unsichtbar
+     * Macht die Buttons für das Löschen und das Anpassen der Geschwindigkeit der Autos und die RootView sichtbar.
+     * Zusätzlich werden die Buttons für das Löschen und das Rotieren des Straßenabschnitts und das (De-)Aktivieren der Ampeln unsichtbar.
      */
     public void enableAuto() {
         loescheStrasse.setDisable(true);
@@ -98,7 +103,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
     }
 
     /**
-     * deaktiviert alle Buttons und macht die overlay view unsichtbar
+     * Deaktiviert alle Buttons und macht die Overlay-View unsichtbar.
      */
     public void disable() {
         loescheStrasse.setDisable(true);
@@ -110,20 +115,31 @@ public class OverlayController extends AbstractController<StreetSimApp> {
     }
 
     /**
-     * meldet die onClick Events für das loeschen, rotieren und das deaktivieren der Ampeln eines Strassenabschnitts
-     * und das loeschen eines Autos sowie dessen Geschwindigkeitsanpassung über den Slider an
+     * {@inheritDoc}
      */
     @Override
     public void handlerAnmelden() {
         loescheStrasse.setOnAction(e -> loescheStrasse(loescheStrasse.getLayoutX(), loescheStrasse.getLayoutY()));
-        loescheAuto.setOnAction(e -> loescheAuto(aktuellesAuto));
+        loescheAuto.setOnAction(e -> loescheAuto());
         rotiereStrasse.setOnAction(e -> rotiereStrasse(rotiereStrasse.getLayoutX(), rotiereStrasse.getLayoutY()));
         deaktiviereAmpeln.setOnAction(e -> deaktiviereAmpeln(deaktiviereAmpeln.getLayoutX(), deaktiviereAmpeln.getLayoutY()));
-
-        geschwSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            geschwindigkeitAuto(newValue);
-        });
+        geschwSlider.valueProperty().addListener((observable, oldValue, newValue) -> geschwindigkeitAuto(newValue));
     }
+
+    /**
+     * Setzt das aktuell ausgewählte Auto und passt den Geschwindigkeits-Slider an.
+     * @param a angeklicktes Auto
+     */
+    public void aktAuto(Auto a) {
+        aktuellesAuto = a;
+        geschwSlider.setValue(a.getGeschwindigkeitsfaktor());
+    }
+
+    /**
+     * Passt die Geschwindigkeit des Autos an
+     * @param val Geschwindigkeitswert
+     */
+    public void geschwindigkeitAuto(Number val){ netz.geschwindigkeitAnpassen(aktuellesAuto, val.floatValue()); }
 
     private void loescheStrasse(double x, double y) {
         Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));
@@ -142,24 +158,10 @@ public class OverlayController extends AbstractController<StreetSimApp> {
         else netz.ampelnAktivieren(s);
     }
 
-    private void loescheAuto(Auto... a) {
+    private void loescheAuto() {
         netz.entfAuto(aktuellesAuto);
         disable();
     }
 
-    /**
-     * setzt das aktuell ausgewählte auto und passt den Geschiwindigkeitsslider an
-     * @param a angeklicktes Auto
-     */
-    public void aktAuto(Auto a) {
-        aktuellesAuto = a;
-        geschwSlider.setValue(a.getGeschwindigkeitsfaktor());
-    }
-
-    /**
-     * passt die Geschwindigkeit des Autos
-     * @param val
-     */
-    public void geschwindigkeitAuto(Number val){ netz.geschwindigkeitAnpassen(aktuellesAuto, val.floatValue()); }
 
 }

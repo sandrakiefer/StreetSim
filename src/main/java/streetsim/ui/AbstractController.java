@@ -4,8 +4,8 @@ import streetsim.business.Strassennetz;
 import javafx.scene.layout.Pane;
 
 /**
- *
- * @param <T> entsprechend des Namen der Applikationsklasse
+ * Klasse, die gröbere Komponenten als View/Controller-Container zusammenfasst.
+ * @param <T> Haupt-Anwendungsklasse
  */
 public abstract class AbstractController<T> {
 
@@ -13,22 +13,36 @@ public abstract class AbstractController<T> {
     protected Pane rootView;
     protected T app;
 
+    /**
+     * Konstruktor, der eine Straßennetz-Instanz und eine Referenz zur Anwendungsklasse bekommt.
+     * @param netz Zentrales Model-Objekt
+     * @param app Anwendungsklasse
+     */
     public AbstractController(Strassennetz netz, T app) {
         this.netz = netz;
         this.app = app;
     }
 
+    /**
+     * Konstruktor, der eine Referenz zur Anwendungsklasse bekommt.
+     * @param app Anwendungsklasse
+     */
     public AbstractController(T app) {
         this.app = app;
     }
 
+    /**
+     * Konstruktor, der eine Straßennetz-Instanz bekommt.
+     * @param netz Zentrales Model-Objekt
+     */
     public AbstractController(Strassennetz netz) {
         this.netz = netz;
     }
 
     /**
-     * entsprechende Methoden die durch GUI-Interaktion entstehen
-     * stoßen über die Strassennetz-Instanz gleichnamige Methoden im Model an
+     * In dieser Methode sollen an observable Attribute entsprechende
+     * Handler angemeldet werden und gleichnamige Methoden in der Straßennetz-Klasse
+     * anstoßen bzw. auf Model-Änderung reagieren.
      */
     public abstract void handlerAnmelden();
 

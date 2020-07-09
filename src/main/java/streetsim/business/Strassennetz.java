@@ -200,6 +200,7 @@ public class Strassennetz {
     /**
      * speichert aktuelles Strassennetz im Dateisystem
      *
+     * @param file Datei, in welche das Netz abgespeichert werden soll.
      * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void speicherNetz(File file) {
@@ -222,6 +223,7 @@ public class Strassennetz {
     /**
      * versucht ein Strassennetz aus einer Datei zu laden
      *
+     * @param file Datei, aus der Straßennetz geladen werden soll.
      * @throws DateiParseException Datei konnte nicht gelesen werden
      */
     public void ladeNetz(File file) throws DateiParseException {

@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import streetsim.ui.utils.ResourceAssist;
 
-public class StartseiteView extends BorderPane {
+class StartseiteView extends BorderPane {
 
     final Button fortfahren, starten, laden;
     final StackPane kontrollPane;

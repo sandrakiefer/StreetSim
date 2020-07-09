@@ -2,10 +2,8 @@ package streetsim.ui.spielfeld.elemente;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import streetsim.business.Strassennetz;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
 import streetsim.ui.utils.PopUpAssist;
@@ -18,9 +16,9 @@ import streetsim.ui.utils.PopUpAssist;
  */
 public class InfoController extends AbstractController<StreetSimApp> {
 
-    private Label nachricht;
+    private final Label nachricht;
+    private final PopUpAssist popAssist;
     private Stage popup;
-    private PopUpAssist popAssist;
 
     /**
      * Konstruktor des Controllers
@@ -45,10 +43,9 @@ public class InfoController extends AbstractController<StreetSimApp> {
 
     /**
      * Diese Methode erstellt und zeigt ein PopUp Fenster.
-     * @param info Warnungstext, der angezeigt wird
+     * @param info Warntext, der angezeigt wird
      */
     public void zeige(String info) {
-        System.out.println(info);
         nachricht.setText(info);
 
         popup = popAssist.createPopUp(rootView, app.getHauptStage());
