@@ -101,7 +101,6 @@ public class Strassennetz {
                 instance.autos.put(p, new ArrayList<>());
             }
             if (instance.posBelegt(a)) {
-                //TODO: Auto an nächstmöglicher Position ablegen @UI @Logik? (optional)
                 throw new SchonBelegtException();
             } else {
                 instance.autos.get(p).add(a);
@@ -367,8 +366,6 @@ public class Strassennetz {
                     }
                 } else {
                     Thread.currentThread().interrupt();
-                    // TODO: Jan brauchen wir das? bin mir nicht sicher (Jungs meinen nein)
-                    // instance.alleAmpelnDeaktivieren();
                 }
             }
         }).start();
@@ -445,27 +442,8 @@ public class Strassennetz {
         return autos;
     }
 
-    public static void main(String[] args) {
-        // Testen der Klassen
-        /*Strassennetz s = getInstance();
-        Strassenabschnitt str = new TStueck(128, 128);
-        System.out.println(str.getPositionX() + " " + str.getPositionY());
-        s.strasseAdden(str);
-        Auto brum = new Auto(80+128,80+128, Auto.AutoModell.ROT);
-        System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
-        brum = new Auto(80,10, Auto.AutoModell.ROT);
-        System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
-        brum = new Auto(54,100, Auto.AutoModell.ROT);
-        System.out.println(brum.getPositionX() + " " + brum.getPositionY() + " " + brum.getRichtung().name());
-        //Auto brumbrum = new Auto(0.7f, Himmelsrichtung.NORDEN,100,100,20,30,"blau",s);
-//        Auto brum = new Auto(0.9f, Himmelsrichtung.WESTEN, 100, 100, 10, 20);
-        //s.autoAdden(brumbrum);
-        //s.autoAdden(brum);*/
-    }
-
     public SimpleStringProperty nameProperty() {
         return name;
     }
+
 }
-
-
