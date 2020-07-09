@@ -156,7 +156,9 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         fileChooser.setInitialFileName(netz.getName());
         file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
-        abspeichern();
+        if(file != null){
+            abspeichern();
+        }
     }
 
     /**
