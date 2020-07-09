@@ -1,5 +1,6 @@
 package streetsim.ui.spielfeld.elemente;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -30,11 +31,15 @@ public class MenueController extends AbstractController<StreetSimApp> {
     List<ImageView> alleViews;
     AmpelView ampelView;
 
+    private double ogBreite;
+    private static SimpleDoubleProperty breite = new SimpleDoubleProperty();
+
     public MenueController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
 
         rootView = new MenueView(AutoModelle.getAllViews());
 
+        ogBreite = rootView.getWidth();
         gerade = ((MenueView) rootView).gerade;
         kreuzung = ((MenueView) rootView).kreuzung;
         kurve = ((MenueView) rootView).kurve;
@@ -78,5 +83,19 @@ public class MenueController extends AbstractController<StreetSimApp> {
 
             });
         });
+    }
+
+    public void setWidthOnHide(){
+        rootView.setPrefWidth(0);
+        breite.set(0);
+    }
+
+    public void setWidthOnShow(){
+        rootView.setPrefWidth(ogBreite);
+        breite.set(ogBreite);
+    }
+
+    public static double getBreite(){
+        return breite.doubleValue();
     }
 }

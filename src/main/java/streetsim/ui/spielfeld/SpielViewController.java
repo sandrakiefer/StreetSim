@@ -42,6 +42,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     private MenueController menCon;
     private SpielfeldController spielfeldCon;
     private OverlayController overlayController;
+    private InfoController infoController;
     private Button hamburger;
 
     public SpielViewController(Strassennetz netz, StreetSimApp app) {
@@ -54,6 +55,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
 
         navCon = new NavigationController(netz, app);
         menCon = new MenueController(netz, app);
+        infoController = new InfoController(app);
 
         spielfeldCon = new SpielfeldController(netz, app);
         overlayController = new OverlayController(netz);
@@ -195,6 +197,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                                     // TODO infotext in ui?
                                     event.setDropCompleted(true);
                                     event.consume();
+                                    infoController.zeige(e.toString());
                                     return;
                                 }
                             }
@@ -263,11 +266,13 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
     private void showMenu(){
         hamburger.setId("menu-cross");
         menView.setVisible(true);
+        menCon.setWidthOnShow();
     }
 
     private void hideMenu(){
         hamburger.setId("menu-stripes");
         menView.setVisible(false);
+        menCon.setWidthOnHide();
     }
 
 }

@@ -30,11 +30,27 @@ public class InfoController extends AbstractController<StreetSimApp> {
 
     public void zeige(String info) {
         nachricht.setText(info);
+
         popup = popAssist.createPopUp(rootView, app.getHauptStage());
-        // TODO: pos
+
+        popup.setWidth(app.getHauptStage().getWidth() - rootView.getWidth() - MenueController.getBreite());
+
         popup.initModality(Modality.NONE);
+
         popup.setAlwaysOnTop(true);
+
         //TODO: showen, und nach timeout schliessen
+        popup.show();
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        popup.close();
+//        popup.hide();
         //TODO: integrieren und aufrufen
+
     }
 }
