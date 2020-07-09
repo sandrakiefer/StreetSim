@@ -230,7 +230,6 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                                 overlayController.setAutoPosition(a.getPositionX(), a.getPositionY());
                                 overlayController.enableAuto();
                                 overlayController.aktAuto(a);
-                                System.out.println("autoOverlay roll out!!!!");
                                 return;
                             }
                         }

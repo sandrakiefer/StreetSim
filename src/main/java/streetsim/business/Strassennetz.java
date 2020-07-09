@@ -62,7 +62,7 @@ public class Strassennetz {
         int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
         int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
         int distanz = a.distanzBisMitte(mittelpunktX, mittelpunktY);
-        if (distanz > Strassenabschnitt.HALTELINIENABSTAND - 10 && distanz < Strassenabschnitt.HALTELINIENABSTAND) {
+        if (distanz > Strassenabschnitt.HALTELINIENABSTAND && distanz < Strassenabschnitt.HALTELINIENABSTAND + 8) {
             return true;
         } else {
             return false;

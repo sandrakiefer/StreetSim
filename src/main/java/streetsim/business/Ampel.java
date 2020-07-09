@@ -41,13 +41,13 @@ public class Ampel {
                 schaltet = true;
                 new Thread(() -> {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     gelb.set(true);
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -62,7 +62,7 @@ public class Ampel {
                     gruen.set(false);
                     gelb.set(true);
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
