@@ -115,4 +115,14 @@ public class StrassennetzTest {
         assertNotNull(instance.strasseAnPos(128,128), "sollte ein Abschnitt an Postion beinhalten");
         assertEquals(kreuzung, instance.strasseAnPos(128,128), "sollte der neuplatzierte Abschnitt sein");
     }
+
+    @Test
+    @DisplayName("Entferne alle Autos und Strassen")
+    public void entfAlleAutosAbschnitte(){
+        instance.entfAlleAutos();
+        instance.entfAlleStrassen();
+        assertTrue(instance.getAutos().isEmpty(), "Alle Autos sollten aus der Map entfernt worden sein");
+        assertTrue(instance.getAutoList().isEmpty(), "Alle Autos sollten aus der Liste entfernt worden sein");
+        assertTrue(instance.getAbschnitte().isEmpty(), "Alle Abschnitte sollten aus der Map entfernt worden sein");
+    }
 }
