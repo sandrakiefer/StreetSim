@@ -90,11 +90,11 @@ public class StrassennetzTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Strassenabschnitte aus dem Netz entfernen")
     public void entfAbschnittTest(){
         instance.entfStrasse(kreuzung);
-        assertFalse(instance.getAbschnitte().containsKey(kreuzungP));
-        assertFalse(instance.getAbschnitte().containsValue(kreuzung));
+        assertFalse(instance.getAbschnitte().containsKey(kreuzungP), "Position des Abschitts muss aus Map als Key entfernt worden sein");
+        assertFalse(instance.getAbschnitte().containsValue(kreuzung), "Abschnitt muss aus der map als Value entfernt sein");
     }
 
     @Test
@@ -104,5 +104,15 @@ public class StrassennetzTest {
         assertTrue(kreuzung.isAmpelAktiv(), "Ampeln sollten aktiviert sein");
         instance.ampelnDeaktivieren(kreuzung);
         assertFalse(kreuzung.isAmpelAktiv(), "Ampeln sollten deaktiviert sein");
+    }
+
+
+    @Test
+    @DisplayName("Strasse an neue Position bewegen")
+    public void bewegeStrasseTest(){
+        instance.bewegeStrasse(kreuzung, 129, 129);
+        assertNull(instance.strasseAnPos(50,50), "sollte keine Strasse an Position beinhalten");
+        assertNotNull(instance.strasseAnPos(128,128), "sollte ein Abschnitt an Postion beinhalten");
+        assertEquals(kreuzung, instance.strasseAnPos(128,128), "sollte der neuplatzierte Abschnitt sein");
     }
 }
