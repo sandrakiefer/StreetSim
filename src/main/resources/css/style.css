@@ -83,13 +83,6 @@
   -fx-background-color: #c6ccc7;
 }
 
-.navbtn {
-  -fx-min-height: 24pt;
-  -fx-min-width: 24pt;
-  -fx-max-height: 24pt;
-  -fx-max-width: 24pt;
-}
-
 #text1 {
   -fx-font-size: 12pt;
   -fx-font-weight: bold;
