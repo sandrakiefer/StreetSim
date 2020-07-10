@@ -22,6 +22,7 @@ public class InfoController extends AbstractController<StreetSimApp> {
 
     /**
      * Konstruktor des Controllers
+     *
      * @param app Hauptanwendung
      */
     public InfoController(StreetSimApp app) {
@@ -43,10 +44,11 @@ public class InfoController extends AbstractController<StreetSimApp> {
 
     /**
      * Diese Methode erstellt und zeigt ein PopUp Fenster.
+     *
      * @param info Warntext, der angezeigt wird
      */
     public void zeige(String info) {
-        nachricht.setText(info);
+        ((InfoView)rootView).nachricht.setText(info);
 
         popup = popAssist.createPopUp(rootView, app.getHauptStage());
         popAssist.center(popup, app.getHauptStage());
@@ -59,12 +61,12 @@ public class InfoController extends AbstractController<StreetSimApp> {
                 Thread.sleep(4000);
                 Platform.runLater(() -> {
                     popup.close();
-                    rootView = new InfoView();
                 });
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
 
+        rootView = new InfoView();
     }
 }
