@@ -3,27 +3,48 @@
 
 #play{
   -fx-shape: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z";
-  -fx-background-color: $richtigesWEISS;
+  -fx-background-color: $green;
 }
 
 #pause{
   -fx-shape: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z";
-  -fx-background-color: $unserGRAU;
+  -fx-background-color: $orange;
 }
 
 #delete {
   -fx-shape: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z";
-  -fx-background-color: $unserGRAU;
+  -fx-background-color: $grey;
 }
 
 #save {
   -fx-shape: "M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z";
-  -fx-background-color: $unserGRAU;
+  -fx-background-color: $grey;
 }
 
 #exit{
   -fx-shape: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z";
-  -fx-background-color: $unserROT;
+  -fx-background-color: $red;
+}
+
+#navbtn-hintergrund {
+  -fx-background-color: $light-grey;
+  -fx-padding: 10 10 10 10;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+  -fx-spacing: 10;
+}
+
+.context-menu {
+  -fx-background-color: $light-grey;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
+
+.menu-item:focused {
+  -fx-background-color: $blue;
+  -fx-text-fill: $white;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
 }
 
 .menu-button > .arrow-button {

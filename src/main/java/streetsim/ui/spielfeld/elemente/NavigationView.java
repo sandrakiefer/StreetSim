@@ -44,7 +44,11 @@ class NavigationView extends HBox {
         StyleAssist.getInstance().wendeCSSKlassenAn("navbtn", startPause, speichernButton, beende, entferne);
 
         this.setId("abstand");
-        this.getChildren().addAll(startPause, entferne, speichernButton, beende);
+        HBox hintergrund = new HBox();
+        hintergrund.getChildren().addAll(startPause, entferne, speichernButton, beende);
+        hintergrund.setMaxSize(this.getWidth(), startPause.getHeight());
+        hintergrund.setId("navbtn-hintergrund");
+        this.getChildren().addAll(hintergrund);
         this.setAlignment(Pos.BOTTOM_RIGHT);
     }
 }
