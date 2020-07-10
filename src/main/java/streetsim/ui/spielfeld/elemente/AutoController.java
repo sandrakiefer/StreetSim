@@ -6,7 +6,7 @@ import streetsim.ui.spielfeld.AbstractModelController;
 
 /**
  * Controller für Autos.
- *
+ * <p>
  * {@inheritDoc}
  */
 public class AutoController extends AbstractModelController<Auto> {
@@ -26,14 +26,14 @@ public class AutoController extends AbstractModelController<Auto> {
      */
     @Override
     public void handlerAnmelden() {
-        model.positionXProperty().addListener(c -> rootView.setLayoutX(model.getPositionX() - (double) model.getBreite()/2));
+        model.positionXProperty().addListener(c -> rootView.setLayoutX(model.getPositionX() - (double) model.getBreite() / 2));
 
-        model.positionYProperty().addListener(c -> rootView.setLayoutY(model.getPositionY() - (double) model.getLaenge()/2));
+        model.positionYProperty().addListener(c -> rootView.setLayoutY(model.getPositionY() - (double) model.getLaenge() / 2));
 
         model.richtungProperty().addListener((observable, oldValue, newValue) -> ausrichtung());
     }
 
-    private void ausrichtung(){
+    private void ausrichtung() {
         switch (model.getRichtung()) {
             case OSTEN:
                 rootView.setRotate(90);

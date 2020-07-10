@@ -22,7 +22,6 @@ import streetsim.business.abschnitte.Gerade;
 import streetsim.business.abschnitte.Kreuzung;
 import streetsim.business.abschnitte.Kurve;
 import streetsim.business.abschnitte.TStueck;
-import streetsim.business.exceptions.KeinAbschnittException;
 import streetsim.business.exceptions.SchonBelegtException;
 import streetsim.ui.AbstractController;
 import streetsim.ui.StreetSimApp;
@@ -212,7 +211,7 @@ public class SpielViewController extends AbstractController<StreetSimApp> {
                                 Auto a = new Auto((int) Math.round(event.getX()), (int) Math.round(event.getY()), am);
                                 try {
                                     netz.autoAdden(a);
-                                } catch (KeinAbschnittException | SchonBelegtException e) {
+                                } catch (SchonBelegtException e) {
                                     infoController.zeige(e.getMessage());
                                     event.setDropCompleted(true);
                                     event.consume();

@@ -12,7 +12,7 @@ public class GeradeView extends ImageView {
     /**
      * Konstruktor, welcher ein vordefiniertes Bild lädt.
      */
-    public GeradeView(){
+    public GeradeView() {
         super();
 
         ResourceAssist assist = ResourceAssist.getInstance();

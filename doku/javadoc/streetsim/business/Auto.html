@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -89,13 +89,13 @@ loadScripts(document, 'script');</script>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -134,7 +134,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre>public class <span class="typeNameLabel">Auto</span>
 extends java.lang.Object</pre>
 <div class="block">In eine Himmelsrichtung sich fortbewegendes Objekt
- welches auf das Strassennetz, inbesondere Ampeln, reagiert</div>
+ welches auf das Straßennetz, insbesondere Ampeln, reagiert</div>
 </li>
 </ul>
 </div>
@@ -158,6 +158,29 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>static class&nbsp;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Auto.AutoModell.html" title="enum in streetsim.business">Auto.AutoModell</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+</section>
+<!-- =========== FIELD SUMMARY =========== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="field.summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="memberSummary">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Field</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#MAXGESCHWINDIGKEIT">MAXGESCHWINDIGKEIT</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -202,15 +225,6 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#autoKollision(streetsim.business.Position,javafx.scene.shape.Rectangle)">autoKollision</a></span>&#8203;(<a href="Position.html" title="class in streetsim.business">Position</a>&nbsp;p,
-             javafx.scene.shape.Rectangle&nbsp;newR)</code></th>
-<td class="colLast">
-<div class="block">Überprüfung der zu fahrenden Strecke
- auf Kollision mit anderem Auto</div>
-</td>
-</tr>
-<tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#distanzBisMitte(int,int)">distanzBisMitte</a></span>&#8203;(int&nbsp;mittelpunktX,
                int&nbsp;mittelpunktY)</code></th>
@@ -220,119 +234,109 @@ extends java.lang.Object</pre>
  (Rechtsverkehr Offset wird vernachlässigt)</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#fahre()">fahre</a></span>()</code></th>
 <td class="colLast">
-<div class="block">eigenständiges Fahren des Autos</div>
+<div class="block">Eigenständiges Fahren des Autos
+ Überprüfung auf eventuell eintretende Kollision
+ Überprüfung und Berücksichtigung der aktuellen Ampelphase
+ Berücksichtigung der Verkehrsregeln (rechts vor links)
+ Überprüfung auf Fortführung des Straßenabschnitts (Einleitung eines U-Turns)
+ Fahren unter Berücksichtigung möglicher zuvor ermittelter Wendepunkte (Abbiegen, U-Turn)
+ mögliches Versetzen des Autos in neuen Straßenabschnitt (Handover)</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code><a href="Auto.AutoModell.html" title="enum in streetsim.business">Auto.AutoModell</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAutoModell()">getAutoModell</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getBreite()">getBreite</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
-<td class="colFirst"><code>float</code></td>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getGeschwindigkeit()">getGeschwindigkeit</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>float</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getGeschwindigkeitsfaktor()">getGeschwindigkeitsfaktor</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLaenge()">getLaenge</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPositionX()">getPositionX</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPositionY()">getPositionY</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>javafx.scene.shape.Rectangle</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRectangle()">getRectangle</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="Himmelsrichtung.html" title="enum in streetsim.business">Himmelsrichtung</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRichtung()">getRichtung</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
-<td class="colFirst"><code>boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#kreuzungBlockiert(streetsim.business.Position,int,int,java.util.List)">kreuzungBlockiert</a></span>&#8203;(<a href="Position.html" title="class in streetsim.business">Position</a>&nbsp;p,
-                 int&nbsp;mittelpunktX,
-                 int&nbsp;mittelpunktY,
-                 java.util.List&lt;<a href="Himmelsrichtung.html" title="enum in streetsim.business">Himmelsrichtung</a>&gt;&nbsp;h)</code></th>
-<td class="colLast">
-<div class="block">Überprüfung ob Autos eines Abschnittes
- (fahren in angegebener Himmelsrichtung)
- sich im relevanten Bereich zum Abbiegen
- des Abschnittes befinden</div>
-</td>
-</tr>
-<tr id="i13" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#positionierung()">positionierung</a></span>()</code></th>
-<td class="colLast">
-<div class="block">Positionierung und Ausrichtung des Autos
- an nächstgelegener Stelle des Strassenabschnittes</div>
-</td>
-</tr>
-<tr id="i14" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>javafx.beans.property.SimpleIntegerProperty</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#positionXProperty()">positionXProperty</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>javafx.beans.property.SimpleIntegerProperty</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#positionYProperty()">positionYProperty</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>javafx.beans.property.SimpleObjectProperty&lt;<a href="Himmelsrichtung.html" title="enum in streetsim.business">Himmelsrichtung</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#richtungProperty()">richtungProperty</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotiere()">rotiere</a></span>()</code></th>
 <td class="colLast">
-<div class="block">rotiert ein Auto um 90° im Uhrzeigersinn</div>
+<div class="block">Rotiert ein Auto um 90° im Uhrzeigersinn</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setGeschwindigkeit(float)">setGeschwindigkeit</a></span>&#8203;(float&nbsp;geschwindigkeitsfaktor)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPositionX(int)">setPositionX</a></span>&#8203;(int&nbsp;positionX)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setPositionY(int)">setPositionY</a></span>&#8203;(int&nbsp;positionY)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setRichtung(streetsim.business.Himmelsrichtung)">setRichtung</a></span>&#8203;(<a href="Himmelsrichtung.html" title="enum in streetsim.business">Himmelsrichtung</a>&nbsp;richtung)</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i19" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -341,7 +345,7 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -352,6 +356,29 @@ extends java.lang.Object</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="field.detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a id="MAXGESCHWINDIGKEIT">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>MAXGESCHWINDIGKEIT</h4>
+<pre>public static final&nbsp;int MAXGESCHWINDIGKEIT</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#streetsim.business.Auto.MAXGESCHWINDIGKEIT">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <section role="region">
 <ul class="blockList">
@@ -380,15 +407,14 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a id="positionierung()">
+<a id="rotiere()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>positionierung</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;positionierung()</pre>
-<div class="block">Positionierung und Ausrichtung des Autos
- an nächstgelegener Stelle des Strassenabschnittes</div>
+<h4>rotiere</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;rotiere()</pre>
+<div class="block">Rotiert ein Auto um 90° im Uhrzeigersinn</div>
 </li>
 </ul>
 <a id="fahre()">
@@ -398,14 +424,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>fahre</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;fahre()</pre>
-<div class="block">eigenständiges Fahren des Autos
- <p>
+<div class="block">Eigenständiges Fahren des Autos
  Überprüfung auf eventuell eintretende Kollision
  Überprüfung und Berücksichtigung der aktuellen Ampelphase
  Berücksichtigung der Verkehrsregeln (rechts vor links)
- Überprüfung auf Fortführung des Strassenabschnittes (Einleitung eines U-Turns)
- Fahren unter Berücksichtigung möglicher zuvor ermittelter Wendepuntke (Abbiegen, U-Turn)
- mögliches Versetzen des Autos in neuen Strassenabschnitt (Handover)</div>
+ Überprüfung auf Fortführung des Straßenabschnitts (Einleitung eines U-Turns)
+ Fahren unter Berücksichtigung möglicher zuvor ermittelter Wendepunkte (Abbiegen, U-Turn)
+ mögliches Versetzen des Autos in neuen Straßenabschnitt (Handover)</div>
 </li>
 </ul>
 <a id="distanzBisMitte(int,int)">
@@ -426,78 +451,6 @@ extends java.lang.Object</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Distanz</dd>
 </dl>
-</li>
-</ul>
-<a id="kreuzungBlockiert(streetsim.business.Position,int,int,java.util.List)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>kreuzungBlockiert</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;kreuzungBlockiert&#8203;(<a href="Position.html" title="class in streetsim.business">Position</a>&nbsp;p,
-                                 int&nbsp;mittelpunktX,
-                                 int&nbsp;mittelpunktY,
-                                 java.util.List&lt;<a href="Himmelsrichtung.html" title="enum in streetsim.business">Himmelsrichtung</a>&gt;&nbsp;h)</pre>
-<div class="block">Überprüfung ob Autos eines Abschnittes
- (fahren in angegebener Himmelsrichtung)
- sich im relevanten Bereich zum Abbiegen
- des Abschnittes befinden</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>p</code> - Position des Strassenabschnitts</dd>
-<dd><code>mittelpunktX</code> - Mittelpunkt-Koordinate-X des aktuellen Abschnitts</dd>
-<dd><code>mittelpunktY</code> - Mittelpunkt-Koordinate-Y des aktuellen Abschnitts</dd>
-<dd><code>h</code> - Liste von zu beachtenden Himmelsrichtungen</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>Kreuzung (Bereich zum Abbiegen) ist blockiert</dd>
-</dl>
-</li>
-</ul>
-<a id="autoKollision(streetsim.business.Position,javafx.scene.shape.Rectangle)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>autoKollision</h4>
-<pre class="methodSignature">public&nbsp;boolean&nbsp;autoKollision&#8203;(<a href="Position.html" title="class in streetsim.business">Position</a>&nbsp;p,
-                             javafx.scene.shape.Rectangle&nbsp;newR)</pre>
-<div class="block">Überprüfung der zu fahrenden Strecke
- auf Kollision mit anderem Auto</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>p</code> - Position des Strassenabschnitts</dd>
-<dd><code>newR</code> - Rechteck des Autos auf künftiger Position</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>ob nächste Position des Autos verfügbar ist (ohne Kollision mit anderem Auto)</dd>
-</dl>
-</li>
-</ul>
-<a id="rotiere()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>rotiere</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;rotiere()</pre>
-<div class="block">rotiert ein Auto um 90° im Uhrzeigersinn</div>
-</li>
-</ul>
-<a id="getGeschwindigkeit()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getGeschwindigkeit</h4>
-<pre class="methodSignature">public&nbsp;float&nbsp;getGeschwindigkeit()</pre>
-</li>
-</ul>
-<a id="setGeschwindigkeit(float)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setGeschwindigkeit</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setGeschwindigkeit&#8203;(float&nbsp;geschwindigkeitsfaktor)</pre>
 </li>
 </ul>
 <a id="getGeschwindigkeitsfaktor()">
@@ -536,15 +489,6 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;int&nbsp;getPositionX()</pre>
 </li>
 </ul>
-<a id="positionXProperty()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>positionXProperty</h4>
-<pre class="methodSignature">public&nbsp;javafx.beans.property.SimpleIntegerProperty&nbsp;positionXProperty()</pre>
-</li>
-</ul>
 <a id="setPositionX(int)">
 <!--   -->
 </a>
@@ -552,6 +496,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setPositionX</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setPositionX&#8203;(int&nbsp;positionX)</pre>
+</li>
+</ul>
+<a id="positionXProperty()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>positionXProperty</h4>
+<pre class="methodSignature">public&nbsp;javafx.beans.property.SimpleIntegerProperty&nbsp;positionXProperty()</pre>
 </li>
 </ul>
 <a id="getPositionY()">
@@ -563,15 +516,6 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;int&nbsp;getPositionY()</pre>
 </li>
 </ul>
-<a id="positionYProperty()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>positionYProperty</h4>
-<pre class="methodSignature">public&nbsp;javafx.beans.property.SimpleIntegerProperty&nbsp;positionYProperty()</pre>
-</li>
-</ul>
 <a id="setPositionY(int)">
 <!--   -->
 </a>
@@ -579,6 +523,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setPositionY</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setPositionY&#8203;(int&nbsp;positionY)</pre>
+</li>
+</ul>
+<a id="positionYProperty()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>positionYProperty</h4>
+<pre class="methodSignature">public&nbsp;javafx.beans.property.SimpleIntegerProperty&nbsp;positionYProperty()</pre>
 </li>
 </ul>
 <a id="getBreite()">
@@ -620,10 +573,41 @@ extends java.lang.Object</pre>
 <a id="getAutoModell()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getAutoModell</h4>
 <pre class="methodSignature">public&nbsp;<a href="Auto.AutoModell.html" title="enum in streetsim.business">Auto.AutoModell</a>&nbsp;getAutoModell()</pre>
+</li>
+</ul>
+<a id="toString()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>toString</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;toString()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+</dl>
+</li>
+</ul>
+<a id="getGeschwindigkeit()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getGeschwindigkeit</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;getGeschwindigkeit()</pre>
+</li>
+</ul>
+<a id="setGeschwindigkeit(float)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setGeschwindigkeit</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setGeschwindigkeit&#8203;(float&nbsp;geschwindigkeitsfaktor)</pre>
 </li>
 </ul>
 </li>
@@ -678,13 +662,13 @@ extends java.lang.Object</pre>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

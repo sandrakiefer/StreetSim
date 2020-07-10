@@ -13,7 +13,7 @@ import streetsim.ui.StreetSimApp;
 
 /**
  * Klasse für Aktionen um Straßen/Autos zu editieren.
- *
+ * <p>
  * {@inheritDoc}
  */
 public class OverlayController extends AbstractController<StreetSimApp> {
@@ -46,6 +46,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
 
     /**
      * Setzt die Position für die Buttons des ausgewählten Straßenabschnitts.
+     *
      * @param x Koordinate des Straßenabschnitts
      * @param y Koordinate des Straßenabschnitts
      */
@@ -55,6 +56,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
 
     /**
      * Setzt die position für die Buttons des ausgewählten Autos.
+     *
      * @param x Koordinate des Autos
      * @param y Koordinate des Autos
      */
@@ -66,6 +68,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
      * Macht die Buttons für das Löschen, Rotieren des Straßenabschnitts und das (De-)Aktivieren der Ampeln
      * und die RootView sichtbar.
      * Zusätzlich werden die Buttons für das Löschen und das Anpassen der Geschwindigkeit der Autos unsichtbar.
+     *
      * @param s Straßenabschnitt, welches editiert werden soll.
      */
     public void enableStrasse(Strassenabschnitt s) {
@@ -128,6 +131,7 @@ public class OverlayController extends AbstractController<StreetSimApp> {
 
     /**
      * Setzt das aktuell ausgewählte Auto und passt den Geschwindigkeits-Slider an.
+     *
      * @param a angeklicktes Auto
      */
     public void aktAuto(Auto a) {
@@ -137,9 +141,12 @@ public class OverlayController extends AbstractController<StreetSimApp> {
 
     /**
      * Passt die Geschwindigkeit des Autos an
+     *
      * @param val Geschwindigkeitswert
      */
-    public void geschwindigkeitAuto(Number val){ netz.geschwindigkeitAnpassen(aktuellesAuto, val.floatValue()); }
+    public void geschwindigkeitAuto(Number val) {
+        netz.geschwindigkeitAnpassen(aktuellesAuto, val.floatValue());
+    }
 
     private void loescheStrasse(double x, double y) {
         Strassenabschnitt s = netz.strasseAnPos((int) Math.round(x), (int) Math.round(y));

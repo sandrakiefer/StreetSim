@@ -13,7 +13,7 @@ public class AmpelView extends ImageView {
     /**
      * Konstruktor, der in der View das entsprechende Bild setzt.
      */
-    public AmpelView(){
+    public AmpelView() {
         super();
         ResourceAssist assist = ResourceAssist.getInstance();
         this.setImage(new Image(assist.holeRessourceAusOrdnern("assets", "ampeln", "ampelRot.png")));

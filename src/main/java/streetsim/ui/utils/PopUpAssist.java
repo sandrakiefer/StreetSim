@@ -13,7 +13,8 @@ public class PopUpAssist {
 
     public static PopUpAssist instance;
 
-    private PopUpAssist(){}
+    private PopUpAssist() {
+    }
 
     public static PopUpAssist getInstance() {
         if (instance == null) instance = new PopUpAssist();
@@ -22,11 +23,12 @@ public class PopUpAssist {
 
     /**
      * PopUp wird als Modal-Window erzeugt.
-     * @param pane View, die in dem PopUp angezeigt werden soll.
+     *
+     * @param pane  View, die in dem PopUp angezeigt werden soll.
      * @param owner Stage, die unter dem PopUp liegt.
      * @return das fertige PopUp.
      */
-    public Stage createPopUp(Pane pane, Stage owner){
+    public Stage createPopUp(Pane pane, Stage owner) {
         Stage newWindow = new Stage();
 
         Scene scene = new Scene(pane);
@@ -38,8 +40,9 @@ public class PopUpAssist {
 
     /**
      * Zentriert ein (am besten mit {@link #createPopUp(Pane, Stage)} erzeugtes PopUp.
+     *
      * @param newWindow PopUp Fenster, das zentriert werden soll.
-     * @param owner Darunterliegende Stage.
+     * @param owner     Darunterliegende Stage.
      */
     public void center(Stage newWindow, Stage owner) {
         Platform.runLater(() -> {

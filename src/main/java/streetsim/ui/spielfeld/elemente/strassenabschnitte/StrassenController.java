@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 /**
  * Controller für Straßenabschnitte.
- *
+ * <p>
  * {@inheritDoc}
  */
 public class StrassenController extends AbstractModelController<Strassenabschnitt> {

@@ -9,7 +9,7 @@ import streetsim.ui.utils.ResourceAssist;
 
 /**
  * Controller für Ampeln.
- *
+ * <p>
  * {@inheritDoc}
  */
 public class AmpelController extends AbstractModelController<Ampel> {
@@ -34,6 +34,7 @@ public class AmpelController extends AbstractModelController<Ampel> {
 
     /**
      * setzt die endgültige X Koordinate für Ampel fest.
+     *
      * @param absolutePosX X-Koordinate
      */
     public void setAbsolutePosX(double absolutePosX) {
@@ -42,6 +43,7 @@ public class AmpelController extends AbstractModelController<Ampel> {
 
     /**
      * Setzt die endgültige Y Koordinate für Ampel fest.
+     *
      * @param absolutePosY Y-Koordinate
      */
     public void setAbsolutePosY(double absolutePosY) {
@@ -54,23 +56,27 @@ public class AmpelController extends AbstractModelController<Ampel> {
     @Override
     public void handlerAnmelden() {
 
-        model.isRotProperty().addListener(change ->{
-            if (model.isRot() && !model.isGelb() && !model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelRot));
+        model.isRotProperty().addListener(change -> {
+            if (model.isRot() && !model.isGelb() && !model.isGruen())
+                Platform.runLater(() -> rootView.setImage(ampelRot));
         });
 
-        model.isGelbProperty().addListener(change ->{
-            if (model.isRot() && model.isGelb() && !model.isGruen()) Platform.runLater(()-> rootView.setImage(ampelRotGelb));
-            else if (!model.isRot() && model.isGelb() && !model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelGelb));
+        model.isGelbProperty().addListener(change -> {
+            if (model.isRot() && model.isGelb() && !model.isGruen())
+                Platform.runLater(() -> rootView.setImage(ampelRotGelb));
+            else if (!model.isRot() && model.isGelb() && !model.isGruen())
+                Platform.runLater(() -> rootView.setImage(ampelGelb));
         });
 
         model.isGruenProperty().addListener(change -> {
-            if (!model.isRot() && !model.isGelb() && model.isGruen()) Platform.runLater(() -> rootView.setImage(ampelGruen));
+            if (!model.isRot() && !model.isGelb() && model.isGruen())
+                Platform.runLater(() -> rootView.setImage(ampelGruen));
         });
 
         model.richtungProperty().addListener(c -> ausrichtung());
     }
 
-    private void ausrichtung(){
+    private void ausrichtung() {
         switch (model.getRichtung()) {
             case NORDEN:
                 rootView.setRotate(180);
@@ -87,7 +93,7 @@ public class AmpelController extends AbstractModelController<Ampel> {
         }
     }
 
-    private void init(){
+    private void init() {
         if (model.isRot() && !model.isGelb() && !model.isGruen()) rootView.setImage(ampelRot);
         else if (model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelRotGelb);
         else if (!model.isRot() && model.isGelb() && !model.isGruen()) rootView.setImage(ampelGelb);

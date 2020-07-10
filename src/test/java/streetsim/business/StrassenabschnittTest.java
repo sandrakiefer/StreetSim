@@ -1,6 +1,7 @@
 package streetsim.business;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import streetsim.business.abschnitte.Gerade;
 import streetsim.business.abschnitte.Kreuzung;
@@ -9,7 +10,8 @@ import streetsim.business.abschnitte.TStueck;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StrassenabschnittTest {
     List<Himmelsrichtung> k1List;
@@ -32,7 +34,8 @@ public class StrassenabschnittTest {
     Kurve u;
     TStueck t;
 
-    @BeforeEach public void setUp(){
+    @BeforeEach
+    public void setUp() {
         k1List = List.of(Himmelsrichtung.NORDEN, Himmelsrichtung.OSTEN, Himmelsrichtung.SUEDEN, Himmelsrichtung.WESTEN);
         k2List = List.of(Himmelsrichtung.OSTEN, Himmelsrichtung.SUEDEN, Himmelsrichtung.WESTEN, Himmelsrichtung.NORDEN);
         k3List = List.of(Himmelsrichtung.SUEDEN, Himmelsrichtung.WESTEN, Himmelsrichtung.NORDEN, Himmelsrichtung.OSTEN);
@@ -52,14 +55,15 @@ public class StrassenabschnittTest {
         g2List = List.of(Himmelsrichtung.NORDEN, Himmelsrichtung.SUEDEN);
 
         k = new Kreuzung(128, 128);
-        g = new Gerade(0,0);
+        g = new Gerade(0, 0);
         u = new Kurve(128, 0);
         t = new TStueck(0, 128);
 
     }
 
     @Test
-    public void erzeugeAbschnittTest(){
+    @DisplayName("Test, ob Ampeln korrekt gesetzt werden")
+    public void erzeugeAbschnittTest() {
         assertEquals(Kreuzung.definiereRichtungen(), k.getRichtungen(), "Himmelsrichtungen von Kreuzung muessen uebereinstimmen");
         assertEquals(Gerade.definiereRichtungen(), g.getRichtungen(), "Himmelsrichtungen von Gerade muessen uebereinstimmen");
         assertEquals(Kurve.definiereRichtungen(), u.getRichtungen(), "Himmelsrichtungen von Kurve muessen uebereinstimmen");
@@ -72,7 +76,8 @@ public class StrassenabschnittTest {
     }
 
     @Test
-    public void ampelnAktivTest(){
+    @DisplayName("Test, ob Ampeln aktivierbar sind")
+    public void ampelnAktivTest() {
         k.ampelnAktivieren();
         g.ampelnAktivieren();
         u.ampelnAktivieren();
@@ -85,7 +90,8 @@ public class StrassenabschnittTest {
     }
 
     @Test
-    public void rotiereTest(){
+    @DisplayName("Nach Rotation hat Straße neue Richtungen")
+    public void rotiereTest() {
         k.rotiere();
         g.rotiere();
         u.rotiere();
@@ -118,8 +124,6 @@ public class StrassenabschnittTest {
         assertEquals(g1List, g.getRichtungen(), "Ausgangsposition");
         assertEquals(u1List, u.getRichtungen(), "Ausgangsposition");
         assertEquals(t1List, t.getRichtungen(), "Ausgangsposition");
-
-
 
 
     }

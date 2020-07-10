@@ -10,9 +10,8 @@ import javafx.scene.layout.StackPane;
 
 class SpielfeldView extends StackPane {
 
-    Pane abschnitte;
-    Pane autosUndAmpeln;
-    Label name;
+    final Pane abschnitte, autosUndAmpeln;
+    final Label name;
 
     SpielfeldView() {
         super();
@@ -20,7 +19,7 @@ class SpielfeldView extends StackPane {
         autosUndAmpeln = new Pane();
         name = new Label();
         name.setStyle("-fx-background-color: #c6ccc7; -fx-background-radius: 5; -fx-padding: 5; -fx-font-weight: bold; -fx-font-size: 14pt;");
-        SpielfeldView.setMargin(name, new Insets(10,0,0,10));
+        SpielfeldView.setMargin(name, new Insets(10, 0, 0, 10));
         setAlignment(Pos.TOP_LEFT);
         this.getChildren().addAll(abschnitte, autosUndAmpeln, name);
 

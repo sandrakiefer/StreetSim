@@ -17,13 +17,14 @@ public class QuitPopUpController extends AbstractController<StreetSimApp> {
     /**
      * Konstruktor, der die View initialisiert und zusätzlich den Aufrufer festlegt, um
      * mit seinen Methoden Aktionen durchzuführen.
-     * @param netz Straßennetz Model Objekt
-     * @param app Hauptanwendung
+     *
+     * @param netz     Straßennetz Model Objekt
+     * @param app      Hauptanwendung
      * @param aufrufer Aufrufer des Controllers
      */
     public QuitPopUpController(Strassennetz netz, StreetSimApp app, NavigationController aufrufer) {
         super(netz, app);
-        
+
         rootView = new QuitPopUpView();
 
         this.aufrufer = aufrufer;

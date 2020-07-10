@@ -18,13 +18,12 @@ import streetsim.ui.StreetSimApp;
 import streetsim.ui.spielfeld.elemente.strassenabschnitte.*;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Controller für Aktionen im Spielfeld
- *
+ * <p>
  * {@inheritDoc}
  */
 public class SpielfeldController extends AbstractController<StreetSimApp> {
@@ -144,7 +143,7 @@ public class SpielfeldController extends AbstractController<StreetSimApp> {
      *
      * @param s Straßenabschnitte, die entfernt wurden
      */
-    public void entfStrasse(Strassenabschnitt ... s) {
+    public void entfStrasse(Strassenabschnitt... s) {
         for (Strassenabschnitt st : s) {
             StrassenController sc = strassenController.remove(st);
             sc.getAlleAmpeln().forEach(a -> ((SpielfeldView) rootView).entferneAmpelOderAuto(a.getRootView()));

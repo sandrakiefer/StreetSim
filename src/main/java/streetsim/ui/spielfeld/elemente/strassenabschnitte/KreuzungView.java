@@ -12,7 +12,7 @@ public class KreuzungView extends ImageView {
     /**
      * Konstruktor, welcher ein vordefiniertes Bild lädt.
      */
-    public KreuzungView(){
+    public KreuzungView() {
         super();
 
         ResourceAssist assist = ResourceAssist.getInstance();

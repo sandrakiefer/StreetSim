@@ -30,7 +30,7 @@ public class Position {
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
         return positionX == position.positionX &&
-                positionY == position.positionY;
+               positionY == position.positionY;
     }
 
     @Override

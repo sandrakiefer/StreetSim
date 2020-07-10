@@ -12,7 +12,7 @@ public class TStueckView extends ImageView {
     /**
      * Konstruktor, welcher ein vordefiniertes Bild lädt.
      */
-    public TStueckView(){
+    public TStueckView() {
         super();
 
         ResourceAssist assist = ResourceAssist.getInstance();

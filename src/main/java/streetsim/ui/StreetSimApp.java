@@ -24,6 +24,10 @@ public class StreetSimApp extends Application {
     private Scene aktuelleSzene;
     private Stage hauptStage;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -58,10 +62,6 @@ public class StreetSimApp extends Application {
         this.hauptStage.show();
         this.hauptStage.setOnHidden(e -> System.exit(0));
 
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     /**

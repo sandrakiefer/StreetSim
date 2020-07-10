@@ -8,9 +8,9 @@ import javafx.scene.layout.VBox;
 
 public class QuitPopUpView extends VBox {
 
-    Button speichern, verwerfen, abbrechen;
+    final Button speichern, verwerfen, abbrechen;
 
-    QuitPopUpView(){
+    QuitPopUpView() {
         super();
 
         Label info = new Label("Du hast ungespeicherte Änderungen. Alle ungespeicherten Änderungen gehen verloren.");

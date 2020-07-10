@@ -16,7 +16,8 @@ public class AmpelTest {
     private Ampel osten;
 
     @Test
-    @BeforeEach public void ampelInit(){
+    @BeforeEach
+    public void ampelInit() {
         norden = new Ampel(Himmelsrichtung.NORDEN);
         sueden = new Ampel(Himmelsrichtung.SUEDEN);
         westen = new Ampel(Himmelsrichtung.WESTEN);
@@ -25,7 +26,7 @@ public class AmpelTest {
 
     @Test
     @DisplayName("Ampel sollten nach 2 Sekunden geschaltet werden")
-    public void testSchaltung(){
+    public void testSchaltung() {
 
         assertTrue(norden.isRot() && !norden.isGelb() && !norden.isGruen());
 
@@ -47,7 +48,7 @@ public class AmpelTest {
 
     @Test
     @DisplayName("Phasen werden manuell gesetzt")
-    public void testPhasen(){
+    public void testPhasen() {
 
         norden.setGruenPhase();
         assertTrue(!norden.isRot() && !norden.isGelb() && norden.isGruen(), "Zustand Gruen erwartet");
@@ -61,7 +62,7 @@ public class AmpelTest {
 
     @Test
     @DisplayName("Rotation um 90°")
-    public void testRotation(){
+    public void testRotation() {
         assertEquals(Himmelsrichtung.NORDEN, norden.getRichtung(), "Ampel Norden startet im Norden");
         assertEquals(Himmelsrichtung.OSTEN, osten.getRichtung(), "Ampel Osten startet im Osten");
         assertEquals(Himmelsrichtung.SUEDEN, sueden.getRichtung(), "Ampel Sueden startet im Sueden");

@@ -45,7 +45,7 @@ public class Auto {
     public void rotiere() {
         Position p = new Position(this.getPositionX(), this.getPositionY());
         Strassenabschnitt aktuellerAbschnitt = Strassennetz.getInstance().getAbschnitte().get(p);
-        int[] mittelpunkt = {aktuellerAbschnitt.getPositionX() + aktuellerAbschnitt.getGroesse() / 2, aktuellerAbschnitt.getPositionY() + aktuellerAbschnitt.getGroesse() / 2};
+        int[] mittelpunkt = {aktuellerAbschnitt.getPositionX() + Strassenabschnitt.GROESSE / 2, aktuellerAbschnitt.getPositionY() + Strassenabschnitt.GROESSE / 2};
         int[] alterPunkt = {this.getPositionX(), this.getPositionY()};
         double winkel = Math.toRadians(90.0);
         double[] zwPunkt = {Math.cos(winkel) * (alterPunkt[0] - mittelpunkt[0]) + (-1) * Math.sin(winkel) * (alterPunkt[1] - mittelpunkt[1]),
@@ -68,8 +68,8 @@ public class Auto {
     public void fahre() {
         Position p = new Position(positionX.get(), positionY.get());
         Strassenabschnitt aktuellerAbschnitt = Strassennetz.getInstance().getAbschnitte().get(p);
-        int mittelpunktX = aktuellerAbschnitt.getPositionX() + aktuellerAbschnitt.getGroesse() / 2;
-        int mittelpunktY = aktuellerAbschnitt.getPositionY() + aktuellerAbschnitt.getGroesse() / 2;
+        int mittelpunktX = aktuellerAbschnitt.getPositionX() + Strassenabschnitt.GROESSE / 2;
+        int mittelpunktY = aktuellerAbschnitt.getPositionY() + Strassenabschnitt.GROESSE / 2;
 
         Wendepunkt neuePosition = positionAktualisieren();
 

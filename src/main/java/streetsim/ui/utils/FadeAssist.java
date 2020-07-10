@@ -11,15 +11,17 @@ public class FadeAssist {
 
     private static FadeAssist instance;
 
-    private FadeAssist() {}
+    private FadeAssist() {
+    }
 
-    public static FadeAssist getInstance(){
+    public static FadeAssist getInstance() {
         if (instance == null) instance = new FadeAssist();
         return instance;
     }
 
     /**
      * Einfaden des Panes
+     *
      * @param pane Pane, welches eingeblendet werden soll.
      */
     public void fadeInPane(Pane pane) {
@@ -31,6 +33,7 @@ public class FadeAssist {
 
     /**
      * Crossfade zwischen zwei Panes.
+     *
      * @param paneToHide Pane, welches aktuell angezeigt wird
      * @param paneToShow Pane, welches als Nachergebnis angezeigt werden soll.
      */

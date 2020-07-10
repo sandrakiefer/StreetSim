@@ -111,7 +111,7 @@ public class Ampel {
         rotiereRelativePosition();
     }
 
-    private void rotiereRelativePosition(){
+    private void rotiereRelativePosition() {
         double g = Strassenabschnitt.GROESSE;
         double offsetX = BREITE / 2;
         double offsetY = HOEHE / 2;
@@ -130,7 +130,7 @@ public class Ampel {
                 break;
             case OSTEN:
                 relPosX.set(((7 * g) / 8.0) - offsetX);
-                relPosY.set(( g / 8.0) - offsetY);
+                relPosY.set((g / 8.0) - offsetY);
                 break;
         }
     }
@@ -159,11 +159,17 @@ public class Ampel {
         return gruen.get();
     }
 
-    public BooleanProperty isRotProperty() {return  rot;}
+    public BooleanProperty isRotProperty() {
+        return rot;
+    }
 
-    public BooleanProperty isGelbProperty() {return  gelb;}
+    public BooleanProperty isGelbProperty() {
+        return gelb;
+    }
 
-    public BooleanProperty isGruenProperty() {return  gruen;}
+    public BooleanProperty isGruenProperty() {
+        return gruen;
+    }
 
     public SimpleObjectProperty<Himmelsrichtung> richtungProperty() {
         return richtung;

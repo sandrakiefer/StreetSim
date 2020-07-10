@@ -8,12 +8,12 @@ class AutoView extends ImageView {
 
     private final Auto.AutoModell autoModell;
 
-    AutoView(Image image, Auto.AutoModell autoModell){
+    AutoView(Image image, Auto.AutoModell autoModell) {
         super(image);
         this.autoModell = autoModell;
     }
 
-    public AutoView(AutoView autoView){
+    public AutoView(AutoView autoView) {
         this(autoView.getImage(), autoView.autoModell);
     }
 

@@ -12,7 +12,7 @@ public class KurveView extends ImageView {
     /**
      * Konstruktor, welcher ein vordefiniertes Bild lädt.
      */
-    public KurveView(){
+    public KurveView() {
         super();
 
         ResourceAssist assist = ResourceAssist.getInstance();

@@ -12,7 +12,7 @@ class StartseiteView extends BorderPane {
     final StackPane kontrollPane;
     final VBox fortfahrPane, startPane;
 
-    StartseiteView(){
+    StartseiteView() {
         super();
 
         // Erste Ansicht

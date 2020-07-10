@@ -1,12 +1,12 @@
 @import "size";
 @import "colors";
 
-#play{
+#play {
   -fx-shape: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z";
   -fx-background-color: $green;
 }
 
-#pause{
+#pause {
   -fx-shape: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z";
   -fx-background-color: $orange;
 }
@@ -21,7 +21,7 @@
   -fx-background-color: $grey;
 }
 
-#exit{
+#exit {
   -fx-shape: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z";
   -fx-background-color: $red;
 }
@@ -56,12 +56,12 @@
 }
 
 .menu-button > .arrow-button,
-.menu-button > .label{
+.menu-button > .label {
   -fx-background-color: transparent;
   -fx-padding: 0;
 }
 
 .menu-button:disabled, .menu-button:disabled > * {
-  -fx-opacity: 1.0 ;
+  -fx-opacity: 1.0;
 }
 

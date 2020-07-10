@@ -9,7 +9,8 @@ public class StyleAssist {
 
     private static StyleAssist instance;
 
-    private StyleAssist (){}
+    private StyleAssist() {
+    }
 
     public static StyleAssist getInstance() {
         if (instance == null) instance = new StyleAssist();
@@ -18,8 +19,9 @@ public class StyleAssist {
 
     /**
      * Eine Methode, die auf mehrere JavaFX-{@link Region}s eine gleiche CSS-Klasse anwendet.
+     *
      * @param cssKlasse CSS-Klasse, die gesetzt werden soll.
-     * @param regions Regions, auf die die CSS-Klasse angewandt werden soll.
+     * @param regions   Regions, auf die die CSS-Klasse angewandt werden soll.
      */
     public void wendeCSSKlassenAn(String cssKlasse, Region... regions) {
         for (Region r : regions) r.getStyleClass().add(cssKlasse);

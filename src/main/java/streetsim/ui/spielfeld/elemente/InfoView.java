@@ -5,7 +5,7 @@ import javafx.scene.layout.HBox;
 
 class InfoView extends HBox {
 
-    Label nachricht;
+    final Label nachricht;
 
     InfoView() {
         super();

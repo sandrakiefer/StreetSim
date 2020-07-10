@@ -6,7 +6,7 @@ package streetsim.business;
  */
 public enum Himmelsrichtung {
 
-    NORDEN(0,-1), OSTEN(1,0), SUEDEN(0,1), WESTEN(-1,0);
+    NORDEN(0, -1), OSTEN(1, 0), SUEDEN(0, 1), WESTEN(-1, 0);
 
     private final int x;
     private final int y;
@@ -43,7 +43,7 @@ public enum Himmelsrichtung {
      * @return Himmelsrichtung
      */
     public Himmelsrichtung vorheriges() {
-        return  Himmelsrichtung.values()[(this.ordinal() + 3) % 4];
+        return Himmelsrichtung.values()[(this.ordinal() + 3) % 4];
     }
 
     public int getX() {

@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Controller für Aktionen im Seitenmenü.
- *
+ * <p>
  * {@inheritDoc}
  */
 public class MenueController extends AbstractController<StreetSimApp> {

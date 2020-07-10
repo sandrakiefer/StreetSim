@@ -138,6 +138,9 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre>public class <span class="typeNameLabel">StrassenAdapter</span>
 extends java.lang.Object
 implements com.google.gson.JsonSerializer&lt;<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&gt;, com.google.gson.JsonDeserializer&lt;<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&gt;</pre>
+<div class="block">Hilfsklasse für Serialisierung und deserialisierung der Klasse <a href="Strassenabschnitt.html" title="class in streetsim.business"><code>Strassenabschnitt</code></a>.
+ Da diese Klasse eine abstrakte Klasse ist, soll somit festgelegt werden,
+ welche konkrete Implementierung serialisiert und wieder deserialisiert werden soll.</div>
 </li>
 </ul>
 </div>
@@ -186,7 +189,9 @@ implements com.google.gson.JsonSerializer&lt;<a href="Strassenabschnitt.html" ti
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#deserialize(com.google.gson.JsonElement,java.lang.reflect.Type,com.google.gson.JsonDeserializationContext)">deserialize</a></span>&#8203;(com.google.gson.JsonElement&nbsp;json,
            java.lang.reflect.Type&nbsp;typeOfT,
            com.google.gson.JsonDeserializationContext&nbsp;context)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Liest die konkrete Implementierung aus JSON-Objekt und legt daher die zu ladende Instanz fest.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="StrassenAdapter.html" title="class in streetsim.business">StrassenAdapter</a></code></td>
@@ -198,7 +203,9 @@ implements com.google.gson.JsonSerializer&lt;<a href="Strassenabschnitt.html" ti
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#serialize(streetsim.business.Strassenabschnitt,java.lang.reflect.Type,com.google.gson.JsonSerializationContext)">serialize</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;src,
          java.lang.reflect.Type&nbsp;typeOfSrc,
          com.google.gson.JsonSerializationContext&nbsp;context)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Schreibt die konkrete Implementierung in das JSON-Objekt.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -261,6 +268,9 @@ implements com.google.gson.JsonSerializer&lt;<a href="Strassenabschnitt.html" ti
 <pre class="methodSignature">public&nbsp;com.google.gson.JsonElement&nbsp;serialize&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;src,
                                              java.lang.reflect.Type&nbsp;typeOfSrc,
                                              com.google.gson.JsonSerializationContext&nbsp;context)</pre>
+<div class="block">Schreibt die konkrete Implementierung in das JSON-Objekt.
+ <p>
+ </div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>serialize</code>&nbsp;in interface&nbsp;<code>com.google.gson.JsonSerializer&lt;<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&gt;</code></dd>
@@ -277,6 +287,9 @@ implements com.google.gson.JsonSerializer&lt;<a href="Strassenabschnitt.html" ti
                                      java.lang.reflect.Type&nbsp;typeOfT,
                                      com.google.gson.JsonDeserializationContext&nbsp;context)
                               throws com.google.gson.JsonParseException</pre>
+<div class="block">Liest die konkrete Implementierung aus JSON-Objekt und legt daher die zu ladende Instanz fest.
+ <p>
+ </div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>deserialize</code>&nbsp;in interface&nbsp;<code>com.google.gson.JsonDeserializer&lt;<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&gt;</code></dd>

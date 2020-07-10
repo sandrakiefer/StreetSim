@@ -9,9 +9,9 @@ import streetsim.ui.utils.StyleAssist;
 
 class NavigationView extends HBox {
 
-    Button startPause, beende;
-    MenuItem ampeln, autos, strassen, alles, speichern, speichernUnter;
-    MenuButton entferne;
+    final Button startPause, beende;
+    final MenuItem ampeln, autos, strassen, alles, speichern, speichernUnter;
+    final MenuButton entferne;
 
     NavigationView() {
         super();

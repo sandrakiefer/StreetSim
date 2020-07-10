@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":9,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10,"i33":10,"i34":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":9,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10,"i28":10,"i29":10,"i30":10,"i31":10,"i32":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -133,7 +133,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">Strassennetz</span>
 extends java.lang.Object</pre>
-<div class="block">Verwaltung aller Strassenabschnitte und Autos (über die Position)
+<div class="block">Verwaltung aller Straßenabschnitte und Autos (über die Position)
  sowie den Großteil der Anwendungslogik und Schnittstelle für obere Schicht (UI)</div>
 </li>
 </ul>
@@ -182,14 +182,14 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#alleAmpelnDeaktivieren()">alleAmpelnDeaktivieren</a></span>()</code></th>
 <td class="colLast">
-<div class="block">deaktiviert alle Ampeln vom Strassennetz</div>
+<div class="block">deaktiviert alle Ampeln vom Straßennetz</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ampelnAktivieren(streetsim.business.Strassenabschnitt)">ampelnAktivieren</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</code></th>
 <td class="colLast">
-<div class="block">aktiviert Ampeln an gegebenen Strassenabschnitt
+<div class="block">aktiviert Ampeln an gegebenen Straßenabschnitt
  automatisches Schalten von Ampeln wird aktiviert</div>
 </td>
 </tr>
@@ -197,61 +197,56 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ampelnDeaktivieren(streetsim.business.Strassenabschnitt)">ampelnDeaktivieren</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</code></th>
 <td class="colLast">
-<div class="block">deaktiviert Ampeln an gegeben Strassenabschnitt</div>
+<div class="block">deaktiviert Ampeln an gegeben Straßenabschnitt</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#autoAdden(streetsim.business.Auto)">autoAdden</a></span>&#8203;(<a href="Auto.html" title="class in streetsim.business">Auto</a>&nbsp;a)</code></th>
 <td class="colLast">
-<div class="block">fügt ein Auto zum Strassennetz hinzu (Autos-Map)</div>
+<div class="block">fügt ein Auto zum Straßennetz hinzu (Autos-Map)</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>javafx.beans.property.SimpleListProperty&lt;<a href="Auto.html" title="class in streetsim.business">Auto</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#autoListProperty()">autoListProperty</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#bewegeStrasse(streetsim.business.Strassenabschnitt,int,int)">bewegeStrasse</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s,
              int&nbsp;x,
              int&nbsp;y)</code></th>
 <td class="colLast">
-<div class="block">verschiebt Strassenabschnitt,
+<div class="block">verschiebt Straßenabschnitt,
  eventuell darauf befindliche Autos werden mit verschoben</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entfAlleAutos()">entfAlleAutos</a></span>()</code></th>
+<td class="colLast">
+<div class="block">entfernt alle Autos vom Straßennetz</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entfAlleAutos()">entfAlleAutos</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entfAlleStrassen()">entfAlleStrassen</a></span>()</code></th>
 <td class="colLast">
-<div class="block">entfernt alle Autos vom Strassennetz</div>
+<div class="block">entfernt alle Straßen vom Straßennetz</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entfAlleStrassen()">entfAlleStrassen</a></span>()</code></th>
-<td class="colLast">
-<div class="block">entfernt alle Strassen vom Strassennetz</div>
-</td>
-</tr>
-<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entfAuto(streetsim.business.Auto...)">entfAuto</a></span>&#8203;(<a href="Auto.html" title="class in streetsim.business">Auto</a>...&nbsp;a)</code></th>
 <td class="colLast">
 <div class="block">entfernt beliebig viele Autos vom Strassennetz</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#entfStrasse(streetsim.business.Strassenabschnitt...)">entfStrasse</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>...&nbsp;s)</code></th>
 <td class="colLast">
-<div class="block">entfernt beliebig viele Strassenabschnitte
+<div class="block">entfernt beliebig viele Straßenabschnitte
  entfernt ebenfalls sich darauf befindlichen Autos</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#geschwindigkeitAnpassen(streetsim.business.Auto,float)">geschwindigkeitAnpassen</a></span>&#8203;(<a href="Auto.html" title="class in streetsim.business">Auto</a>&nbsp;a,
                        float&nbsp;geschwindigkeit)</code></th>
@@ -259,117 +254,107 @@ extends java.lang.Object</pre>
 <div class="block">passt die Geschwindigkeit des Autos an</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>javafx.collections.ObservableMap&lt;<a href="Position.html" title="class in streetsim.business">Position</a>,&#8203;<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAbschnitte()">getAbschnitte</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>javafx.collections.ObservableList&lt;<a href="Auto.html" title="class in streetsim.business">Auto</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAutoList()">getAutoList</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>java.util.Map&lt;<a href="Position.html" title="class in streetsim.business">Position</a>,&#8203;java.util.List&lt;<a href="Auto.html" title="class in streetsim.business">Auto</a>&gt;&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAutos()">getAutos</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>static <a href="Strassennetz.html" title="class in streetsim.business">Strassennetz</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getInstance()">getInstance</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getName()">getName</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isSimuliert()">isSimuliert</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ladeNetz(java.io.File)">ladeNetz</a></span>&#8203;(java.io.File&nbsp;file)</code></th>
 <td class="colLast">
-<div class="block">versucht ein Strassennetz aus einer Datei zu laden</div>
+<div class="block">Versucht ein Straßennetz aus einer Datei zu laden</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>javafx.beans.property.SimpleStringProperty</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#nameProperty()">nameProperty</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pausiereSimulation()">pausiereSimulation</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Pausieren der Simulation</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#posBelegt(streetsim.business.Auto)">posBelegt</a></span>&#8203;(<a href="Auto.html" title="class in streetsim.business">Auto</a>&nbsp;a)</code></th>
 <td class="colLast">
 <div class="block">Überprüfung der Position des Autos</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#posBelegt(streetsim.business.Strassenabschnitt)">posBelegt</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</code></th>
 <td class="colLast">
-<div class="block">Überprüfung der Position des Strassenabschnitts</div>
+<div class="block">Überprüfung der Position des Straßenabschnitts</div>
+</td>
+</tr>
+<tr id="i21" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reset()">reset</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Setzt die geladene Welt in den Ausgangszustand</div>
 </td>
 </tr>
 <tr id="i22" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#reset()">reset</a></span>()</code></th>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotiereStrasse(streetsim.business.Strassenabschnitt)">rotiereStrasse</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</code></th>
 <td class="colLast">
-<div class="block">setzt die geladene Welt in den Ausgangszustand</div>
+<div class="block">rotiert Straßenabschnitt um 90 Grad im Uhrzeigersinn
+ und die darauf befindlichen Autos</div>
 </td>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rotiereStrasse(streetsim.business.Strassenabschnitt)">rotiereStrasse</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</code></th>
-<td class="colLast">
-<div class="block">rotiert Strassenabschnitt um 90 Grad im Uhrzeigersinn
- und die darauf befindlichen Autos</div>
-</td>
-</tr>
-<tr id="i24" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAbschnitte(javafx.collections.ObservableMap)">setAbschnitte</a></span>&#8203;(javafx.collections.ObservableMap&lt;<a href="Position.html" title="class in streetsim.business">Position</a>,&#8203;<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&gt;&nbsp;abschnitte)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i25" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setAutos(javafx.collections.ObservableMap)">setAutos</a></span>&#8203;(javafx.collections.ObservableMap&lt;<a href="Position.html" title="class in streetsim.business">Position</a>,&#8203;java.util.List&lt;<a href="Auto.html" title="class in streetsim.business">Auto</a>&gt;&gt;&nbsp;autos)</code></th>
-<td class="colLast">&nbsp;</td>
-</tr>
-<tr id="i26" class="altColor">
-<td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setName(java.lang.String)">setName</a></span>&#8203;(java.lang.String&nbsp;name)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setSimuliert(boolean)">setSimuliert</a></span>&#8203;(boolean&nbsp;simuliert)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code>javafx.beans.property.BooleanProperty</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#simuliertProperty()">simuliertProperty</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#speicherNetz(java.io.File)">speicherNetz</a></span>&#8203;(java.io.File&nbsp;file)</code></th>
 <td class="colLast">
-<div class="block">speichert aktuelles Strassennetz im Dateisystem</div>
+<div class="block">speichert aktuelles Straßennetz im Dateisystem</div>
 </td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#starteSimulation()">starteSimulation</a></span>()</code></th>
 <td class="colLast">
@@ -378,7 +363,7 @@ extends java.lang.Object</pre>
  startet Thread für automatisiertes Fahren aller Autos</div>
 </td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stehtAnAmpel(streetsim.business.Auto,streetsim.business.Strassenabschnitt)">stehtAnAmpel</a></span>&#8203;(<a href="Auto.html" title="class in streetsim.business">Auto</a>&nbsp;a,
             <a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</code></th>
@@ -386,7 +371,7 @@ extends java.lang.Object</pre>
 <div class="block">Überprüfung ob die Ampel rot ist</div>
 </td>
 </tr>
-<tr id="i32" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stehtAnKreuzung(streetsim.business.Auto)">stehtAnKreuzung</a></span>&#8203;(<a href="Auto.html" title="class in streetsim.business">Auto</a>&nbsp;a)</code></th>
 <td class="colLast">
@@ -394,14 +379,14 @@ extends java.lang.Object</pre>
  (vorgegebener Wertebereich [20,30])</div>
 </td>
 </tr>
-<tr id="i33" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#strasseAdden(streetsim.business.Strassenabschnitt)">strasseAdden</a></span>&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</code></th>
 <td class="colLast">
-<div class="block">fügt ein Strassenabschnitt zum Strassennetz hinzu (Abschnitte-Map)</div>
+<div class="block">fügt ein Straßenabschnitt zum Straßennetz hinzu (Abschnitte-Map)</div>
 </td>
 </tr>
-<tr id="i34" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code><a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#strasseAnPos(int,int)">strasseAnPos</a></span>&#8203;(int&nbsp;x,
             int&nbsp;y)</code></th>
@@ -409,13 +394,18 @@ extends java.lang.Object</pre>
 <div class="block">Bestimmung der Position mit den Koordinaten</div>
 </td>
 </tr>
+<tr id="i32" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -490,7 +480,7 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - Auto</dd>
-<dd><code>s</code> - Strassenabschnitt</dd>
+<dd><code>s</code> - Straßenabschnitt</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>steht das Auto an einer Ampel oder nicht</dd>
 </dl>
@@ -503,15 +493,13 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>autoAdden</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;autoAdden&#8203;(<a href="Auto.html" title="class in streetsim.business">Auto</a>&nbsp;a)
-               throws <a href="exceptions/SchonBelegtException.html" title="class in streetsim.business.exceptions">SchonBelegtException</a>,
-                      <a href="exceptions/KeinAbschnittException.html" title="class in streetsim.business.exceptions">KeinAbschnittException</a></pre>
-<div class="block">fügt ein Auto zum Strassennetz hinzu (Autos-Map)</div>
+               throws <a href="exceptions/SchonBelegtException.html" title="class in streetsim.business.exceptions">SchonBelegtException</a></pre>
+<div class="block">fügt ein Auto zum Straßennetz hinzu (Autos-Map)</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>a</code> - Auto</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="exceptions/SchonBelegtException.html" title="class in streetsim.business.exceptions">SchonBelegtException</a></code> - wenn ein Auto auf dem Strassennetz mit selber Position und Richtung existiert</dd>
-<dd><code><a href="exceptions/KeinAbschnittException.html" title="class in streetsim.business.exceptions">KeinAbschnittException</a></code> - wenn Auto auf stelle platziert werden soll, wo noch kein Strassenabschnitt platziert worden ist</dd>
+<dd><code><a href="exceptions/SchonBelegtException.html" title="class in streetsim.business.exceptions">SchonBelegtException</a></code> - wenn ein Auto auf dem Straßennetz mit selber Position und Richtung existiert</dd>
 </dl>
 </li>
 </ul>
@@ -523,12 +511,12 @@ extends java.lang.Object</pre>
 <h4>strasseAdden</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;strasseAdden&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)
                   throws <a href="exceptions/SchonBelegtException.html" title="class in streetsim.business.exceptions">SchonBelegtException</a></pre>
-<div class="block">fügt ein Strassenabschnitt zum Strassennetz hinzu (Abschnitte-Map)</div>
+<div class="block">fügt ein Straßenabschnitt zum Straßennetz hinzu (Abschnitte-Map)</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - Strassenabschnitt</dd>
+<dd><code>s</code> - Straßenabschnitt</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="exceptions/SchonBelegtException.html" title="class in streetsim.business.exceptions">SchonBelegtException</a></code> - an der Position ist bereits ein anderer Strassenabschnitt platziert</dd>
+<dd><code><a href="exceptions/SchonBelegtException.html" title="class in streetsim.business.exceptions">SchonBelegtException</a></code> - an der Position ist bereits ein anderer Straßenabschnitt platziert</dd>
 </dl>
 </li>
 </ul>
@@ -555,10 +543,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>posBelegt</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;posBelegt&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</pre>
-<div class="block">Überprüfung der Position des Strassenabschnitts</div>
+<div class="block">Überprüfung der Position des Straßenabschnitts</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - Strassenabschnitt</dd>
+<dd><code>s</code> - Straßenabschnitt</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>schon belegt oder nicht</dd>
 </dl>
@@ -578,7 +566,7 @@ extends java.lang.Object</pre>
 <dd><code>x</code> - X-Koordinate</dd>
 <dd><code>y</code> - Y-Koordinate</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>Strassenabschnitt an der gegeben Position</dd>
+<dd>Straßenabschnitt an der gegeben Position</dd>
 </dl>
 </li>
 </ul>
@@ -603,11 +591,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>ampelnAktivieren</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;ampelnAktivieren&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</pre>
-<div class="block">aktiviert Ampeln an gegebenen Strassenabschnitt
+<div class="block">aktiviert Ampeln an gegebenen Straßenabschnitt
  automatisches Schalten von Ampeln wird aktiviert</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - Strassenabschnitt</dd>
+<dd><code>s</code> - Straßenabschnitt</dd>
 </dl>
 </li>
 </ul>
@@ -618,10 +606,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>ampelnDeaktivieren</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;ampelnDeaktivieren&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</pre>
-<div class="block">deaktiviert Ampeln an gegeben Strassenabschnitt</div>
+<div class="block">deaktiviert Ampeln an gegeben Straßenabschnitt</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - Strassenabschnitt</dd>
+<dd><code>s</code> - Straßenabschnitt</dd>
 </dl>
 </li>
 </ul>
@@ -632,12 +620,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>speicherNetz</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;speicherNetz&#8203;(java.io.File&nbsp;file)</pre>
-<div class="block">speichert aktuelles Strassennetz im Dateisystem</div>
+<div class="block">speichert aktuelles Straßennetz im Dateisystem</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - Datei, in welche das Netz abgespeichert werden soll.</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="exceptions/WeltLeerException.html" title="class in streetsim.business.exceptions">WeltLeerException</a></code> - keine Attribute auf Strassennetz gesetzt</dd>
 </dl>
 </li>
 </ul>
@@ -649,7 +635,7 @@ extends java.lang.Object</pre>
 <h4>ladeNetz</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;ladeNetz&#8203;(java.io.File&nbsp;file)
               throws <a href="exceptions/DateiParseException.html" title="class in streetsim.business.exceptions">DateiParseException</a></pre>
-<div class="block">versucht ein Strassennetz aus einer Datei zu laden</div>
+<div class="block">Versucht ein Straßennetz aus einer Datei zu laden</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>file</code> - Datei, aus der Straßennetz geladen werden soll.</dd>
@@ -665,11 +651,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>rotiereStrasse</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;rotiereStrasse&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s)</pre>
-<div class="block">rotiert Strassenabschnitt um 90 Grad im Uhrzeigersinn
+<div class="block">rotiert Straßenabschnitt um 90 Grad im Uhrzeigersinn
  und die darauf befindlichen Autos</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - Strassenabschnitt</dd>
+<dd><code>s</code> - Straßenabschnitt</dd>
 </dl>
 </li>
 </ul>
@@ -680,11 +666,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>entfStrasse</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;entfStrasse&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>...&nbsp;s)</pre>
-<div class="block">entfernt beliebig viele Strassenabschnitte
+<div class="block">entfernt beliebig viele Straßenabschnitte
  entfernt ebenfalls sich darauf befindlichen Autos</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - Strassenabschnitte</dd>
+<dd><code>s</code> - Straßenabschnitte</dd>
 </dl>
 </li>
 </ul>
@@ -697,11 +683,11 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;void&nbsp;bewegeStrasse&#8203;(<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&nbsp;s,
                           int&nbsp;x,
                           int&nbsp;y)</pre>
-<div class="block">verschiebt Strassenabschnitt,
+<div class="block">verschiebt Straßenabschnitt,
  eventuell darauf befindliche Autos werden mit verschoben</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>s</code> - Strassenabschnitt</dd>
+<dd><code>s</code> - Straßenabschnitt</dd>
 <dd><code>x</code> - X-Koordinate</dd>
 <dd><code>y</code> - Y-Koordinate</dd>
 </dl>
@@ -730,7 +716,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>entfAlleAutos</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;entfAlleAutos()</pre>
-<div class="block">entfernt alle Autos vom Strassennetz</div>
+<div class="block">entfernt alle Autos vom Straßennetz</div>
 </li>
 </ul>
 <a id="entfAlleStrassen()">
@@ -740,7 +726,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>entfAlleStrassen</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;entfAlleStrassen()</pre>
-<div class="block">entfernt alle Strassen vom Strassennetz</div>
+<div class="block">entfernt alle Straßen vom Straßennetz</div>
 </li>
 </ul>
 <a id="alleAmpelnDeaktivieren()">
@@ -750,7 +736,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>alleAmpelnDeaktivieren</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;alleAmpelnDeaktivieren()</pre>
-<div class="block">deaktiviert alle Ampeln vom Strassennetz</div>
+<div class="block">deaktiviert alle Ampeln vom Straßennetz</div>
 </li>
 </ul>
 <a id="reset()">
@@ -760,7 +746,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>reset</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;reset()</pre>
-<div class="block">setzt die geladene Welt in den Ausgangszustand</div>
+<div class="block">Setzt die geladene Welt in den Ausgangszustand</div>
 </li>
 </ul>
 <a id="starteSimulation()">
@@ -776,7 +762,7 @@ extends java.lang.Object</pre>
  startet Thread für automatisiertes Fahren aller Autos</div>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code><a href="exceptions/WeltLeerException.html" title="class in streetsim.business.exceptions">WeltLeerException</a></code> - keine Attribute auf Strassennetz gesetzt</dd>
+<dd><code><a href="exceptions/WeltLeerException.html" title="class in streetsim.business.exceptions">WeltLeerException</a></code> - keine Attribute auf Straßennetz gesetzt</dd>
 </dl>
 </li>
 </ul>
@@ -799,15 +785,6 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isSimuliert()</pre>
 </li>
 </ul>
-<a id="simuliertProperty()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>simuliertProperty</h4>
-<pre class="methodSignature">public&nbsp;javafx.beans.property.BooleanProperty&nbsp;simuliertProperty()</pre>
-</li>
-</ul>
 <a id="setSimuliert(boolean)">
 <!--   -->
 </a>
@@ -815,6 +792,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setSimuliert</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setSimuliert&#8203;(boolean&nbsp;simuliert)</pre>
+</li>
+</ul>
+<a id="simuliertProperty()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>simuliertProperty</h4>
+<pre class="methodSignature">public&nbsp;javafx.beans.property.BooleanProperty&nbsp;simuliertProperty()</pre>
 </li>
 </ul>
 <a id="getName()">
@@ -844,24 +830,6 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;javafx.collections.ObservableMap&lt;<a href="Position.html" title="class in streetsim.business">Position</a>,&#8203;<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&gt;&nbsp;getAbschnitte()</pre>
 </li>
 </ul>
-<a id="setAbschnitte(javafx.collections.ObservableMap)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setAbschnitte</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setAbschnitte&#8203;(javafx.collections.ObservableMap&lt;<a href="Position.html" title="class in streetsim.business">Position</a>,&#8203;<a href="Strassenabschnitt.html" title="class in streetsim.business">Strassenabschnitt</a>&gt;&nbsp;abschnitte)</pre>
-</li>
-</ul>
-<a id="setAutos(javafx.collections.ObservableMap)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setAutos</h4>
-<pre class="methodSignature">public&nbsp;void&nbsp;setAutos&#8203;(javafx.collections.ObservableMap&lt;<a href="Position.html" title="class in streetsim.business">Position</a>,&#8203;java.util.List&lt;<a href="Auto.html" title="class in streetsim.business">Auto</a>&gt;&gt;&nbsp;autos)</pre>
-</li>
-</ul>
 <a id="getAutoList()">
 <!--   -->
 </a>
@@ -869,15 +837,6 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getAutoList</h4>
 <pre class="methodSignature">public&nbsp;javafx.collections.ObservableList&lt;<a href="Auto.html" title="class in streetsim.business">Auto</a>&gt;&nbsp;getAutoList()</pre>
-</li>
-</ul>
-<a id="autoListProperty()">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>autoListProperty</h4>
-<pre class="methodSignature">public&nbsp;javafx.beans.property.SimpleListProperty&lt;<a href="Auto.html" title="class in streetsim.business">Auto</a>&gt;&nbsp;autoListProperty()</pre>
 </li>
 </ul>
 <a id="getAutos()">
@@ -892,10 +851,23 @@ extends java.lang.Object</pre>
 <a id="nameProperty()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>nameProperty</h4>
 <pre class="methodSignature">public&nbsp;javafx.beans.property.SimpleStringProperty&nbsp;nameProperty()</pre>
+</li>
+</ul>
+<a id="toString()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>toString</h4>
+<pre class="methodSignature">public&nbsp;java.lang.String&nbsp;toString()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+</dl>
 </li>
 </ul>
 </li>

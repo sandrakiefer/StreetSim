@@ -18,14 +18,15 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
 
     public static final int GROESSE = 128;
     public static final int HALTELINIENABSTAND = 52;
-    private SimpleIntegerProperty positionX = new SimpleIntegerProperty(this, "positionX");
-    private SimpleIntegerProperty positionY = new SimpleIntegerProperty(this, "positionY");
+    private final SimpleIntegerProperty positionX = new SimpleIntegerProperty(this, "positionX");
+    private final SimpleIntegerProperty positionY = new SimpleIntegerProperty(this, "positionY");
+    private final SimpleIntegerProperty rotiertCounter = new SimpleIntegerProperty();
     private SimpleListProperty<Himmelsrichtung> richtungen;
     private List<Ampel> ampeln;
     private BooleanProperty ampelAktiv;
-    private SimpleIntegerProperty rotiertCounter = new SimpleIntegerProperty();
 
-    public Strassenabschnitt(){}
+    public Strassenabschnitt() {
+    }
 
     public Strassenabschnitt(int positionX, int positionY, List<Himmelsrichtung> richtungen) {
         Position p = new Position(positionX, positionY);
@@ -45,7 +46,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
      */
     public static List<Ampel> baueAmpeln(List<Himmelsrichtung> richtungen) {
         List<Ampel> ampeln = new ArrayList<>();
-        for (Himmelsrichtung r: richtungen) {
+        for (Himmelsrichtung r : richtungen) {
             ampeln.add(new Ampel(r));
         }
         return ampeln;
@@ -73,7 +74,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
         richtungen.forEach(r -> neueRichtungen.add(r.naechstes()));
         richtungen.clear();
         richtungen.addAll(neueRichtungen);
-        for (Ampel a: ampeln) {
+        for (Ampel a : ampeln) {
             a.rotiere();
         }
         rotiertCounter.set((rotiertCounter.get() + 1) % 4);
@@ -81,7 +82,7 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
 
     @Override
     public void schalte() {
-        for (Ampel a: ampeln) {
+        for (Ampel a : ampeln) {
             a.schalte();
         }
     }
@@ -90,16 +91,8 @@ public abstract class Strassenabschnitt implements Ampelschaltung, Serializable 
         return richtungen;
     }
 
-    public int getGroesse() {
-        return GROESSE;
-    }
-
     public List<Ampel> getAmpeln() {
         return ampeln;
-    }
-
-    public void setAmpeln(List<Ampel> ampeln) {
-        this.ampeln = ampeln;
     }
 
     public boolean isAmpelAktiv() {

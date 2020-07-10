@@ -23,17 +23,17 @@ public enum AutoModelle {
         view = new AutoView(img, autoModell);
     }
 
-
-    public AutoView getView() {
-        return view;
-    }
-
     /**
      * Eine Methode, die alle möglichen {@link AutoView}s übergibt.
+     *
      * @return Liste aller Views
      */
     public static List<AutoView> getAllViews() {
         return Arrays.stream(AutoModelle.values()).map(AutoModelle::getView).collect(Collectors.toList());
+    }
+
+    public AutoView getView() {
+        return view;
     }
 
 }

@@ -17,14 +17,14 @@ class OverlayView extends Pane {
     private static final double BUTTON_SIZE = Ampel.HOEHE;
     private static final double OVERLAY_GROESSE = Strassenabschnitt.GROESSE;
 
-    Button loescheStrasse, rotiereStrasse, deaktiviereAmpeln, loescheAuto;
-    MenuButton geschwindigkeit;
-    Slider speed;
-    CustomMenuItem menuItem;
-    ImageView deaktView;
-    Image aktImage, deaktImage;
+    final Button loescheStrasse, rotiereStrasse, deaktiviereAmpeln, loescheAuto;
+    final MenuButton geschwindigkeit;
+    final Slider speed;
+    final CustomMenuItem menuItem;
+    final ImageView deaktView;
+    final Image aktImage, deaktImage;
 
-    OverlayView(){
+    OverlayView() {
         super();
         setPrefSize(OVERLAY_GROESSE, OVERLAY_GROESSE);
 
@@ -70,7 +70,7 @@ class OverlayView extends Pane {
         geschwindigkeit.setPadding(Insets.EMPTY);
         geschwindigkeit.setPrefSize(BUTTON_SIZE, BUTTON_SIZE);
 
-        speed = new Slider(0.1,1,0.5);
+        speed = new Slider(0.1, 1, 0.5);
         speed.setBlockIncrement(0.1);
         speed.setMajorTickUnit(1);
         speed.setShowTickMarks(true);
@@ -96,7 +96,7 @@ class OverlayView extends Pane {
         deaktiviereAmpeln.setLayoutY(posY + OVERLAY_GROESSE - BUTTON_SIZE);
     }
 
-    void setAutoPos(double x, double y){
+    void setAutoPos(double x, double y) {
         setLayoutX(x);
         setLayoutY(y);
         loescheAuto.setLayoutX(x);

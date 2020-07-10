@@ -21,12 +21,12 @@ public class ResourceAssist {
     /**
      * Eine Methode, die aus einzelnen Subfoldern Pfad
      * korrekt zusammenbaut und die gewünschte Ressource als InputStream zurückgibt.
-     *
+     * <p>
      * Beispiel:
      * gewünschte Ressource liegt im Pfad unter Unix = "assets/icons/foto.png"
      * wird erzielt durch:
      * <code>
-     *     resourceAssistInstance.holeRessourceAusOrdnern("assets", "icons", "foto.png");
+     * resourceAssistInstance.holeRessourceAusOrdnern("assets", "icons", "foto.png");
      * </code>
      *
      * @param pfadteile einzelne Ordner des Pfades

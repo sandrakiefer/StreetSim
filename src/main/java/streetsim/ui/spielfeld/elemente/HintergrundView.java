@@ -12,7 +12,7 @@ public class HintergrundView extends ImageView {
     /**
      * Konstruktor, der Hintergrundbild festlegt.
      */
-    public HintergrundView(){
+    public HintergrundView() {
         super();
         ResourceAssist assist = ResourceAssist.getInstance();
         this.setImage(new Image(assist.holeRessourceAusOrdnern("assets", "hintergruende", "HintergrundGruen.png")));

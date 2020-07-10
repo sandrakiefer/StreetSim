@@ -1,10 +1,11 @@
 package streetsim.ui;
 
-import streetsim.business.Strassennetz;
 import javafx.scene.layout.Pane;
+import streetsim.business.Strassennetz;
 
 /**
  * Klasse, die gröbere Komponenten als View/Controller-Container zusammenfasst.
+ *
  * @param <T> Haupt-Anwendungsklasse
  */
 public abstract class AbstractController<T> {
@@ -15,8 +16,9 @@ public abstract class AbstractController<T> {
 
     /**
      * Konstruktor, der eine Straßennetz-Instanz und eine Referenz zur Anwendungsklasse bekommt.
+     *
      * @param netz Zentrales Model-Objekt
-     * @param app Anwendungsklasse
+     * @param app  Anwendungsklasse
      */
     public AbstractController(Strassennetz netz, T app) {
         this.netz = netz;
@@ -25,6 +27,7 @@ public abstract class AbstractController<T> {
 
     /**
      * Konstruktor, der eine Referenz zur Anwendungsklasse bekommt.
+     *
      * @param app Anwendungsklasse
      */
     public AbstractController(T app) {
@@ -33,6 +36,7 @@ public abstract class AbstractController<T> {
 
     /**
      * Konstruktor, der eine Straßennetz-Instanz bekommt.
+     *
      * @param netz Zentrales Model-Objekt
      */
     public AbstractController(Strassennetz netz) {

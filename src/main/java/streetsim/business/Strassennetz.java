@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import org.hildan.fxgson.FxGson;
 import streetsim.business.exceptions.DateiParseException;
-import streetsim.business.exceptions.KeinAbschnittException;
 import streetsim.business.exceptions.SchonBelegtException;
 import streetsim.business.exceptions.WeltLeerException;
 
@@ -25,17 +24,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Verwaltung aller Strassenabschnitte und Autos (über die Position)
+ * Verwaltung aller Straßenabschnitte und Autos (über die Position)
  * sowie den Großteil der Anwendungslogik und Schnittstelle für obere Schicht (UI)
  */
 public class Strassennetz {
 
-    private ObservableMap<Position, Strassenabschnitt> abschnitte;
-    private Map<Position, List<Auto>> autos;
-    private transient SimpleListProperty<Auto> autoList;
-    private BooleanProperty simuliert;
-    private SimpleStringProperty name = new SimpleStringProperty();
     public static Strassennetz instance;
+    private final transient SimpleListProperty<Auto> autoList;
+    private final BooleanProperty simuliert;
+    private final SimpleStringProperty name = new SimpleStringProperty();
+    private final ObservableMap<Position, Strassenabschnitt> abschnitte;
+    private final Map<Position, List<Auto>> autos;
 
     private Strassennetz() {
         abschnitte = FXCollections.observableHashMap();
@@ -59,21 +58,17 @@ public class Strassennetz {
     public boolean stehtAnKreuzung(Auto a) {
         Position p = new Position(a.getPositionX(), a.getPositionY());
         Strassenabschnitt s = instance.abschnitte.get(p);
-        int mittelpunktX = s.getPositionX() + s.getGroesse() / 2;
-        int mittelpunktY = s.getPositionY() + s.getGroesse() / 2;
+        int mittelpunktX = s.getPositionX() + Strassenabschnitt.GROESSE / 2;
+        int mittelpunktY = s.getPositionY() + Strassenabschnitt.GROESSE / 2;
         int distanz = a.distanzBisMitte(mittelpunktX, mittelpunktY);
-        if (distanz > Strassenabschnitt.HALTELINIENABSTAND && distanz < Strassenabschnitt.HALTELINIENABSTAND + 8) {
-            return true;
-        } else {
-            return false;
-        }
+        return distanz > Strassenabschnitt.HALTELINIENABSTAND && distanz < Strassenabschnitt.HALTELINIENABSTAND + 8;
     }
 
     /**
      * Überprüfung ob die Ampel rot ist
      *
      * @param a Auto
-     * @param s Strassenabschnitt
+     * @param s Straßenabschnitt
      * @return steht das Auto an einer Ampel oder nicht
      */
     public boolean stehtAnAmpel(Auto a, Strassenabschnitt s) {
@@ -88,34 +83,30 @@ public class Strassennetz {
     }
 
     /**
-     * fügt ein Auto zum Strassennetz hinzu (Autos-Map)
+     * fügt ein Auto zum Straßennetz hinzu (Autos-Map)
      *
      * @param a Auto
-     * @throws SchonBelegtException   wenn ein Auto auf dem Strassennetz mit selber Position und Richtung existiert
-     * @throws KeinAbschnittException wenn Auto auf stelle platziert werden soll, wo noch kein Strassenabschnitt platziert worden ist
+     * @throws SchonBelegtException wenn ein Auto auf dem Straßennetz mit selber Position und Richtung existiert
      */
-    public void autoAdden(Auto a) throws SchonBelegtException, KeinAbschnittException {
+    public void autoAdden(Auto a) throws SchonBelegtException {
         Position p = new Position(a.getPositionX(), a.getPositionY());
-        if (instance.abschnitte.containsKey(p)) {
-            if (!instance.autos.containsKey(p)) {
-                instance.autos.put(p, new ArrayList<>());
-            }
-            if (instance.posBelegt(a)) {
-                throw new SchonBelegtException("An dieser Position ist schon ein Auto.");
-            } else {
-                instance.autos.get(p).add(a);
-                instance.autoList.add(a);
-            }
-        } else {
-            throw new KeinAbschnittException("An dieser Position ist keine Straße.");
+        if (!instance.autos.containsKey(p)) {
+            instance.autos.put(p, new ArrayList<>());
         }
+        if (instance.posBelegt(a)) {
+            throw new SchonBelegtException("An dieser Position ist schon ein Auto.");
+        } else {
+            instance.autos.get(p).add(a);
+            instance.autoList.add(a);
+        }
+
     }
 
     /**
-     * fügt ein Strassenabschnitt zum Strassennetz hinzu (Abschnitte-Map)
+     * fügt ein Straßenabschnitt zum Straßennetz hinzu (Abschnitte-Map)
      *
-     * @param s Strassenabschnitt
-     * @throws SchonBelegtException an der Position ist bereits ein anderer Strassenabschnitt platziert
+     * @param s Straßenabschnitt
+     * @throws SchonBelegtException an der Position ist bereits ein anderer Straßenabschnitt platziert
      */
     public void strasseAdden(Strassenabschnitt s) throws SchonBelegtException {
         Position p = new Position(s.getPositionX(), s.getPositionY());
@@ -143,9 +134,9 @@ public class Strassennetz {
     }
 
     /**
-     * Überprüfung der Position des Strassenabschnitts
+     * Überprüfung der Position des Straßenabschnitts
      *
-     * @param s Strassenabschnitt
+     * @param s Straßenabschnitt
      * @return schon belegt oder nicht
      */
     public boolean posBelegt(Strassenabschnitt s) {
@@ -158,7 +149,7 @@ public class Strassennetz {
      *
      * @param x X-Koordinate
      * @param y Y-Koordinate
-     * @return Strassenabschnitt an der gegeben Position
+     * @return Straßenabschnitt an der gegeben Position
      */
     public Strassenabschnitt strasseAnPos(int x, int y) {
         Position p = new Position(x, y);
@@ -179,29 +170,28 @@ public class Strassennetz {
     }
 
     /**
-     * aktiviert Ampeln an gegebenen Strassenabschnitt
+     * aktiviert Ampeln an gegebenen Straßenabschnitt
      * automatisches Schalten von Ampeln wird aktiviert
      *
-     * @param s Strassenabschnitt
+     * @param s Straßenabschnitt
      */
     public void ampelnAktivieren(Strassenabschnitt s) {
         s.ampelnAktivieren();
     }
 
     /**
-     * deaktiviert Ampeln an gegeben Strassenabschnitt
+     * deaktiviert Ampeln an gegeben Straßenabschnitt
      *
-     * @param s Strassenabschnitt
+     * @param s Straßenabschnitt
      */
     public void ampelnDeaktivieren(Strassenabschnitt s) {
         s.setAmpelAktiv(false);
     }
 
     /**
-     * speichert aktuelles Strassennetz im Dateisystem
+     * speichert aktuelles Straßennetz im Dateisystem
      *
      * @param file Datei, in welche das Netz abgespeichert werden soll.
-     * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
      */
     public void speicherNetz(File file) {
         String name = file.getName();
@@ -221,7 +211,7 @@ public class Strassennetz {
     }
 
     /**
-     * versucht ein Strassennetz aus einer Datei zu laden
+     * Versucht ein Straßennetz aus einer Datei zu laden
      *
      * @param file Datei, aus der Straßennetz geladen werden soll.
      * @throws DateiParseException Datei konnte nicht gelesen werden
@@ -242,22 +232,24 @@ public class Strassennetz {
     }
 
     /**
-     * rotiert Strassenabschnitt um 90 Grad im Uhrzeigersinn
+     * rotiert Straßenabschnitt um 90 Grad im Uhrzeigersinn
      * und die darauf befindlichen Autos
      *
-     * @param s Strassenabschnitt
+     * @param s Straßenabschnitt
      */
     public void rotiereStrasse(Strassenabschnitt s) {
         Position p = new Position(s.getPositionX(), s.getPositionY());
-        if (instance.autos.containsKey(p)) { instance.autos.get(p).forEach(Auto::rotiere); }
+        if (instance.autos.containsKey(p)) {
+            instance.autos.get(p).forEach(Auto::rotiere);
+        }
         s.rotiere();
     }
 
     /**
-     * entfernt beliebig viele Strassenabschnitte
+     * entfernt beliebig viele Straßenabschnitte
      * entfernt ebenfalls sich darauf befindlichen Autos
      *
-     * @param s Strassenabschnitte
+     * @param s Straßenabschnitte
      */
     public void entfStrasse(Strassenabschnitt... s) {
         for (Strassenabschnitt stra : s) {
@@ -268,15 +260,14 @@ public class Strassennetz {
     }
 
     /**
-     * verschiebt Strassenabschnitt,
+     * verschiebt Straßenabschnitt,
      * eventuell darauf befindliche Autos werden mit verschoben
      *
-     * @param s Strassenabschnitt
+     * @param s Straßenabschnitt
      * @param x X-Koordinate
      * @param y Y-Koordinate
      */
     public void bewegeStrasse(Strassenabschnitt s, int x, int y) {
-        // TODO: SchonBelegtException hier auch möglich?
         Position oldP = new Position(s.getPositionX(), s.getPositionY());
         Position newP = new Position(x, y);
         int xOff = newP.getPositionX() - oldP.getPositionX();
@@ -305,7 +296,7 @@ public class Strassennetz {
     }
 
     /**
-     * entfernt alle Autos vom Strassennetz
+     * entfernt alle Autos vom Straßennetz
      */
     public void entfAlleAutos() {
         instance.autos.clear();
@@ -313,7 +304,7 @@ public class Strassennetz {
     }
 
     /**
-     * entfernt alle Strassen vom Strassennetz
+     * entfernt alle Straßen vom Straßennetz
      */
     public void entfAlleStrassen() {
         instance.entfAlleAutos();
@@ -321,7 +312,7 @@ public class Strassennetz {
     }
 
     /**
-     * deaktiviert alle Ampeln vom Strassennetz
+     * deaktiviert alle Ampeln vom Straßennetz
      */
     public void alleAmpelnDeaktivieren() {
         for (Map.Entry<Position, Strassenabschnitt> entry : instance.abschnitte.entrySet()) {
@@ -330,7 +321,7 @@ public class Strassennetz {
     }
 
     /**
-     * setzt die geladene Welt in den Ausgangszustand
+     * Setzt die geladene Welt in den Ausgangszustand
      */
     public void reset() {
         entfAlleAutos();
@@ -345,7 +336,7 @@ public class Strassennetz {
      * startet Thread für automatisierte Schaltung aller Ampeln (nach bestimmten Zeitintervall)
      * startet Thread für automatisiertes Fahren aller Autos
      *
-     * @throws WeltLeerException keine Attribute auf Strassennetz gesetzt
+     * @throws WeltLeerException keine Attribute auf Straßennetz gesetzt
      */
     public void starteSimulation() throws WeltLeerException {
         if (instance.abschnitte.isEmpty() || instance.autoList.isEmpty()) {
@@ -377,10 +368,7 @@ public class Strassennetz {
             while (!Thread.currentThread().isInterrupted()) {
                 if (instance.simuliert.get()) {
                     for (Auto a : instance.autoList) {
-                    //for (Map.Entry<Position, List<Auto>> entry : instance.autos.entrySet()) {
-                        //for (Auto a : entry.getValue()) {
-                            a.fahre();
-                        //}
+                        a.fahre();
                     }
                     try {
                         Thread.sleep(50);
@@ -405,12 +393,12 @@ public class Strassennetz {
         return instance.simuliert.get();
     }
 
-    public BooleanProperty simuliertProperty() {
-        return instance.simuliert;
-    }
-
     public void setSimuliert(boolean simuliert) {
         instance.simuliert.set(simuliert);
+    }
+
+    public BooleanProperty simuliertProperty() {
+        return instance.simuliert;
     }
 
     public String getName() {
@@ -425,20 +413,8 @@ public class Strassennetz {
         return instance.abschnitte;
     }
 
-    public void setAbschnitte(ObservableMap<Position, Strassenabschnitt> abschnitte) {
-        instance.abschnitte = abschnitte;
-    }
-
-    public void setAutos(ObservableMap<Position, List<Auto>> autos) {
-        instance.autos = autos;
-    }
-
     public ObservableList<Auto> getAutoList() {
         return instance.autoList.get();
-    }
-
-    public SimpleListProperty<Auto> autoListProperty() {
-        return instance.autoList;
     }
 
     public Map<Position, List<Auto>> getAutos() {

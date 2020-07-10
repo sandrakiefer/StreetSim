@@ -1,6 +1,7 @@
 package streetsim.business;
 
 import com.google.gson.*;
+
 import java.lang.reflect.Type;
 
 /**
@@ -11,7 +12,9 @@ import java.lang.reflect.Type;
 public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonDeserializer<Strassenabschnitt> {
 
     public static StrassenAdapter instance;
-    private StrassenAdapter(){}
+
+    private StrassenAdapter() {
+    }
 
     public static StrassenAdapter getInstance() {
         if (instance == null) instance = new StrassenAdapter();
@@ -20,7 +23,7 @@ public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonD
 
     /**
      * Schreibt die konkrete Implementierung in das JSON-Objekt.
-     *
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -33,7 +36,7 @@ public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonD
 
     /**
      * Liest die konkrete Implementierung aus JSON-Objekt und legt daher die zu ladende Instanz fest.
-     *
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -44,7 +47,7 @@ public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonD
         String fullName = typeOfT.getTypeName();
         String packageText = fullName.substring(0, fullName.lastIndexOf(".") + 1);
         try {
-            return context.deserialize(element, Class.forName(packageText+ "abschnitte." + type));
+            return context.deserialize(element, Class.forName(packageText + "abschnitte." + type));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

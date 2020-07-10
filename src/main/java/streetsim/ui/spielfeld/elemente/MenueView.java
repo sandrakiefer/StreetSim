@@ -3,11 +3,8 @@ package streetsim.ui.spielfeld.elemente;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.FontWeight;
 import streetsim.ui.spielfeld.elemente.strassenabschnitte.GeradeView;
 import streetsim.ui.spielfeld.elemente.strassenabschnitte.KreuzungView;
 import streetsim.ui.spielfeld.elemente.strassenabschnitte.KurveView;
@@ -17,12 +14,12 @@ import java.util.List;
 
 class MenueView extends VBox {
 
-    GeradeView gerade;
-    KreuzungView kreuzung;
-    KurveView kurve;
-    TStueckView tstueck;
-    List<AutoView> autoViews;
-    AmpelView ampelView;
+    final GeradeView gerade;
+    final KreuzungView kreuzung;
+    final KurveView kurve;
+    final TStueckView tstueck;
+    final List<AutoView> autoViews;
+    final AmpelView ampelView;
 
     MenueView(List<AutoView> autoViews) {
         super();

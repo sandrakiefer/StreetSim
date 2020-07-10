@@ -23,7 +23,7 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
     private final VBox fortfahrPane, startPane;
     private final StackPane kontrollPane;
     private final FadeAssist fadeAssist;
-    private InfoController infoController;
+    private final InfoController infoController;
 
     public StartseiteController(Strassennetz netz, StreetSimApp app) {
         super(netz, app);
@@ -65,7 +65,7 @@ public class StartseiteController extends AbstractController<StreetSimApp> {
         if (file != null) {
             try {
                 netz.ladeNetz(file);
-            } catch(DateiParseException dpe) {
+            } catch (DateiParseException dpe) {
                 infoController.zeige(dpe.getMessage());
             }
             app.wechsleSzene(Szenen.SPIEL_VIEW);
