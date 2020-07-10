@@ -1,6 +1,7 @@
 package streetsim.ui.spielfeld.elemente;
 
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -18,7 +19,8 @@ class SpielfeldView extends StackPane {
         abschnitte = new Pane();
         autosUndAmpeln = new Pane();
         name = new Label();
-        name.setAlignment(Pos.TOP_LEFT);
+        name.setStyle("-fx-background-color: #c6ccc7; -fx-background-radius: 5; -fx-padding: 5; -fx-font-weight: bold; -fx-font-size: 14pt;");
+        SpielfeldView.setMargin(name, new Insets(10,0,0,10));
         setAlignment(Pos.TOP_LEFT);
         this.getChildren().addAll(abschnitte, autosUndAmpeln, name);
 

@@ -13,3 +13,19 @@
 .menu{
   -fx-background-color: $light-grey;
 }
+
+#text1 {
+  -fx-font-size: $schriftgroesse;
+  -fx-font-weight: bold;
+  -fx-padding: 70 0 0 0;
+}
+
+#text2 {
+  -fx-font-size: $schriftgroesse;
+  -fx-font-weight: bold;
+  -fx-padding: 20 0 10 0;
+}
+
+#menu-controls {
+  -fx-padding: 10 10 0 0;
+}
