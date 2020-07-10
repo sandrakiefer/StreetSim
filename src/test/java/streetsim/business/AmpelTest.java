@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AmpelTest {
 
@@ -28,7 +27,7 @@ public class AmpelTest {
     @DisplayName("Ampel sollten nach 2 Sekunden geschaltet werden")
     public void testSchaltung(){
 
-        assertEquals(true, norden.isRot() && !norden.isGelb() && !norden.isGruen());
+        assertTrue(norden.isRot() && !norden.isGelb() && !norden.isGruen());
 
         assertTimeoutPreemptively(Duration.ofSeconds(4), () -> {
             norden.schalte();
@@ -51,13 +50,13 @@ public class AmpelTest {
     public void testPhasen(){
 
         norden.setGruenPhase();
-        assertEquals(true, !norden.isRot() && !norden.isGelb() && norden.isGruen(), "Zustand Gruen erwartet");
+        assertTrue(!norden.isRot() && !norden.isGelb() && norden.isGruen(), "Zustand Gruen erwartet");
 
         norden.setRotPhase();
-        assertEquals(true, norden.isRot() && !norden.isGelb() && !norden.isGruen(), "Zustand Rot erwartet");
+        assertTrue(norden.isRot() && !norden.isGelb() && !norden.isGruen(), "Zustand Rot erwartet");
 
         norden.ausschalten();
-        assertEquals(true, !norden.isRot() && !norden.isGelb() && !norden.isGruen(), "Ampel sollte ausgeschaltet sein");
+        assertTrue(!norden.isRot() && !norden.isGelb() && !norden.isGruen(), "Ampel sollte ausgeschaltet sein");
     }
 
     @Test

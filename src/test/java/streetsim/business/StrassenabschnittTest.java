@@ -7,10 +7,9 @@ import streetsim.business.abschnitte.Kreuzung;
 import streetsim.business.abschnitte.Kurve;
 import streetsim.business.abschnitte.TStueck;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
-
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StrassenabschnittTest {
     List<Himmelsrichtung> k1List;
@@ -80,10 +79,10 @@ public class StrassenabschnittTest {
         u.ampelnAktivieren();
         t.ampelnAktivieren();
 
-        assertEquals(true, k.isAmpelAktiv(), "Ampeln sollten aktiv sein");
-        assertEquals(true, g.isAmpelAktiv(), "Ampeln sollten aktiv sein");
-        assertEquals(true, u.isAmpelAktiv(), "Ampeln sollten aktiv sein");
-        assertEquals(true, t.isAmpelAktiv(), "Ampeln sollten aktiv sein");
+        assertTrue(k.isAmpelAktiv(), "Ampeln sollten aktiv sein");
+        assertTrue(g.isAmpelAktiv(), "Ampeln sollten aktiv sein");
+        assertTrue(u.isAmpelAktiv(), "Ampeln sollten aktiv sein");
+        assertTrue(t.isAmpelAktiv(), "Ampeln sollten aktiv sein");
     }
 
     @Test
