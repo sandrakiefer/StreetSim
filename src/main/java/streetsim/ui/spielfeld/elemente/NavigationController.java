@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * Controller für Aktionen in der Navigationsleiste.
- *
+ * <p>
  * {@inheritDoc}
  */
 public class NavigationController extends AbstractController<StreetSimApp> {
@@ -78,12 +78,8 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         netz.simuliertProperty().addListener((obs, oldV, newV) -> entferne.setDisable(newV));
 
         startPause.setOnAction(e -> {
-            try {
-                if (!netz.isSimuliert()) start();
-                else pause();
-            } catch (WeltLeerException ex) {
-                infoController.zeige(ex.getMessage());
-            }
+            if (!netz.isSimuliert()) start();
+            else pause();
         });
     }
 
@@ -91,8 +87,12 @@ public class NavigationController extends AbstractController<StreetSimApp> {
      * Starten der Simulation.
      */
     public void start() {
-        netz.starteSimulation();
-        startPause.setId("pause");
+        try {
+            netz.starteSimulation();
+            startPause.setId("pause");
+        } catch (WeltLeerException ex) {
+            infoController.zeige(ex.getMessage());
+        }
     }
 
     /**
@@ -166,7 +166,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
         fileChooser.setInitialFileName(netz.getName());
         file = fileChooser.showSaveDialog(app.getHauptStage().getOwner());
-        if(file != null){
+        if (file != null) {
             abspeichern();
         }
     }
@@ -186,7 +186,7 @@ public class NavigationController extends AbstractController<StreetSimApp> {
         else abspeichern();
     }
 
-    private void abspeichern(){
+    private void abspeichern() {
         if (file != null) {
             netz.speicherNetz(file);
             speicherStand();
