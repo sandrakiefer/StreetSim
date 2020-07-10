@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * Abbildung der Position von den X und Y-Koordinaten
- * auf die Kachelkoordinaten
+ * auf die Kachel-Koordinaten
  */
 public class Position {
 

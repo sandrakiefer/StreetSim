@@ -8,8 +8,8 @@ public enum Himmelsrichtung {
 
     NORDEN(0,-1), OSTEN(1,0), SUEDEN(0,1), WESTEN(-1,0);
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     Himmelsrichtung(int x, int y) {
         this.x = x;
@@ -17,7 +17,7 @@ public enum Himmelsrichtung {
     }
 
     /**
-     * gibt nächste Himmelsrichtung an
+     * Gibt nächste Himmelsrichtung an
      * (90° im Uhrzeigersinn)
      *
      * @return Himmelsrichtung
@@ -27,7 +27,7 @@ public enum Himmelsrichtung {
     }
 
     /**
-     * gibt gegenüberliegende Himmelsrichtung an
+     * Gibt gegenüberliegende Himmelsrichtung an
      * (180°)
      *
      * @return Himmelsrichtung
@@ -37,7 +37,7 @@ public enum Himmelsrichtung {
     }
 
     /**
-     * gibt vorherige Himmelsrichtung an
+     * Gibt vorherige Himmelsrichtung an
      * (270° im Uhrzeigersinn / 90° gegen den Uhrzeigersinn)
      *
      * @return Himmelsrichtung

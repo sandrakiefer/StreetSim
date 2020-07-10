@@ -1,7 +1,7 @@
 package streetsim.business.exceptions;
 
 /**
- * wird beim Hinzufügen eines Strassenabschnitts oder Autos
+ * Wird beim Hinzufügen eines Straßenabschnitts oder Autos
  * auf belegter Postion geworfen
  */
 public class SchonBelegtException extends RuntimeException {

@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Realisierung eines Strassenabschnitts
+ * Realisierung eines Straßenabschnitts
  * maximal vie Ampel-Instanzen und
- * vier mögliche Strassenrichtungen
+ * vier mögliche Straßenrichtungen
  */
 public class Kreuzung extends Strassenabschnitt {
 
