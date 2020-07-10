@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import streetsim.business.abschnitte.Kreuzung;
 import streetsim.business.abschnitte.Kurve;
+import streetsim.business.abschnitte.TStueck;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -105,4 +106,30 @@ public class StrassennetzTest {
         instance.ampelnDeaktivieren(kreuzung);
         assertFalse(kreuzung.isAmpelAktiv(), "Ampeln sollten deaktiviert sein");
     }
+
+
+    @Test
+    @DisplayName("Alle Ampeln deaktiviern")
+    public void alleAmpelnDeaktivierenTest(){
+        TStueck t = new TStueck(150, 150);
+        instance.strasseAdden(t);
+
+        instance.ampelnAktivieren(t);
+        instance.ampelnAktivieren(kreuzung);
+
+        instance.alleAmpelnDeaktivieren();
+        assertFalse(t.isAmpelAktiv(), "Ampel sollte deaktiviert sein");
+        assertFalse(kreuzung.isAmpelAktiv(), "Ampel sollte deaktiviert sein");
+    }
+
+    @Test
+    @DisplayName("Zurücksetzen des Netzes")
+    public void resetTest(){
+        instance.reset();
+        assertTrue(instance.getAbschnitte().isEmpty(), "Abschnitte-Map leer");
+        assertTrue(instance.getAutoList().isEmpty(), "Auto-Liste leer");
+        assertTrue(instance.getAutos().isEmpty(), "Auto-Map leer");
+        assertNull(instance.getName(), "Kein Name gesetzt");
+    }
+
 }

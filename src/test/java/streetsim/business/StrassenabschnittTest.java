@@ -32,7 +32,6 @@ public class StrassenabschnittTest {
     Kurve u;
     TStueck t;
 
-    @Test
     @BeforeEach public void setUp(){
         k1List = List.of(Himmelsrichtung.NORDEN, Himmelsrichtung.OSTEN, Himmelsrichtung.SUEDEN, Himmelsrichtung.WESTEN);
         k2List = List.of(Himmelsrichtung.OSTEN, Himmelsrichtung.SUEDEN, Himmelsrichtung.WESTEN, Himmelsrichtung.NORDEN);

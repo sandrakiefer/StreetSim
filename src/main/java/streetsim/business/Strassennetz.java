@@ -449,4 +449,8 @@ public class Strassennetz {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Straßennetz(%s, %s, %s)", name.get() == null ? "Untitled" : name.get(), abschnitte.toString(), autoList.get().toString());
+    }
 }

@@ -1,12 +1,8 @@
 package streetsim.business;
 
-import javafx.geometry.Pos;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
 
 public class PositionTest {
 
@@ -15,7 +11,7 @@ public class PositionTest {
     Position p3;
 
     @Test
-    @BeforeEach public void positionTest(){
+    public void positionTest(){
         p1 = new Position(127, 60);
         p2 = new Position(129,70);
         p3 = new Position(257, 130);
