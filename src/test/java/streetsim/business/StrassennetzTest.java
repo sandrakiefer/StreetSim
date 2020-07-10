@@ -91,11 +91,11 @@ public class StrassennetzTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Strassenabschnitte aus dem Netz entfernen")
     public void entfAbschnittTest(){
         instance.entfStrasse(kreuzung);
-        assertFalse(instance.getAbschnitte().containsKey(kreuzungP));
-        assertFalse(instance.getAbschnitte().containsValue(kreuzung));
+        assertFalse(instance.getAbschnitte().containsKey(kreuzungP), "Position des Abschitts muss aus Map als Key entfernt worden sein");
+        assertFalse(instance.getAbschnitte().containsValue(kreuzung), "Abschnitt muss aus der map als Value entfernt sein");
     }
 
     @Test
@@ -107,6 +107,24 @@ public class StrassennetzTest {
         assertFalse(kreuzung.isAmpelAktiv(), "Ampeln sollten deaktiviert sein");
     }
 
+    @Test
+    @DisplayName("Strasse an neue Position bewegen")
+    public void bewegeStrasseTest(){
+        instance.bewegeStrasse(kreuzung, 129, 129);
+        assertNull(instance.strasseAnPos(50,50), "sollte keine Strasse an Position beinhalten");
+        assertNotNull(instance.strasseAnPos(128,128), "sollte ein Abschnitt an Postion beinhalten");
+        assertEquals(kreuzung, instance.strasseAnPos(128,128), "sollte der neuplatzierte Abschnitt sein");
+    }
+
+    @Test
+    @DisplayName("Entferne alle Autos und Strassen")
+    public void entfAlleAutosAbschnitte(){
+        instance.entfAlleAutos();
+        instance.entfAlleStrassen();
+        assertTrue(instance.getAutos().isEmpty(), "Alle Autos sollten aus der Map entfernt worden sein");
+        assertTrue(instance.getAutoList().isEmpty(), "Alle Autos sollten aus der Liste entfernt worden sein");
+        assertTrue(instance.getAbschnitte().isEmpty(), "Alle Abschnitte sollten aus der Map entfernt worden sein");
+    }
 
     @Test
     @DisplayName("Alle Ampeln deaktiviern")
@@ -131,5 +149,4 @@ public class StrassennetzTest {
         assertTrue(instance.getAutos().isEmpty(), "Auto-Map leer");
         assertNull(instance.getName(), "Kein Name gesetzt");
     }
-
 }
