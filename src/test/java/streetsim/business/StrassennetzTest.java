@@ -18,7 +18,7 @@ public class StrassennetzTest {
     private Kurve kurve;
     private Position kurveP;
     private Auto polizei;
-    private Position autoPos;
+    private Position polizeiPos;
     private Auto rot;
     private Position rotPos;
 
@@ -38,7 +38,7 @@ public class StrassennetzTest {
 
         Auto.AutoModell autoModell = Auto.AutoModell.POLIZEI;
         polizei = new Auto(positionX, positionY, autoModell);
-        autoPos = new Position(positionX, positionY);
+        polizeiPos = new Position(positionX, positionY);
         rot = new Auto(positionX, positionY, autoModell);
         rotPos = new Position(positionX, positionY);
         instance.autoAdden(polizei);
@@ -52,8 +52,8 @@ public class StrassennetzTest {
         assertTrue(instance.getAbschnitte().containsKey(kreuzungP), "Position des Abschnitts muss in der Map als Key vorhanden sein");
         assertTrue(instance.getAbschnitte().containsValue(kreuzung), "Abschnitt muss in der Map als Value vorhanden sein");
         assertTrue(instance.getAutoList().contains(polizei), "Auto muss in autoList");
-        assertTrue(instance.getAutos().containsKey(autoPos), "Position des Autos muss in der Map als Key vorhanden sein");
-        assertTrue(instance.getAutos().get(autoPos).contains(polizei), "Auto muss in der Liste der zugehörigen Position vorhanden sein");
+        assertTrue(instance.getAutos().containsKey(polizeiPos), "Position des Autos muss in der Map als Key vorhanden sein");
+        assertTrue(instance.getAutos().get(polizeiPos).contains(polizei), "Auto muss in der Liste der zugehörigen Position vorhanden sein");
     }
 
     @Test
@@ -71,6 +71,38 @@ public class StrassennetzTest {
     @Test
     @DisplayName("Positionen für Autos/Strassen belegt")
     public void posBelegtTest(){
-        assertTrue(instance.posBelegt(rot));
+        assertTrue(instance.posBelegt(rot), "Position sollte belegt sein");
+        assertTrue(instance.posBelegt(kurve), "Position sollte belegt sein");
+    }
+
+    @Test
+    @DisplayName("An Position sollte Strassenabschnitt vorhanden sein")
+    public void strasseAnPosTest(){
+        assertEquals(kreuzung, instance.strasseAnPos(50,50), "Position muss Kurve beinhalten");
+    }
+
+    @Test
+    @DisplayName("Auto(s) aus dem Netz entfernen")
+    public void entfAutosTest(){
+        instance.entfAuto(polizei);
+        assertFalse(instance.getAutos().get(polizeiPos).contains(polizei), "Auto sollte nicht mehr in der Map sein");
+        assertFalse(instance.getAutoList().contains(polizei), "Auto sollte nicht mehr in der Liste sein");
+    }
+
+    @Test
+    @DisplayName("")
+    public void entfAbschnittTest(){
+        instance.entfStrasse(kreuzung);
+        assertFalse(instance.getAbschnitte().containsKey(kreuzungP));
+        assertFalse(instance.getAbschnitte().containsValue(kreuzung));
+    }
+
+    @Test
+    @DisplayName("Ampeln aktivieren/deaktivieren")
+    public void ampelnAktDeaktTest(){
+        instance.ampelnAktivieren(kreuzung);
+        assertTrue(kreuzung.isAmpelAktiv(), "Ampeln sollten aktiviert sein");
+        instance.ampelnDeaktivieren(kreuzung);
+        assertFalse(kreuzung.isAmpelAktiv(), "Ampeln sollten deaktiviert sein");
     }
 }
