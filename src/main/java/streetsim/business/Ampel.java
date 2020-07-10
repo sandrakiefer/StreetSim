@@ -17,11 +17,10 @@ public class Ampel {
     private final SimpleBooleanProperty rot;
     private final SimpleBooleanProperty gelb;
     private final SimpleBooleanProperty gruen;
-    private SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty<Himmelsrichtung> richtung = new SimpleObjectProperty<>();
+    private final SimpleDoubleProperty relPosX = new SimpleDoubleProperty();
+    private final SimpleDoubleProperty relPosY = new SimpleDoubleProperty();
     private boolean schaltet = false;
-
-    private SimpleDoubleProperty relPosX = new SimpleDoubleProperty(this, "relPosX");
-    private SimpleDoubleProperty relPosY = new SimpleDoubleProperty(this, "relPosY");
 
     public Ampel(Himmelsrichtung richtung) {
         this.richtung.set(richtung);
@@ -170,4 +169,14 @@ public class Ampel {
         return richtung;
     }
 
+    @Override
+    public String toString() {
+        String farbe;
+        if (rot.get() && !gelb.get() && !gruen.get()) farbe = "rot";
+        else if (rot.get() && gelb.get() && !gruen.get()) farbe = "gelb-rot";
+        else if (!rot.get() && gelb.get() && !gruen.get()) farbe = "gelb";
+        else farbe = "gruen";
+
+        return String.format("Ampel(%s)", farbe);
+    }
 }

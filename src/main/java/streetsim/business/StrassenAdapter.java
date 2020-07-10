@@ -3,6 +3,11 @@ package streetsim.business;
 import com.google.gson.*;
 import java.lang.reflect.Type;
 
+/**
+ * Hilfsklasse für Serialisierung und deserialisierung der Klasse {@link Strassenabschnitt}.
+ * Da diese Klasse eine abstrakte Klasse ist, soll somit festgelegt werden,
+ * welche konkrete Implementierung serialisiert und wieder deserialisiert werden soll.
+ */
 public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonDeserializer<Strassenabschnitt> {
 
     public static StrassenAdapter instance;
@@ -13,6 +18,11 @@ public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonD
         return instance;
     }
 
+    /**
+     * Schreibt die konkrete Implementierung in das JSON-Objekt.
+     *
+     * {@inheritDoc}
+     */
     @Override
     public JsonElement serialize(Strassenabschnitt src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
@@ -20,6 +30,12 @@ public class StrassenAdapter implements JsonSerializer<Strassenabschnitt>, JsonD
         result.add("properties", context.serialize(src, src.getClass()));
         return result;
     }
+
+    /**
+     * Liest die konkrete Implementierung aus JSON-Objekt und legt daher die zu ladende Instanz fest.
+     *
+     * {@inheritDoc}
+     */
     @Override
     public Strassenabschnitt deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();

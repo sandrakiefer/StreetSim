@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  * In eine Himmelsrichtung sich fortbewegendes Objekt
- * welches auf das Strassennetz, inbesondere Ampeln, reagiert
+ * welches auf das Straßennetz, insbesondere Ampeln, reagiert
  */
 public class Auto {
 
@@ -40,7 +40,7 @@ public class Auto {
     }
 
     /**
-     * rotiert ein Auto um 90° im Uhrzeigersinn
+     * Rotiert ein Auto um 90° im Uhrzeigersinn
      */
     public void rotiere() {
         Position p = new Position(this.getPositionX(), this.getPositionY());
@@ -57,13 +57,13 @@ public class Auto {
     }
 
     /**
-     * eigenständiges Fahren des Autos
+     * Eigenständiges Fahren des Autos
      * Überprüfung auf eventuell eintretende Kollision
      * Überprüfung und Berücksichtigung der aktuellen Ampelphase
      * Berücksichtigung der Verkehrsregeln (rechts vor links)
-     * Überprüfung auf Fortführung des Strassenabschnittes (Einleitung eines U-Turns)
-     * Fahren unter Berücksichtigung möglicher zuvor ermittelter Wendepuntke (Abbiegen, U-Turn)
-     * mögliches Versetzen des Autos in neuen Strassenabschnitt (Handover)
+     * Überprüfung auf Fortführung des Straßenabschnitts (Einleitung eines U-Turns)
+     * Fahren unter Berücksichtigung möglicher zuvor ermittelter Wendepunkte (Abbiegen, U-Turn)
+     * mögliches Versetzen des Autos in neuen Straßenabschnitt (Handover)
      */
     public void fahre() {
         Position p = new Position(positionX.get(), positionY.get());
@@ -132,7 +132,7 @@ public class Auto {
         this.positionX.set(neuePosition.x);
         this.positionY.set(neuePosition.y);
 
-        // Auto in neuen Strassenabschnitt verlegen
+        // Auto in neuen Straßenabschnitt verlegen
         pruefeHandover(p);
     }
 
@@ -165,13 +165,12 @@ public class Auto {
             return false;
         }
         for (Auto a : Strassennetz.getInstance().getAutos().get(p)) {
-            //if (h.contains(a.getRichtung())) {
-            // Bereichsprüfung
+
             int distanzBisMitte = a.distanzBisMitte(mittelpunktX, mittelpunktY);
             if (a.getRichtung() != this.getRichtung() && distanzBisMitte < Strassenabschnitt.HALTELINIENABSTAND - 6 && distanzBisMitte > -(Strassenabschnitt.HALTELINIENABSTAND - 6)) {
                 return true;
             }
-            //}
+
         }
         return false;
     }
@@ -180,7 +179,7 @@ public class Auto {
      * Überprüfung der zu fahrenden Strecke
      * auf Kollision mit anderem Auto
      *
-     * @param p    Position des Strassenabschnitts
+     * @param p    Position des Straßenabschnitts
      * @param newR Rechteck des Autos auf künftiger Position
      * @return ob nächste Position des Autos verfügbar ist (ohne Kollision mit anderem Auto)
      */
@@ -213,14 +212,14 @@ public class Auto {
         int kleinerAls = Strassenabschnitt.GROESSE / 2 - Strassenabschnitt.HALTELINIENABSTAND;
         int groesserAls = Strassenabschnitt.GROESSE / 2 + Strassenabschnitt.HALTELINIENABSTAND;
         if (this.positionY.get() % Strassenabschnitt.GROESSE <= kleinerAls && !s.getRichtungen().contains(Himmelsrichtung.NORDEN)) {
-            // im Norden stehen, aber keine Strasse
+            // im Norden stehen, aber keine Straße
             return false;
         } else if (this.positionY.get() % Strassenabschnitt.GROESSE >= groesserAls && !s.getRichtungen().contains(Himmelsrichtung.SUEDEN)) {
-            // im Süden stehen, aber keine Strasse
+            // im Süden stehen, aber keine Straße
             return false;
-        } else // im Osten stehen, aber keine Strasse
+        } else // im Osten stehen, aber keine Straße
             if (this.positionX.get() % Strassenabschnitt.GROESSE <= kleinerAls && !s.getRichtungen().contains(Himmelsrichtung.WESTEN)) {
-                // im Westen stehen, aber keine Strasse
+                // im Westen stehen, aber keine Straße
                 return false;
             } else
                 return this.positionX.get() % Strassenabschnitt.GROESSE < groesserAls || s.getRichtungen().contains(Himmelsrichtung.OSTEN);
@@ -298,7 +297,7 @@ public class Auto {
 
     /**
      * Positionierung und Ausrichtung des Autos
-     * an nächstgelegener Stelle des Strassenabschnittes
+     * an nächstgelegener Stelle des Straßenabschnittes
      */
     private void positionierung() {
         // Distanz der oberen linken Ecke zum Mittelpunkt
@@ -409,7 +408,7 @@ public class Auto {
     public enum AutoModell {ROT, POLIZEI, BLAU}
 
     /**
-     * innere Klasse zur Definition eines Wendepunktes
+     * innere Klasse zur Definition eines Wendepunkts
      * bestehend aus den Koordinaten und der Richtung nach Wendung
      */
     static class Wendepunkt {

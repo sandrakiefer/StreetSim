@@ -1,8 +1,8 @@
 package streetsim.business.exceptions;
 
 /**
- * wird beim Speichern eines Entwurfs oder beim Straten einer Simulation geworfen,
- * wenn noch keine Elemente ins Strassennetz hinzugefügt worden sind (Strassennetz leer)
+ * wird beim Starten einer Simulation geworfen,
+ * wenn noch keine Elemente ins Straßennetz hinzugefügt worden sind (Straßennetz leer)
  */
 public class WeltLeerException extends RuntimeException {
 

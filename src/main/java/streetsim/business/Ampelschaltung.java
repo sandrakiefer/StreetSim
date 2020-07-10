@@ -1,12 +1,12 @@
 package streetsim.business;
 
 /**
- * Korrekte Schlatung mehrerer Ampeln
+ * Korrekte Schaltung mehrerer Ampeln
  */
 public interface Ampelschaltung {
 
     /**
-     * schaltet alle Ampeln auf dem aktuellen Strassenabschnitt um
+     * Schaltet alle Ampeln auf dem aktuellen Straßenabschnitt um
      */
     void schalte();
 

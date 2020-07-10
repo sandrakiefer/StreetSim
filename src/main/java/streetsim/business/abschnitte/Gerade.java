@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Realisierung eines Strassenabschnitts
+ * Realisierung eines Straßenabschnitts
  * maximal zwei Ampel-Instanzen und
- * zwei mögliche Strassenrichtungen
+ * zwei mögliche Straßenrichtungen
  */
 public class Gerade extends Strassenabschnitt {
 

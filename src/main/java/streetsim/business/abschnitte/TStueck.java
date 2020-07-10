@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Realisierung eines Strassenabschnitts
+ * Realisierung eines Straßenabschnitts
  * maximal drei Ampel-Instanzen und
- * drei mögliche Strassenrichtungen
+ * drei mögliche Straßenrichtungen
  */
 public class TStueck extends Strassenabschnitt {
 
