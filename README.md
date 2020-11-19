@@ -1,12 +1,12 @@
 # StreetSim
-Hochschule RheinMain - Medieninformatik - Softwaretechnik - Sommersemester 2020
-Gruppenmitglieder: **Matteo Bentivegna, Sandra Kiefer, Jan Ningelgen, Niklas Schlögel**
+Hochschule RheinMain - Medieninformatik - Softwaretechnik - Sommersemester 2020 <br>
+Gruppenmitglieder: **Sandra Kiefer, Matteo Bentivegna, Jan Ningelgen, Niklas Schlögel**
 
 ![Beispielbild eines gebauten Straßennetzes](src/main/resources/assets/readme/beispiel.png)
 
 ## Installation und Startanweisungen
 ```sh
-$ git clone https://scm.mi.hs-rm.de/rhodecode/2020swt/2020swt01/StreetSim
+$ git clone https://github.com/sandrakiefer/StreetSim.git
 $ ./gradlew run
 ```
 Klonen Sie das Projekt in ein beliebiges Verzeichnis von Ihnen und starten Sie die Anwendung mit Hilfe von Gradle.
