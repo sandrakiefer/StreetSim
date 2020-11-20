@@ -15,6 +15,9 @@ Eine Beispiel-Datei in Form eines bereits erstellten Straßennetzes können Sie 
 ## Projektbeschreibung
 Zur Unterstützung der Verkehrswende soll ein kleines Simulationssystem programmiert werden. Dieser **Verkehrssimulator** ermöglicht es ein individuelles Verkehrsnetz aus **verschiedenen Straßenabschnitten**, wie zum Beispiel Gerade, Kurven und Kreuzungen, in einem grafischen Editor zu erzeugen und platzieren. Des Weiteren können Verkehrsteilnehmer, in Form von **Autos**, auf diesem Straßennetz platziert und **simuliert fahren** gelassen werden. Autos können durch ihre **Geschwindigkeit individuell** angepasst werden. Das Programm verfügt ebenfalls über eine einfache **Kollisionserkennung** zwischen den verschiedenen Verkehrsteilnehmern. Darüber hinaus sollen am Straßenrand **Ampeln** platziert werden, welche den Verkehrsfluss regulieren. Werden keine Ampeln platziert, wird der Verkehr über die in der Straßenverkehrs-Ordnung bekannten **Vorfahrtsregeln** reguliert. Zuletzt kann der Benutzer seinen individuellen **Programmstand abspeichern** und zu einem späteren Zeitpunkt wieder **laden**.
 
+## Demonstrationsvideo
+Ein kurzes Demonstrationsvideo finden Sie unter **demovideo.mp4** im Repository oder unter [Link zu YouTube](https://youtu.be/v1CCJ05Lk2s)
+
 ## Dokumentation
 Folgende Dokumente können im Ordner `/doku` gefunden werden:
  - **Anforderungsspezifikationen** (`/Anforderungsspezifikation.pdf`) zur detaillierten Beschreibung des Projektes
